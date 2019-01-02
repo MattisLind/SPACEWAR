@@ -1,0 +1,82 @@
+;**********************************************************
+;
+;               SUBROUTINE SUN
+;
+;               VERSION         1A
+;
+;               BILL SEILER
+;               SEPT 6,1974
+;       DRAW A SUN AT THE ORIGIN
+        R0=%0
+        R1=%1
+        R2=%2
+        R3=%3
+        R4=%4
+        R5=%5
+        R6=%6
+        R7=%7
+        SP=R6
+        PC=R7
+        .TITLE  SUN
+        .GLOBL  SUN,SLINE
+        .CSECT
+SUN:    DEC     SUNCTR          ;IS CTR NEGATIVE
+        BPL     SUN01           ;NO-THEN SKIP
+        MOV     #3,SUNCTR       ;YES-RESET SUN CTR
+SUN01:  MOV     SUNCTR,R0       ;GET CTR
+        ASL     R0              ;MULT BY 2
+        JMP     @SUNTAB(R0)     ;DRAW CORRECT SUN
+SUNTAB: SUNT0
+        SUNT1
+        SUNT2
+        SUNT3
+SUNT0:  MOV     #2048.,R2       ;2048
+        CLR     R3              ;0
+        MOV     #-1024.,R4      ;-1024
+        MOV     #1774.,R5       ;-1174
+        JSR     PC,SLINE        ;DRAW # 1 LINE OF TRIANGLE
+        MOV     R2,R4           ;-1024
+        MOV     #-1774.,R5      ;-1774
+        JSR     PC,SLINE        ;DRAW # 2 LINE
+        MOV     #2048.,R4       ;2048
+        CLR     R5              ;0
+        JSR     PC,SLINE        ;DRAW # 3 LINE
+        RTS     PC              ;SUN TRIANGLE 0 DRAWN
+SUNT1:  MOV     #1774.,R2       ;1774
+        MOV     #1024.,R3       ;1024
+        MOV     #-1774.,R4      ;-1774
+        MOV     R3,R5           ;1024
+        JSR     PC,SLINE        ;DRAW # 1 LINE OF TRIANGLE
+        CLR     R4              ;0
+        MOV     #-2048.,R5      ;-2048
+        JSR     PC,SLINE        ;DRAW # 2 LINE
+        MOV     #1774.,R4       ;1774
+        MOV     #1024.,R5       ;1024
+        JSR     PC,SLINE        ;DRAW # 3 LINE
+        RTS     PC              ;SUN TRIANGLE 1 DRAWN
+SUNT2:  MOV     #1024.,R2       ;1024
+        MOV     #1774.,R3       ;1774
+        MOV     #-2048.,R4      ;-2048
+        CLR     R5              ;0
+        JSR     PC,SLINE        ;DRAW # 1 LINE OF TRIANGLE
+        MOV     #1024.,R4       ;1024
+        MOV     #-1774.,R5      ;-1774
+        JSR     PC,SLINE        ;DRAW # 2 LINE
+        MOV     R2,R4           ;1024
+        MOV     #1774.,R5       ;1774
+        JSR     PC,SLINE        ;DRAW # 3 LINE
+        RTS     PC              ;SUN TRIANGLE 2 DRAWN
+SUNT3:  CLR     R2              ;0
+        MOV     #2048.,R3       ;2048
+        MOV     #-1774.,R4      ;-1774
+        MOV     #-1024.,R5       ;-1024
+        JSR     PC,SLINE        ;DRAW # 1 LINE OF TRIANGLE
+        MOV     #1774.,R4        ;1774
+        MOV     R3,R5           ;-1024
+        JSR     PC,SLINE        ;DRAW # 2 LINE
+        CLR     R4              ;0
+        MOV     #2048.,R5       ;2048
+        JSR     PC,SLINE        ;DRAW # 3 LINE
+        RTS     PC              ;SUN TRIANGLE 3 DRAWN
+SUNCTR: .WORD   0
+        .END

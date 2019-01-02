@@ -1,0 +1,83 @@
+;*****************************************************
+;               BLITZKRIEG SINE COSINE ROUTINE
+;
+;                    VERSION 1G
+;              BY L.M.BRYANT AND B.SEILER 1974
+;            AUG 19,1974
+;       R0=ANGLE TO BE CONVERTED(NORMALIZED BY PROGRAM)
+;       R1=USED AS A FLAG
+;       R4=COSINE
+;       R5=SINE
+        R0=%0
+        R1=%1
+        R2=%2
+        R3=%3
+        R4=%4
+        R5=%5
+        R6=%6
+        R7=%7
+        SP=R6
+        PC=R7
+        .TITLE  SINCOS
+        .GLOBL  SINCOS
+        .CSECT
+SINCOS: CLR     R1                ;CLR FLG REGISTER
+SIN01:  TST     R0                ;TEST IF ANGLE<0
+        BGE     SIN02             ;IF NOT JUMP AROUND
+        ADD     #360.,R0          ;ADD ONE FULL CYCLE
+        BR      SIN01             ;GO TEST AGIN
+SIN02:  CMP     #360.,R0          ;SEE IF > ONE CYCLE
+        BGE     SIN03             ;AINT THEN AVOID
+        SUB     #360.,R0          ;SUBTRACT A CYCLE
+        BR      SIN02             ;TRY AGAIN
+SIN03:  MOV     R0,-(SP)          ;SAVE NORMALED ANGLE
+        CMP     #180.,R0          ;IS ANGLE > PIE
+        BGE     SIN04             ;NO, SKIP IT
+        INC     R1                ;SET NEGATIVE FLG
+        SUB     #180.,R0          ;MAKE ANGL < PIE
+SIN04:  CMP     #90.,R0           ;CHECK FOR FIRST QUAD
+        BGE     SIN05             ;IT'S OK - SKIP
+        NEG     R0                ;MAKE ANGLE NEG
+        ADD     #180.,R0          ;INVERT ANGLE 2ND QUAD
+SIN05:  ASL     R0                ;MAKE WORD POINTER
+        MOV     SINTBL(R0),R5     ;GRAB SINE
+        TST     R1                ;LOOK AT NEG FLG
+        BLE     SIN06             ;POS. SINE - SKIP
+        NEG     R5                ;MAKE VALUE NEG
+SIN06:  CLR     R1                ;CLEAR NEG FLG
+        MOV     (SP),R0           ;GRAB ANGLE AGAIN
+        ADD     #90.,R0           ;ADD 90 DEG. FOR COS
+SIN07:  CMP     #360.,R0          ;ONE CYCLE ONLY!
+        BGE     SIN08             ;IT'S OK YOUR OK
+        SUB     #360.,R0          ;TOO BIG CHOP DOWN
+        BR      SIN07             ;TRY AGAIN
+SIN08:  CMP     #180.,R0          ;NEGATIVE QUADRANT?
+        BGE     SIN09             ;NO GO AWAY
+        INC     R1                ;YES,MARK IT
+        SUB     #180.,R0          ;MAKE IT SMALLER
+SIN09:  CMP     #90.,R0           ;IS IT UNDER 90?
+        BGE     SIN10             ;YES,GO AROUND
+        NEG     R0                ;SET FOR FLIP FLOP
+        ADD     #180.,R0          ;FLIP ANGLE
+SIN10:  ASL     R0                ;SET FOR WORD POINTER
+        MOV     SINTBL(R0),R4     ;GRAB COSINE
+        TST     R1                ;TEST FOR NEG COS
+        BLE     SIN11             ;IT'S OK , GET
+        NEG     R4                ;MAKE COSINE NEGATIVE
+SIN11:  CLR     R1                ;CLEAR FLAG
+        MOV     (SP)+,R0          ;REPLACE NORMALIZED ANGL
+        RTS     PC
+SINTBL: .WORD   00000.,00571.,01143.,01714.,02285.,02855.,03425.
+        .WORD   03993.,04560.,05125.,05689.,06252.,06812.,07370.
+        .WORD   07927.,08480.,09031.,09580.,10125.,10667.,11206.
+        .WORD   11742.,12274.,12803.,13327.,13847.,14364.,14875.
+        .WORD   15383.,15885.,16383.,16876.,17363.,17846.,18323.
+        .WORD   18794.,19259.,19719.,20173.,20620.,21062.,21497.
+        .WORD   21925.,22347.,22761.,23169.,23570.,23964.,24350.
+        .WORD   24729.,25100.,25464.,25820.,26168.,26509.,26841.
+        .WORD   27165.,27480.,27787.,28086.,28377.,28658.,28931.
+        .WORD   29195.,29450.,29696.,29934.,30162.,30381.,30590.
+        .WORD   30790.,30981.,31163.,31335.,31497.,31650.,31793.
+        .WORD   31927.,32050.,32164.,32269.,32363.,32448.,32522.
+        .WORD   32587.,32642.,32687.,32722.,32747.,32762.,32767.
+        .END

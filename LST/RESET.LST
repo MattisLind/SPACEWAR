@@ -1,0 +1,99 @@
+                ;********************************************************
+                ;
+                ;               SUBROUTINE RESET
+                ;
+                ;               VERSION         4B
+         000000         R0=%0
+         000001         R1=%1
+         000002         R2=%2
+         000003         R3=%3
+         000004         R4=%4
+         000005         R5=%5
+         000006         R6=%6
+         000007         R7=%7
+         000006         SP=R6
+         000007         PC=R7
+                ;       RESETS RKTS FOR RESTART OF PROGRAM
+                ;
+         000400         ORBIT=400
+         040000         CENTER=16384.
+                        .TITLE  RESET
+                        .GLOBL  RESET,YSIZE1,ORBIT,CENTER,RES01
+         000000         .CSECT
+  000000 012702'RESET:  MOV     #YSIZE1,R2       ;SET UP PTR
+         000000
+                ;**************RESET AND REPOSITION ROCKET ONE**************
+  000004 005022         CLR     (R2)+           ;CLR YSIZE1
+  000006 005022         CLR     (R2)+           ;CLR FLAG1
+  000010 005022         CLR     (R2)+           ;CLR XVELL1
+  000012 016722         MOV     RES05,(R2)+     ;ORBIT VELOCITY IN YVELH1
+         000160
+  000016 016722         MOV     RES01,(R2)+     ;ORBIT POSITION IN YDISP1
+         000144
+  000022 005022         CLR     (R2)+           ;CLR XSIZE1
+  000024 005022         CLR     (R2)+           ;CLR XVELL1
+  000026 016722         MOV     RES06,(R2)+     ;ORBIT VELOCITY IN XVELH1
+         000146
+  000032 016722         MOV     RES02,(R2)+     ;ORBIT POSITION IN XDISP
+         000132
+  000036 005022         CLR     (R2)+           ;CLR ANGL1
+  000040 005022         CLR     (R2)+           ;CLR ANGH1
+                ;**************RESET AND REPOSITION ROCKET TWO*************
+  000042 005022         CLR     (R2)+           ;CLR YSIZE2
+  000044 005022         CLR     (R2)+           ;CLR FLAG2
+  000046 005022         CLR     (R2)+           ;CLR XVELL2
+  000050 016722         MOV     RES07,(R2)+     ;ORBIT VELOCITY IN YVELH2
+         000126
+  000054 016722         MOV     RES03,(R2)+     ;ORBIT POSITION IN YDISP2
+         000112
+  000060 005022         CLR     (R2)+           ;CLR XSIZE2
+  000062 005022         CLR     (R2)+           ;CLR XVELL2
+  000064 016722         MOV     RES08,(R2)+     ;ORBIT VELOCITY IN XVELH2
+         000114
+  000070 016722         MOV     RES04,(R2)+     ;ORBIT POSITION IN XDISP2
+         000100
+  000074 005022         CLR     (R2)+           ;CLR ANGL2
+  000076 005012         CLR     (R2)            ;CLR ANGH2
+
+                        PAGE    001
+
+                ;**************ROTATE POSITION AND VELOCITY DATA***********
+  000100 016746         MOV     RES01,-(SP)     ;SAVE FIRST NUMBER
+         000062
+  000104 016767         MOV     RES02,RES01
+         000060
+         000054
+  000112 016767         MOV     RES03,RES02
+         000054
+         000050
+  000120 016767         MOV     RES04,RES03     ;ROTATE UP WORDS
+         000050
+         000044
+  000126 012667         MOV     (SP)+,RES04     ;PUT SAVED VALUE IN LAST WORD
+         000042
+  000132 016746         MOV     RES08,-(SP)     ;SAVE FIRST VELOCITY
+         000046
+  000136 016767         MOV     RES07,RES08
+         000040
+         000040
+  000144 016767         MOV     RES06,RES07
+         000030
+         000030
+  000152 016767         MOV     RES05,RES06     ;ROTATE DOWN 4 WORDS
+         000020
+         000020
+  000160 012667         MOV     (SP)+,RES05     ;PUT SAVE VALUE IN FIRST WORD
+         000012
+  000164 000207         RTS     PC              ;ALL DONE---------------!!!
+  000166 040000 RES01:  .WORD   CENTER
+  000170 040000 RES02:  .WORD   CENTER
+  000172 140000 RES03:  .WORD   -CENTER
+  000174 140000 RES04:  .WORD   -CENTER
+  000176 000000 RES05:  .WORD   0
+  000200 000000 RES06:  .WORD   0
+  000202 000000 RES07:  .WORD   0
+  000204 000000 RES08:  .WORD   0
+         000001         .END
+
+                        PAGE    002
+

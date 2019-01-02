@@ -1,0 +1,122 @@
+;*****************************************************
+;
+;               SUBROUTINE UPDAT2
+;
+;               VERSION         3B
+;               BILL SEILER
+;               AUG. 24,1974
+;       UPDATES RKT2 AND FIRES ITS TORPEDOES
+;       ENTER THE ROUTINE WITH R2 A POINTER AT YSIZE
+;       AND #1401 PUSHED INTO THE ADCS
+;       R0=MULTIPLIER (NOT DESTROYED)
+;       R2=POINTER AT RKT DATA
+;       R3=LOW WORD RESULT OF MULPLY
+;       R4=HIGH WORD RESULT OF MULPLY AND MULTIPLICAN(DESTRYED)
+;       R5=SINE OF ANGLE IN SINCOS RETURN
+        R0=%0
+        R1=%1
+        R2=%2
+        R3=%3
+        R4=%4
+        R5=%5
+        R6=%6
+        R7=%7
+        SP=R6
+        PC=R7
+        .TITLE  UPDAT2
+        .GLOBL  UPDAT2,MULPLY,SINCOS,PTNUM,ANGH2,ANGL2
+        .GLOBL  XDISP2,YDISP2,XVELL2,YVELL2,XVELH2,YVELH2
+        .GLOBL  XSIZE2,YSIZE2,FLAG2,FIRE,TSPEED,RKTSIZ
+        .GLOBL  ANGMID,SHOTS2,ADCS,ADBR
+        .CSECT
+UPDAT2: MOV     ANGH2,R0        ;GET ANG2
+        JSR     PC,SINCOS       ;DO A SINCOS
+        MOV     R0,ANGH2        ;SAVE NORMALIZED ANGH1
+        MOV     #RKTSIZ,R0      ;SET RKT SIZE
+        JSR     PC,MULPLY       ;RKTSIZE*COS(ANGH2)
+        MOV     R4,XSIZE2       ;XSIZE2-RKTSIZE*COS(ANGH2)
+        MOV     R5,R4           ;PUT SINE IN FOR MULPLY
+        JSR     PC,MULPLY       ;RKTSIZE*SIN(ANGH2)
+        MOV     R4,(R2)+        ;YSIZE2=RKTSIZE*SIN(ANGH2)
+        MOV     ADBR,R0         ;GET ACC2 FROM ATOD
+        MOV     #1001,ADCS      ;START ATOD FOR ANGL2
+        TST     (R2)+           ;DID RKT2 FIRE LAST LOOP?
+        BGT     UPD21           ;YES-DONT FIRE THIS TIME
+        CMP     #FIRE,R0        ;NO-IS RKT2 FIRING NOW?
+        BGT     UPD23           ;NO-UPDATE RKT2 VEL
+        DEC     SHOTS2          ;YES-ANY TORPS LEFT?
+        BLE     UPD215          ;NO-THEN OUT OF AMMO!
+        INC     FLAG2           ;YES-SET THE FLAG AND DHOOW
+        MOV     #PTNUM,R5       ;SET UP PTR AT PTS
+        MOV     (R5),R0         ;GET # TORPS
+        INC     (R5)+           ;ADD ONE MORE TO TORP CTR
+        ASL     R0   
+        ASL     R0   
+        ASL     R0              ;MULT BY 8 TO SKIP PRESENT PTS
+        ADD     R0,R5           ;MOVE PTR OVER PRESENT PTS
+        MOV     TSPEED,R0       ;SET FOR MULPLY
+        JSR     PC,MULPLY       ;TSPEED*YSIZE2
+        ADD     (R2)+,R3        ;ADD YVELL2 TO TSPEED*YSIZE2
+        ADC     R4              ;ADD CARRY
+        ADD     (R2)+,R4        ;ADD HIH ORDER WORDS
+        MOV     R4,(R5)+        ;PUT TORP Y VEL IN ARRAY
+        MOV     (R2)+,(R5)      ;PUT YDISP2 IN ARRAY
+        ADD     YSIZE2,(R5)     ;CALC YNOSE2 IN ARRAY
+        ADD     R4,(R5)+        ;UPDATE TORP OUT OF RKT2
+        MOV     (R2)+,R4        ;SET XSIZE2 FOR MULPLY
+        JSR     PC,MULPLY       ;TSPEED*XSIZE2
+        ADD     (R2)+,R3        ;ADD LOW ORDER WORDS
+        ADC     R4              ;ADD CARRY TO HIGH WORD
+        ADD     (R2)+,R4        ;ADD HIGH ORDER WORDS
+        MOV     R4,(R5)+        ;PUT TORP XVEL IN ARRAY
+        MOV     (R2)+,(R5)      ;PUT XDISP2 IN ARRAY
+        ADD     XSIZE2,(R5)     ;CALC XNOSE2 IN ARRAY
+        ADD     R4,(R5)+        ;UPDATE TORP OUT OF RKT2
+        BR      UPD217          ;GO UPDAT RKT2 POSITION
+UPD21:  CMP     #FIRE,R0        ;RKT2 STILL FIRING?
+        BGT     UPD22           ;NO-GO UPDATE VEL OF RKT2
+UPD215: ADD     #14.,R2         ;YES-MOV PTR TO ANGLES
+UPD217: ADD     YVELH2,YDISP2   ;THEN UPDATE DISP ONLY
+        ADD     XVELH2,XDISP2   ;   NOT VEL.
+        BR      UPD24           ;GO UPDATE ANGLES
+UPD22:  CLR     FLAG2           ;NOT FIRING SO CLEAR FLAG2
+UPD23:  JSR     PC,MULPLY       ;ACC2*YSIZE2(IN R4)
+        ASR     R4
+        ROR     R3
+        ASR     R4
+        ROR     R3
+        ASR     R4
+        ROR     R3              ;SCALE YACC2 
+        ADD     R3,(R2)+        ;YVELL2=YVELL2+ACC2*YSIZE2
+        ADC     R4              ;ADD CARRY
+        ADD     R4,(R2)         ;YVELH2=YVELH2+ACCH2
+        ADD     (R2)+,(R2)+     ;YDISP2=YDISP2+YVELH2
+        MOV     (R2)+,R4        ;MOV XSIZE2 IN FOR MULPLY
+        JSR     PC,MULPLY       ;ACC2*XSIZE2
+        ASR     R4
+        ROR     R3
+        ASR     R4
+        ROR     R3
+        ASR     R4
+        ROR     R3              ;SCALE XACC2
+        ADD     R3,(R2)+        ;XVELL2=XVELL2+ACC2*XSIZE2
+        ADC     R4              ;ADD CARRY
+        ADD     R4,(R2)         ;XVELH2=XVELH2+ACCH2
+        ADD     (R2)+,(R2)+     ;XDISP2=XDISP2+XVELH2
+UPD24:  MOV     ADBR,R0         ;GET ATOD ANGL2
+        MOV     #401,ADCS       ;START ATOD FOR ACC2
+        CLR     R1              ;CLEAR FOR FAKE SIGN EXTEND
+        SUB     #ANGMID,R0      ;CENTER CONTROL # FOR ANGLE
+        BPL     UPD25           ;IF POSITIVE SKIP R1=0
+        DEC     R1              ;MAKE R1=-1 (177777)
+UPD25:  SWAB    R0              ;GET HIGH BYTE IN LOW R1
+        MOVB    R0,R1           ;PUT IN LOW OF R1
+        CLRB    R0              ;CLEAR LOW BYTE OF R0
+        ADD     R0,(R2)+        ;ADD LOW WORDS
+        ADC     R1              ;ADD CARRY TO HIGH WORD
+        ADD     R1,(R2)+        ;ADD HIGH WORDS
+        RTS     PC              ;ALL DONE!!!!!!!!!!!!!!!!!!!!!
+        .END
+
+
+

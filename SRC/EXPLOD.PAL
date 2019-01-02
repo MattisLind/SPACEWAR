@@ -1,0 +1,75 @@
+;***********************************************************
+;
+;       SUBROUTINE EXPLOD
+;       VERSION         3B
+;
+;       DRAWS EXPLOSIONS OF 32 LINES
+;       EXPRPE=NUMBER OF EXPLOSIONS
+;       EXPX=X POSITION OF THE EXPLOSION
+;       EXPY=Y POSITION OF THE EXPLOSION
+;       ALL REGISTERS ARE RESTORED
+        R0=%0
+        R1=%1
+        R2=%2
+        R3=%3
+        R4=%4
+        R5=%5
+        R6=%6
+        R7=%7
+        SP=R6
+        PC=R7
+        .TITLE  EXPLOD
+        .GLOBL  SLINE,EXPLOD,EXPREP,EXPX,EXPY
+        .CSECT
+EXPLOD: MOV     R0,-(SP)
+        MOV     R1,-(SP)
+        MOV     R2,-(SP)
+        MOV     R3,-(SP)
+        MOV     R4,-(SP)
+        MOV     R5,-(SP)
+EXP01:  MOV     #32.,EXPCTR     ;PUSH LINE COUNT IN CTR
+        MOV     #EXPBGN,EXPPTR  ;SET PTR
+EXP02:  MOV     EXPPTR,R0       ;SET UP PTR
+        MOV     (R0)+,R4        ;R4=XEXP
+        MOV     (R0)+,R5        ;R5=YEXP
+        MOV     R0,EXPPTR       ;SAVE NEW PTR
+        MOV     EXPX,R2         ;R2=XDISP
+        MOV     EXPY,R3         ;R3=YDISP
+        ADD     R2,R4           ;R4=XDISP+XEXP
+        ADD     R3,R5           ;R5=YDISP+YEXP
+        JSR     PC,SLINE        ;DRAW A LINE
+        DEC     EXPCTR          ;ARE THERE MORE LINES?
+        BGT     EXP02           ;YES-DO IT AGAIN 
+        DEC     EXPREP          ;NO-ARE THERE MORE REPEATS?
+        BGT     EXP01           ;YES-DO IT ALL AGAIN
+        MOV     (SP)+,R5
+        MOV     (SP)+,R4
+        MOV     (SP)+,R3
+        MOV     (SP)+,R2
+        MOV     (SP)+,R1
+        MOV     (SP)+,R0
+        RTS     PC              ;SUBROUTINE DONE
+EXPREP: .WORD   0
+EXPCTR: .WORD   0
+EXPPTR: .WORD   0
+EXPX:   .WORD   0
+EXPY:   .WORD   0
+;FIRST GROUP OF LINES
+EXPBGN: .WORD   2009.,400.,1703.,1138.
+        .WORD   1138.,1703.,400.,2009.
+        .WORD   -400.,2009.,-1138.,1703.
+        .WORD   -1703.,1138.,-2009.,400.
+        .WORD   -2009.,-400.,-1703.,-1138.
+        .WORD   -1138.,-1703.,-400.,-2009.
+        .WORD   400.,-2009.,1138.,-1703.
+        .WORD   1703.,-1138.,2009.,-400.
+;SECOND GROUP OF LINES
+        .WORD   4096.,0.,3784.,1567.
+        .WORD   2896.,2896.,1567.,3784.
+        .WORD   0.,4096.,-1567.,3784.
+        .WORD   -2896.,2896.,-3784.,1567.
+        .WORD   -4096.,0.,-3784.,-1567.
+        .WORD   -2896.,-2896.,-1567.,-3784.
+        .WORD   0.,-4096.,1567.,-3784.
+        .WORD   2896.,-2896.,3784.,-1567.
+        .END

@@ -1,0 +1,123 @@
+;**********************************************************
+;
+;               SUBROUTINE COMPAR
+;
+;               VERSION         3E
+;               BILL SEILER
+;               AUG  24,1974
+;
+;       CHECKS FOR COLLISIONS OR HITS AND KEEPS SCORE
+;       R0=GENERAL CTR
+;       R1=Y OF EXPLODS AND A SCRATCH REG.
+;       R2=PTR TO TORPEDO ARRAY
+;       R3=Y OR X DISPLACEMENT OF RKT1
+;       R4=Y OR X DISPLACEMENT OF RKT2
+        R0=%0
+        R1=%1
+        R2=%2
+        R3=%3
+        R4=%4
+        R5=%5
+        R6=%6
+        R7=%7
+        SP=R6
+        PC=R7
+        .TITLE  COMPAR
+        .GLOBL  EXPREP,EXPX,EXPY
+        .GLOBL  WIN,COMPAR,EXPLOD,PTNUM,HIT1,HIT2,SCORE
+        .GLOBL  XDISP1,XDISP2,YDISP1,YDISP2,RESET,MASK
+        .CSECT
+COMPAR: MOV     YDISP1,R3       ;GET YDISP OF RKT1
+        MOV     YDISP2,R4       ;GET YDISP OF RKT2
+        MOV     R3,R1           ;PUT YDISP1 INTO SCRATCH
+        SUB     R4,R1           ;GET THE DIFFERENCE
+        BVS     CMP03           ;IF OVERFLOW GO CHK TORPS
+        BPL     CMP01           ;IF POSITIVE SKIP
+        COM     R1              ;IF NEGATIVE MAKE POSITIVE        
+CMP01:  CMP     #MASK,R1        ;ARE THE RKTS COLLIDING?
+        BLT     CMP03           ;NO-GO CHK PTS
+        MOV     XDISP1,R1       ;MAYBE-CHK XDISP OF RKTS
+        SUB     XDISP2,R1       ;GET THE DIFFERENCE
+        BVS     CMP03           ;IF OVERFLOW GO CHK TORPS
+        BPL     CMP02           ;IF POS SKIP
+        COM     R1              ;IF NEG MAKE POS
+CMP02:  CMP     #MASK,R1        ;ARE RKTS COLLIDING
+        BLT     CMP03           ;NO-GO CHK PTS
+        MOV     #20,EXPREP      ;SET EXPLOD REPEATS
+        MOV     XDISP2,EXPX     ;SET EXPLOD X
+        MOV     R3,EXPY         ;SET EXPLOD Y
+        JSR     PC,EXPLOD       ;GO BOOM BETWEEN RKTS
+        DEC     HIT2            ;TAKE SHIELD FROM RKT2
+        DEC     HIT1            ;TAKE SHIELD FROM RKT1
+        BGT     CMP024          ;IF SOME LEFT SKIP
+CMP022: MOV     #40,EXPREP      ;SET EXPLOD REPEATS
+        MOV     XDISP1,EXPX     ;SET EXPLOD X
+        MOV     R3,EXPY         ;SET EXPLOD Y
+        JSR     PC,EXPLOD       ;GO BOOM ON RKT1
+CMP024: TST     HIT2            ;ARE SHIELDS GONE ON RKT2?
+        BGT     CMP028          ;NO-SKIP
+CMP025: MOV     #40,EXPREP      ;SET EXPLOD REPEATS
+        MOV     XDISP2,EXPX     ;SET EXPLOD X
+        MOV     R4,EXPY         ;SET EXPLOD Y
+        JSR     PC,EXPLOD       ;GO BOOM ON RKT2
+CMP026: JMP     SCORE           ;GO SHOW SCORE
+CMP028: TST     HIT1            ;DID RKT1 LOOSE ALL SHIELDS?
+        BLE     CMP026          ;YES-GO BLOW IT UP
+        JSR     PC,RESET        ;NO-RESET RKTS AND KEEP PLAYING
+CMPFIN: RTS     PC              ;ALL DONE!!!!!!!!!!!!!!!!!!!!!!!
+CMP03:  MOV     #PTNUM,R2       ;SET UP PTR TO TORPS
+        MOV     (R2)+,R0        ;GET # OF TORPS
+CMP04:  DEC     R0              ;ARE THERE ANY MORE TORPS LEFT?
+        BMI     CMPFIN          ;NO-THEN ALL DONE
+        MOV     2(R2),R1        ;GET YDISP OF TORP
+        SUB     R3,R1           ;GET DIFFERENCE
+        BVS     CMP10           ;IF OVERFLOW GO CHK RKT2
+        BPL     CMP05           ;IF POS SKIP
+        COM     R1              ;IF NEG MAKE POS
+CMP05:  CMP     #MASK,R1        ;DOES YDISP OF RKT1 = TORP?
+        BLT     CMP10           ;NO-GO CHK RKT2
+        MOV     6(R2),R1        ;YES-CHK XDISPS
+        SUB     XDISP1,R1       ;GET DIFFERENCE
+        BVS     CMP10           ;IF OVERFLOW GO CHK RKT2
+        BPL     CMP06           ;IF POS SKIP
+        COM     R1              ;IF NEG MAKE POS
+CMP06:  CMP     #MASK,R1        ;DOES XDISP OF RKT1 = TORP?
+        BLT     CMP10           ;NO-GO BLOW IT UP
+        DEC     HIT1            ;YES-HIT!-ARE RKT1 SHILEDS DONE?
+        BLE     CMP022          ;YES-GO BLOW IT UP
+CMP07:  CLR     EXPREP          ;MAKE EXPLOD DO ONE BOOM
+        MOV     2(R2),EXPY      ;SET EXPLOD Y
+        MOV     6(R2),EXPX      ;SET EXPLOD X
+        JSR     PC,EXPLOD       ;GO BOOM ON TORPEDO
+        MOV     R0,R1           ;SET UP SHIFT CTR
+        MOV     R2,R5           ;SET UP SHIFT POINTER
+        DEC     PTNUM           ;NO-REMOVE TORP FROM CTR
+CMP08:  DEC     R1              ;ARE ALL TORPS MOVED UP?
+        BLT     CMP04           ;YES-GO EXPLOD RKT
+        MOV     8.(R5),(R5)+    ;NO-WELL MOVE THEM!
+        MOV     8.(R5),(R5)+
+        MOV     8.(R5),(R5)+
+        MOV     8.(R5),(R5)+    ;FOUR WORDS MOVED UP
+        BR      CMP08
+CMP10:  MOV     2(R2),R1        ;GO CHK AGAIN
+        SUB     R4,R1           ;GET YDISP OF TORP
+        BVS     CMP15           ;IF OVERFLOW GO CHK NEXT TORP
+        BPL     CMP11           ;IF POS SKIP
+        COM     R1              ;IF NEG MAKE POS
+CMP11:  CMP     #MASK,R1        ;DOES YDISP OF RKT2 = TORP?
+        BLT     CMP15           ;NO-GO CHK NEXT TORP
+        MOV     6(R2),R1        ;YES-GET XDISP OF RKT2
+        SUB     XDISP2,R1       ;GET DIFFERENCE
+        BVS     CMP15           ;IF OVERFLOW GO CHK NEXT TORP
+        BPL     CMP12           ;IF POS SKIP
+        COM     R1              ;IF NEG MAKE POS
+CMP12:  CMP     #MASK,R1        ;DOES XDISP OF RKT2 = TORP?
+        BLT     CMP15           ;NO-GO CHK NEXT TORP
+        DEC     HIT2            ;YES-ARE RKT2 SHIELDS GONE?
+        BLE     CMP025          ;YES-GO BLOW UP RKT2
+        BR      CMP07           ;NO-GO EXPLOD TORP
+CMP15:  ADD     #8.,R2          ;MOVE PTR UP 4 WORDS
+        BR      CMP04           ;GO CHK NEXT TORP
+        .END
+
+       

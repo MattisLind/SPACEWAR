@@ -1,0 +1,135 @@
+                ;***********************************************************
+                ;
+                ;               BLITZKRIEG INTEGER MULTIPLY
+                ;
+                ;               VERSION         2B
+                ;
+                ;               LARRY BRYANT & BILL SEILER
+                ;               AUG 19,1974
+                ;       MULT TWO SINGLE WORD INTEGERS TO PRODUCE
+                ;       A DOUBLE WORD RESULT
+                ;       R0=MULTIPLIER (UNCHANGED BY ROUTINE)
+                ;       R1=USED AS A FLAG
+                ;       R3=LOW WORD RESULT
+                ;       R4MULTIPLICAN & HIGH WORD RESULT
+         000000         R0=%0
+         000001         R1=%1
+         000002         R2=%2
+         000003         R3=%3
+         000004         R4=%4
+         000005         R5=%5
+         000006         R6=%6
+         000007         R7=%7
+         000006         SP=R6
+         000007         PC=R7
+                        .TITLE  MULPLY
+                        .GLOBL  MULPLY
+         000000         .CSECT
+  000000 005001 MULPLY: CLR     R1             ;CLEAR FLAG REGISTER
+  000002 005003         CLR     R3             ;CLEAR LOW ORDR RESULT
+  000004 005700         TST     R0             ;NEGATIVE MULTIPLIER?
+  000006 001533         BEQ     MZERO          ;MAKE ZERO FAST
+  000010 003002         BGT     MULT01         ;POSITIVE,GO AROUND
+  000012 005201         INC     R1             ;SET NEGATIVE FLAG
+  000014 005400         NEG     R0             ;MAKE POSITIVE
+  000016 005704 MULT01: TST     R4             ;TEST MULTIPLICAND
+  000020 001526         BEQ     MZERO          ;IF ZERO GO AWAY
+  000022 003002         BGT     MULT02         ;IF + JUMP AROUND
+  000024 005201         INC     R1             ;INC NEGATIVE FLAG
+  000026 005404         NEG     R4             ;MAKE POSITIVE
+  000030 006304 MULT02: ASL     R4             ;       "
+  000032 006304 MULT03: ASL     R4             ;       "
+  000034 103001         BCC     MULT04         ;SKIP IF NO CARRY
+  000036 060003         ADD     R0,R3          ;ADD IN MULTIPLICAND
+  000040 006303 MULT04: ASL     R3             ;SHIFT MAGNITUTDE AGIN
+  000042 006104         ROL     R4             ;       "
+  000044 103002         BCC     MULT05         ;SKIP AGAIN IF NO CARRY
+  000046 060003         ADD     R0,R3          ;ADD IN MULTIPLICAND
+  000050 005504         ADC     R4             ;ADD LOW ORDER OVERFLOW
+  000052 006303 MULT05: ASL     R3             ;DO IT AGAIN
+  000054 006104         ROL     R4  
+  000056 103002         BCC     MULT06
+  000060 060003         ADD     R0,R3
+  000062 005504         ADC     R4
+  000064 006303 MULT06: ASL     R3             ;DO IT AGAIN!
+  000066 006104         ROL     R4
+  000070 103002         BCC     MULT07
+
+                        PAGE    001
+
+  000072 060003         ADD     R0,R3
+  000074 005504         ADC     R4
+  000076 006303 MULT07: ASL     R3             ;DO IT AGAIN!!
+  000100 006104         ROL     R4
+  000102 103002         BCC     MULT08
+  000104 060003         ADD     R0,R3
+  000106 005504         ADC     R4
+  000110 006303 MULT08: ASL     R3             ;DO IT AGAIN!!!
+  000112 006104         ROL     R4
+  000114 103002         BCC     MULT09
+  000116 060003         ADD     R0,R3
+  000120 005504         ADC     R4
+  000122 006303 MULT09: ASL     R3             ;DO IT DO IT DO IT!
+  000124 006104         ROL     R4
+  000126 103002         BCC     MULT10
+  000130 060003         ADD     R0,R3
+  000132 005504         ADC     R4
+  000134 006303 MULT10: ASL     R3             ;DO IT,DO IT, DO WHOW!
+  000136 006104         ROL     R4
+  000140 103002         BCC     MULT11
+  000142 060003         ADD     R0,R3
+  000144 005504         ADC     R4
+  000146 006303 MULT11: ASL     R3             ;--- HO BOY! ---
+  000150 006104         ROL     R4
+  000152 103002         BCC     MULT12
+  000154 060003         ADD     R0,R3
+  000156 005504         ADC     R4
+  000160 006303 MULT12: ASL     R3             ;THIS IS TOO MUCH!
+  000162 006104         ROL     R4
+  000164 103002         BCC     MULT13
+  000166 060003         ADD     R0,R3
+  000170 005504         ADC     R4
+  000172 006303 MULT13: ASL     R3             ;GETTING BORING?
+  000174 006104         ROL     R4
+  000176 103002         BCC     MULT14
+  000200 060003         ADD     R0,R3
+  000202 005504         ADC     R4
+  000204 006303 MULT14: ASL     R3             ;LA LA DA DA DA LA LA DAA
+  000206 006104         ROL     R4
+  000210 103002         BCC     MULT15
+  000212 060003         ADD     R0,R3
+  000214 005504         ADC     R4
+  000216 006303 MULT15: ASL     R3             ;FAST IS WEIRD!!
+  000220 006104         ROL     R4
+  000222 103002         BCC     MULT16
+  000224 060003         ADD     R0,R3
+  000226 005504         ADC     R4
+  000230 006303 MULT16: ASL     R3             ;COME ON , COME ON!
+  000232 006104         ROL     R4
+  000234 103002         BCC     MULT17
+  000236 060003         ADD     R0,R3
+  000240 005504         ADC     R4
+  000242 006303 MULT17: ASL     R3             ;I CANT BELIEVE IT
+  000244 006104         ROL     R4
+  000246 103002         BCC     MULT18
+  000250 060003         ADD     R0,R3
+
+                        PAGE    002
+
+  000252 005504         ADC     R4             ;--- FINALLY DONE SHIFT-ADDING!!
+  000254 032701 MULT18: BIT     #1,R1          ;LOOK AT SIGN BIT
+         000001
+  000260 001410         BEQ     MPOS           ;RESULT IS + JUMP AROUND
+  000262 005103         COM     R3             ;DOUBLE PRECISION 
+  000264 005104         COM     R4             ;NEGATION OF
+  000266 000241         CLC                    ;CLEAR FOR TWO'S COMPLMNT
+  000270 005203         INC     R3             ;PRODUCT
+  000272 005504         ADC     R4             ;   "
+  000274 000402         BR      MPOS           ;SKIP ZERO ROUTINE
+  000276 005003 MZERO:  CLR     R3             ;MULTIPLY BY ZERO
+  000300 005004         CLR     R4
+  000302 000207 MPOS:   RTS     PC             ;LEAVE THIS PLACE
+         000001         .END
+
+                        PAGE    003
+

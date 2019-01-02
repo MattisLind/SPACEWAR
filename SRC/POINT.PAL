@@ -1,0 +1,76 @@
+;*******************************************************
+;
+;               SUBROUTINE      POINT
+;
+;               VERSION         4B
+;
+;       UPDATES THEN DISPLAYS THE TORPEDOS
+;       THE NUMBER OF TORPEDOES ARE IN PTNUM
+;       R0=COUNTER
+;       R1=SCRATCH REG.
+;       R2=POINT STK
+;       R3=DAC CTK
+;       R4=SHIFT COUNTER
+;       R5=SHIFT POINTER
+;
+;       **IMPORTANT THIS MUST BE THE LAST SUBROUTINE
+;         WHEN LINKING.  POINT USES THE REMAINDER OF
+;         CORE FOR STORAGE OF TORPEDO DATA.  SYSTEMS WITH
+;         ONLY 4K SHOULD LIMIT NUMBER OF TORPEDOES
+        R0=%0
+        R1=%1
+        R2=%2
+        R3=%3
+        R4=%4
+        R5=%5
+        R6=%6
+        R7=%7
+        SP=R6
+        PC=R7
+        .TITLE  POINT
+        .GLOBL  POINT,PTNUM,PTREP,DAC0,DAC1,DAC2
+        .CSECT
+POINT:  MOV     #PTNUM,R2       ;SET UP TORP PTR
+        MOV     (R2)+,R0        ;SET UP TORP CTR
+        MOV     #2047.,DAC2     ;TURN THE DOT ON
+PT01:   DEC     R0              ;ARE THERE ANY MORE TORPS?
+        BMI     PT06            ;NO-SO GET OUT
+        ADD     (R2)+,(R2)      ;YES-UPDATE Y OF TORP
+        BVC     PT04            ;IF NO OVERFLOW SKIP
+        TST     -(R2)           ;BACK PTR UP ONE WORD
+PT02:   TST     PTREP           ;ARE TORPS REAPPEARING?
+        BGT     PT01            ;YES-SKIP DELETE STEP
+        DEC     PTNUM           ;NO-REMOVE ONE FROM TORP COUNT
+        MOV     R0,R4           ;SET UP SHIFT CTR
+        MOV     R2,R5           ;SET UP SHIFT PTR
+PT03:   DEC     R4              ;ARE ALL TORPS MOVED UP?
+        BMI     PT01            ;YES-GO DRAW THE REST
+        MOV     8.(R5),(R5)+    ;NO-WELL MOVE THEM
+        MOV     8.(R5),(R5)+
+        MOV     8.(R5),(R5)+
+        MOV     8.(R5),(R5)+    ;4 WORDS MOVED!
+        BR      PT03            ;GO CHK FOR MORE
+PT04:   MOV     (R2)+,R1        ;PUT Y IN WORK REGISTER
+        ASR     R1
+        ASR     R1
+        ASR     R1
+        ASR     R1              ;DISPOSE OF 4 BITS
+        INC     DAC2            ;TURN THE DOT OFF
+        MOV     R1,DAC1         ;PUT Y IN DAC1
+        ADD     (R2)+,(R2)      ;UPDATE X OF TORP
+        BVC     PT05            ;IF NO OVERFLOW THEN SKIP
+        SUB     #6,R2           ;MOVE PTR BACK 3 WORDS
+        BR      PT02            ;GO MOVE UP ARRAY
+PT05:   MOV     (R2)+,R1        ;PUT X IN WORK REGISTER
+        ASR     R1
+        ASR     R1
+        ASR     R1
+        ASR     R1              ;DITCH 4 BITS
+        MOV     R1,DAC0         ;PUT X IN DAC0
+        DEC     DAC2            ;TURN THE DOT ON
+        BR      PT01            ;GO CHK FOR MORE TORPS
+PT06:   INC     DAC2            ;TURN DOT OFF FOR FINISH
+        RTS     PC              ;ALL DONE!!!!!!!!!!!!!!!!!!!!!!!
+PTNUM:  .WORD   0
+        .=.+512.
+        .END

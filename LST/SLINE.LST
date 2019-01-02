@@ -1,0 +1,74 @@
+                ;*****************************************************
+                ;
+                ;               SHORT LINE
+                ;               (SLINE)
+                ;
+                ;               VERSION         1D
+                ;
+                ;       BILL SEILER AUG 17,1974
+                ;
+                ;       DRAWS SEILER AUG 17,1974
+                ;       R2=XINITIAL
+                ;       R3=YINITIAL
+                ;       R4=XFILNAL
+                ;       R5=YFINAL
+                ;       R0=COUNTER
+                ;       R1=SCRATCH REG.
+         000000         R0=%0
+         000001         R1=%1
+         000002         R2=%2
+         000003         R3=%3
+         000004         R4=%4
+         000005         R5=%5
+         000006         R6=%6
+         000007         R7=%7
+         000006         SP=R6
+         000007         PC=R7
+                        .TITLE  SLINE
+                        .GLOBL  SLINE,DAC0,DAC1,DAC2
+         000000         .CSECT
+  000000 160204 SLINE:  SUB     R2,R4           ;GET DELTA X
+  000002 160305         SUB     R3,R5           ;GET DELTA Y
+  000004 006204         ASR     R4
+  000006 006204         ASR     R4
+  000010 006204         ASR     R4
+  000012 006204         ASR     R4              ;XDELTA/16
+  000014 006205         ASR     R5
+  000016 006205         ASR     R5
+  000020 006205         ASR     R5
+  000022 006205         ASR     R5              ;YDELTA/16
+  000024 012767'        MOV     #2048.,DAC2     ;TURN DOT OFF
+         004000
+         000000
+  000032 012700         MOV     #16.,R0         ;CTR = 16
+         000020
+  000036 010201 SL01:   MOV     R2,R1           ;R1=XINITIAL
+  000040 006201         ASR     R1
+  000042 006201         ASR     R1
+  000044 006201         ASR     R1
+  000046 006201         ASR     R1              ;THROW OUT 4 BITS
+  000050 010167'        MOV     R1,DAC0         ;PUT XINITIAL IN DAC0
+         000000
+  000054 010301         MOV     R3,R1           ;R1=YINITIAL
+  000056 006201         ASR     R1
+  000060 006201         ASR     R1
+  000062 006201         ASR     R1
+  000064 006201         ASR     R1              ;DUMP 4 BITS
+
+                        PAGE    001
+
+  000066 010167'        MOV     R1,DAC1         ;PUT YINITIAL IN DAC1
+         000000
+  000072 005367'        DEC     DAC2            ;TURN DOT ON;
+         000000
+  000076 060402         ADD     R4,R2           ;INCREMENT XINITIAL
+  000100 060503         ADD     R5,R3           ;INCREMENT YINITIAL
+  000102 005267'        INC     DAC2            ;TURN DOT OFF
+         000000
+  000106 005300         DEC     R0              ;IS CTR ZERO YET?
+  000110 002352         BGE     SL01            ;NO-THEN DO AGAIN
+  000112 000207         RTS     PC              ;YES-ALL DONE!
+         000001         .END
+
+                        PAGE    002
+

@@ -1,0 +1,144 @@
+;**********************************************************
+;
+;               SUBROUTINE GRAVTY
+;
+;               VERSION         1C
+;               BILL SEILER
+;               OCT. 19,1974
+;       SIMULATES THE ATTRACTION OF GRAVITY
+;       TOWARD A SUN LOCATED AT (0,0) CENTER SCREEN
+;       CALLS THE SUN DRAWING ROUTINE
+;       CHECKS FOR RKT COLLISIONS WITH THE SUN
+;       R0=COLLISION FLAG
+;       R1=HIGH WORD GRAVITY
+;       R3=COMPARE SCRATCH
+;       R5=LOW WORD GRAVITY
+        R0=%0
+        R1=%1
+        R2=%2
+        R3=%3
+        R4=%4
+        R5=%5
+        R6=%6
+        R7=%7
+        SP=R6
+        PC=R7
+        .TITLE  GRAVTY
+        .GLOBL  SUN,EXPLOD,SCORE,XDISP1,XDISP2,YDISP1,YDISP2
+        .GLOBL  XVELL1,XVELL2,YVELL1,YVELL2,GRAVTY
+        .GLOBL  XVELH1,XVELH2,YVELH1,YVELH2
+        .GLOBL  SUNSZ,GRVFLG,EXPY,EXPX,EXPREP,HIT1,HIT2
+        .CSECT
+GRAVTY: TST     GRVFLG          ;ARE WE TO DO GRAVITY?
+        BGT     GRV01           ;YES-SKIP IT
+        RTS     PC              ;NO-SO GET OUT
+GRV01:  CLR     R0              ;CLEAR FLAG
+        MOV     YDISP1,R5       ;GET Y OF RKT1 DISPLACMENT
+        MOV     R5,R3           ;IS YDISP1 POSITIVE?
+        BPL     GRV02           ;YES-SKIP
+        COM     R3              ;NO-MAKE POSITIVE
+GRV02:  CMP     #SUNSZ,R3       ;HAS RKT1 Y HIT THE SUN?
+        BLT     GRV05           ;NO-GO MAKE GRAVITY
+        MOV     #1,R0           ;SET FLAG FOR Y COLLISION
+GRV05:  CLR     R1              ;FAKE A SIGN EXTEND
+        NEG     R5              ;REVERSE YDISP1'S DIRECTION
+        BPL     GRV1            ;IF POSITIVE SKIP
+        DEC     R1              ;R1=-1 (177777) TWO'S COMP
+GRV1:   ASL     R5   
+        ROL     R1
+        ASL     R5
+        ROL     R1
+        ASL     R5
+        ROL     R1
+        ASL     R5
+        ROL     R1              ;MAKE 16 TIMES LARGER
+        ADD     R5,YVELL1       ;ADD Y GRAV. LOW WORDS
+        ADC     R1              ;ADD CARRY TO HIGH WORD
+        ADD     R1,YVELH1       ;ADD Y GRAV. HIGH WORDS
+        MOV     XDISP1,R5       ;GET XDISP1
+        MOV     R5,R3           ;IS XDISP POSITIVE?
+        BPL     GRV2            ;YES-SKIP
+        COM     R3              ;NO-MAKE POSITIVE
+GRV2:   CMP     #SUNSZ,R3       ;HAS RKT1 X HIT THE SUN?
+        BLT     GRV3            ;NO-GO MAKE GRAVITY
+        TST     R0              ;YES-DID RKT1 Y HIT?
+        BLE     GRV3            ;NO-GO MAKE GRAVITY
+        MOV     YDISP1,EXPY     ;YES-SET EXPLOD Y
+        MOV     R5,EXPX         ;SET EXPLOD X
+        DEC     HIT1            ;REMOVE ONE SHIELD FROM RKT1
+        BLE     GRV8            ;IF ALL GONE SHOW SCORE
+        CLR     EXPREP          ;SET EXPLOD REPEATS TO ONE
+        JSR     PC,EXPLOD       ;GO BOOM ON RKT1
+GRV3:   CLR     R1              ;FAKE A SIGN EXTEND
+        NEG     R5              ;REVERSE XDISP1'S DIRECTION
+        BPL     GRV5            ;IF POSITIVE SKIP
+        DEC     R1              ;R1=-1 (177777) TWO'S COMP
+GRV5:   ASL     R5   
+        ROL     R1
+        ASL     R5
+        ROL     R1
+        ASL     R5
+        ROL     R1
+        ASL     R5
+        ROL     R1              ;MAKE 16 TIMES LARGER
+        ADD     R5,XVELL1       ;ADD X GRAV. LOW WORDS
+        ADC     R1              ;ADD CARRY
+        ADD     R1,XVELH1       ;ADD X GRAV. HIGH WORDS
+        CLR     R0              ;CLEAR FLAG
+        MOV     YDISP2,R5       ;IS YDISP2 POSITIVE?
+        MOV     R5,R3
+        BPL     GRV6            ;YES-SKIP
+        COM     R3              ;NO-MAKE POSITIVE
+GRV6:   CMP     #SUNSZ,R3       ;HAS RKT2 Y HIT SUN?
+        BLT     GRV65           ;NO MAKE GRAVITY
+        MOV     #1,R0           ;SET FLAG FOR Y COLLISION
+GRV65:  CLR     R1              ;FAKE A SIGN EXTEND
+        NEG     R5              ;REVERSE YDISP2'S DIRECTION
+        BPL     GRV67           ;IF POSITIVE SKIP
+        DEC     R1              ;R1=-1 (177777) TWO'S COMP
+GRV67:  ASL     R5   
+        ROL     R1
+        ASL     R5
+        ROL     R1
+        ASL     R5
+        ROL     R1
+        ASL     R5
+        ROL     R1              ;MAKE 16 TIMES LARGER
+        ADD     R5,YVELL2       ;ADD Y GRAV. LOW WORDS
+        ADC     R1              ;ADD CARRY
+        ADD     R1,YVELH2       ;ADD Y GRAV. HIGH WORDS
+        MOV     XDISP2,R5       ;GET XDISP RKT2
+        MOV     R5,R3           ;IS XDISP2 POSITIVE?
+        BPL     GRV7            ;YES-SKIP
+        COM     R3              ;NO-MAKE POSITIVE
+GRV7:   CMP     #SUNSZ,R3       ;HAS RKT2 X HIT THE SUN?
+        BLT     GRV73           ;NO-GO MAKE GRAVITY
+        TST     R0              ;YES-DID RKT2 Y HIT?
+        BLE     GRV73           ;NO-GO MAKE GRAVITY
+        MOV     YDISP2,EXPY     ;YES-SET EXPLOD Y
+        MOV     R5,EXPX         ;SET EXPLOD X
+        DEC     HIT2            ;REMOVE ONE SHIELD FROM RKT2
+        BLE     GRV8            ;IF ALL GONE SHOW SCORE
+        CLR     EXPREP          ;IF NOT SET EXPLOD REPEATS TO ON
+        JSR     PC,EXPLOD       ;GO BOOM ON RKT2
+GRV73:  CLR     R1              ;FAKE A SIGN EXTEND
+        NEG     R5              ;REVERSE YDISP2'S DIRECTION
+        BPL     GRV75           ;IF POSITIVE SKIP
+        DEC     R1              ;R1=-1 (177777) TWO'S COMP
+GRV75:  ASL     R5
+        ROL     R1
+        ASL     R5
+        ROL     R1
+        ASL     R5
+        ROL     R1
+        ASL     R5
+        ROL     R1              ;MAKE 16 TIMES LARGER
+        ADD     R5,XVELL2       ;ADD X GRAV. LOW WORDS
+        ADC     R1              ;ADD CARRY
+        ADD     R1,XVELH2       ;ADD X GRAV. HIGH WORDS 
+        JSR     PC,SUN          ;DRAW THE SUN
+        RTS     PC              ;ALL DONE!!!!!!!!!!!!!!!!!!!!!!!
+GRV8:   MOV     #40,EXPREP      ;SET EXPLOD REPEATS FOR 32
+        JSR     PC,EXPLOD       ;GO BOOM ON RKT
+        JMP     SCORE           ;GO TELL THE SCORE
+        .END

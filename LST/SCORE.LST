@@ -1,0 +1,115 @@
+                ;************************************************************ 
+                ;
+                ;               SUBROUTINE SCORE 
+                ;
+                ;               VERSION         2B 
+                ;
+                ;               BILL SEILER
+                ;               SEPT 6,1974
+                ;       DISPLAYS GAMES WON ON PLAYING SCREEN 
+         000000         R0=%0
+         000001         R1=%1
+         000002         R2=%2
+         000003         R3=%3
+         000004         R4=%4
+         000005         R5=%5
+         000006         R6=%6
+         000007         R7=%7
+         000006         SP=R6
+         000007         PC=R7
+         000200         REPEAT=200
+                        .TITLE  SCORE
+                        .GLOBL  SCORE,CHAR,GAME1,GAME2,RKT1,RKT2
+                        .GLOBL  XDISP1,XDISP2,YDISP1,YDISP2,XSIZE1,XSIZE2
+                        .GLOBL  YSIZE1,YSIZE2,$ICO,HIT1,HIT2,SPCRST
+         000000         .CSECT
+  000000 005767'SCORE:  TST     HIT1            ;DID RKT1 BLOW UP? 
+         000000
+  000004 003002         BGT     SC01            ;NO-CHK RKT2
+  000006 005267'        INC     GAME2           ;YES-GIVE ONE GAME TO RKT2
+         000000
+  000012 005767'SC01:   TST     HIT2            ;DID RKT2 BLOW UP 
+         000000
+  000016 003002         BGT     SC02            ;NO-GO SHOW SCORE
+  000020 005267'        INC     GAME1           ;YES-GIVE ONE GAME TO RKT1
+         000000
+  000024 012746'SC02:   MOV     #SCB1,-(SP)     ;PUSH FIELD START 
+         000234
+  000030 012746         MOV     #7,-(SP)        ;PUSH LENGHT
+         000007
+  000034 016746'        MOV     GAME1,-(SP)     ;PUSH VALUE
+         000000
+  000040 004767'        JSR     PC,$ICO         ;CONVERT TO ASCII 
+         000000
+  000044 012746'        MOV     #SCB2,-(SP)     ;START 
+         000252
+  000050 012746         MOV     #7,-(SP)        ;LENGTH 
+         000007
+  000054 016746'        MOV     GAME2,-(SP)     ;VALUE 
+         000000
+  000060 004767'        JSR     PC,$ICO         ;CONVERT TO ASCII 
+         000000
+  000064 012746         MOV     #REPEAT,-(SP)   ;SET REPEAT CTR 
+         000200
+  000070 012767'        MOV     #16384.,YDISP1  ;SET Y POSITION OF RKT1 
+         040000
+         000000
+
+                        PAGE    001
+
+  000076 012767'        MOV     #-22528.,XDISP1 ;SET X POSITION OF RKTI 
+         124000
+         000000
+  000104 012767'        MOV     #2048.,XSIZE1   ;POINT RKT1 TOWARD 
+         004000
+         000000
+  000112 005067'        CLR     YSIZE1          ;ITS SCORE 
+         000000
+  000116 012767'        MOV     #-16384.,YDISP2 ;SET Y POSITION OF RKT2 
+         140000
+         000000
+  000124 012767'        MOV     #-22528.,XDISP2 ;SET X POSITION OF RKT2 
+         124000
+         000000
+  000132 012767'        MOV     #2048.,XSIZE2   ;POINT RKT2 TOWARD 
+         004000
+         000000
+  000140 005067'        CLR     YSIZE2          ; ITS SCORE 
+         000000
+  000144 004767'SC03:   JSR     PC,RKT1         ;DRAW RKT1  
+         000000
+  000150 012700'        MOV     #SCBN1,R0       ;POINT TO CHARS COUNT 
+         000232
+  000154 012710         MOV     #7,@R0          ;SET # OF CHARS
+         000007
+  000160 005004         CLR     R4              ;X OF FIRST CHARR 
+  000162 012705         MOV     #1024.,R5       ;Y OF FIRST CHAR 
+         002000
+  000166 004767'        JSR     PC,CHAR         ;DISPLAY GAME1 
+         000000
+  000172 004767'        JSR     PC,RKT2         ;DRAW RKT2 
+         000000
+  000176 012700'        MOV     #SCBN2,R0       ;POINT TO CHARS COUNT 
+         000250
+  000202 012710         MOV     #7,@R0          ;SET # OF CHARS 
+         000007
+  000206 005004         CLR     R4              ;X OF FIRST CHAR
+  000210 012705         MOV     #-1024.,R5      ;Y OF FIRST CHAR 
+         176000
+  000214 004767'        JSR     PC,CHAR         ;DISPLAY GAME2 
+         000000
+  000220 005316         DEC     (SP)            ;IS CTR ZERO YET?
+  000222 003350         BGT     SC03            ;NO-REPEAT AGAIN
+  000224 005726         TST     (SP)+           ;YES-CLEAR STK
+  000226 000167'        JMP     SPCRST          ;GO START AGAIN 
+         000000
+  000232 000000 SCBN1:  .WORD   0 
+  000234 000000 SCB1:   .WORD   0
+         000250         .=.+10.
+  000250 000000 SCBN2:  .WORD   0 
+  000252 000000 SCB2:   .WORD   0 
+         000266         .=.+10. 
+         000001         .END
+
+                        PAGE    002
+

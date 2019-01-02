@@ -1,0 +1,112 @@
+;*********************************************************  
+;*                                                       *
+;*                       SPACE WAR                       *         
+;*                       VERSION 5B                      *
+;*                       BY                              *
+;*               LARRY BRYANT AND BILL SEILER            * 
+;*                   JULY 21, 1974                       *  
+;*                                                       *
+;*********************************************************
+        R0=%0 
+        R1=%1
+        R2=%2  
+        R3=%3
+        R4=%4
+        R5=%5  
+        R6=%6
+        R7=%7 
+        SP=R6
+        PC=R7
+;
+; 
+;*******DATA AND ADDRESS CONSTANTS FOR SPCWAR 
+        ADCS=176770             ;ADDRESS FOR ANALOG TO DIGITAL
+                                ;CONVERTER STATUS REGISTER 
+        ADBR=176772             ;ADDRESS FOR A To D CONVERTER 
+                                ;BUFFER REGISTER 
+                                ;THIS IS A 10 BIT SINGLE  
+                                ;POLARITY A TO D 
+        DAC0=176750             ;ADDRESS FOR X-AXIS DIGITAL 
+                                ;TO ANALOG CONVERTER 
+        DAC1=176752             ;ADDRESS FOR Y-AXIS D TO A CONV.
+        DAC2=176754             ;ADDRESS FOR Z-BLANKING D TO A C 
+                                ;THE DACS APE 12 BIT BIPOLAR
+                                ; D TO A’S 
+        SUNSZ=2048.              ;COLLISION RADIUS FOR SUN 
+        MASK=2100               ;COLLISION RADIUS FOR TORPEDOES
+                                ; AND ROCKETS
+        RKTSIZ=7000             ;SIZE OF ROCKETS
+        FIRE=800.                ;NUMBER REQUIRED FROM ACCEL
+                                ; A TO D TO FIRE A TORPEDO
+                                ;NUMERS FROM 8 TO 800. ARE  
+                                ; ACCEL. 8OO. TO 1024. FIRE A  
+                                ; TORPEDO. 
+        ANGMID=450.             ;NUMBER REQUIRED TO CENTER THE
+                                ; ANGLE ROTATION CONTROLER  
+        .TITLE SPCWAR
+        .GLOBL  UPDAT1,UPDAT2,RKT1,RKT2,POINT,COMPAR,AMMO
+        .GLOBL  WIN,HIT1,HIT2,SPCWAR,RESET,GAME1,GAME2
+        .GLOBL  XDISP1,XDISP2,YDISP1,YDISP2,PARM,GRAVTY
+        .GLOBL  XVELL1,XVELL2,YVELL1,YVELL2
+        .GLOBL  XVELH1,XVELH2,YVELH1,YVELH2
+        .GLOBL  FLAG1,FLAG2,ANGL1,ANGL2,GRVFLG,PTREP
+        .GLOBL  ANGH1,ANGH2,XSIZE1,XSIZE2,SPCRST
+        .GLOBL  YSIZE1,YSIZE2,PTNUM,SHOTS1,SHOTS2
+        .GLOBL  MASK,RKTSIZ,TSPEED,FIRE,ANGMID,SPCWAR
+        .GLOBL  DAC0,DAC1,DAC2,ADCS,ADBR,SUNSZ
+        .CSECT 
+SPCWAR: MOV     #SPCWAR,SP      ;SET UP THE STK 
+        CLR     GAME1           ;NEW SET OF GAMES
+        CLR     GAME2           ;NEW SET OF GAMES
+        JSR     PC,PARM         ;CHECK FOR CHANGE IN PARAMETER
+SPCRST: MOV     #401,ADCS       ;START A TO D FOR ACC1
+        MOV     WIN,HIT1        ;REPLACE ALL SHIELDS 
+        MOV     WIN,HIT2        ;  OF BOTH RKTS 
+        MOV     AMMO,SHOTS1     ;RESET # OF SHOTS RKT1 
+        MOV     AMMO,SHOTS2     ;RESET # OF SHOTS RKT2 
+        CLR     PTNUM           ;CLEAR ALL TORPEDOES 
+        JSR     PC,RESET        ;RESET ALL RKT DATA 
+SPC01:  MOV     #YSIZE1,R2      ;SET UP POINTER AT RKT DATA 
+        JSR     PC,UPDAT1       ;UDATE RKT1 RND FIRE TORPEDOS 
+        JSR     PC,UPDAT2       ;UPDATE RKT2 RND FIRE TORPEDOES
+        JSR     PC,GRAVTY       ;DO GRAVITY - MAYBE! 
+        JSR     PC,RKT1         ;DRAW ROCKET # ONE 
+        JSR     PC,RKT2         ;DRAW ROCKET # TWO 
+        JSR     PC,POINT        ;UPDATE AND DRAW TORPEDOES 
+        JSR     PC,COMPAR       ;CHECK FOR COLLISIONS OR HITS 
+        BR      SPC01           ;DO IT RLL AGAIN!!!!!!!!!!!!! 
+YSIZE1: .WORD   0
+FLAG1:  .WORD   0 
+YVELL1: .WORD   0  
+YVELH1: .WORD   0 
+YDISP1: .WORD   16384. 
+XSIZE1: .WORD   0 
+XVELL1: .WORD   0  
+XVELH1: .WORD   0 
+XDISP1: .WORD   16384. 
+ANGL1:  .WORD   0 
+ANGH1:  .WORD   0 
+YSIZE2: .WORD   0
+FLAG2:  .WORD   0 
+YVELL2: .WORD   0  
+YVELH2: .WORD   0 
+YDISP2: .WORD   -16384.
+XSIZE2: .WORD   0 
+XVELL2: .WORD   0
+XVELH2: .WORD   0 
+XDISP2: .WORD   -16384. 
+ANGL2:  .WORD   0 
+ANGH2:  .WORD   0
+HIT1:   .WORD   WIN 
+HIT2:   .WORD   WIN
+SHOTS1: .WORD   AMMO 
+SHOTS2: .WORD   AMMO  
+WIN:    .WORD   32. 
+AMMO:   .WORD   64.
+TSPEED: .WORD   16384. 
+GAME1:  .WORD   0  
+GAME2:  .WORD   0 
+GRVFLG: .WORD   0
+PTREP:  .WORD   0
+	.END 
+

@@ -1,0 +1,56 @@
+;********************************************************
+;
+;                SUBROUTINE PWRUP
+;                VERSION         2A
+;
+;                BILL SEILER
+;                SEPT 6,1974
+;       HANDLES POWER FAILURE AND
+;       RESTARTS THE RUNNING PROGRAM
+;
+        R0=%0
+        R1=%1
+        R2=%2
+        R3=%3
+        R4=%4
+        R5=%5
+        R6=%6
+        R7=%7
+        SP=R6
+        PC=R7
+        KBS=177560               ;ADDRESS OF KEYBOARD STATUS REG.
+        PRS=177564               ;ADDRESS OF PRINTER STATUS REG.
+        .ASECT
+        .=24
+        PWRUP
+        340
+        .TITLE  PWRUP
+        .CSECT
+PWRUP:  TST     PFLAG            ;IS THIS PWR UP OR DOWN
+        BEQ     PWRDWN           ;IF CLEAR PWR DOWN
+        MOV     PWRSAV,R6        ;IF NOT PWR UP-RESTORE STK
+        MOV     (SP)+,KBS        ;RETURN KEYBOARD STATUS
+        MOV     (SP)+,PRS        ;RETURN PRINTER STATUS
+        MOV     (SP)+,R5
+        MOV     (SP)+,R4
+        MOV     (SP)+,R3
+        MOV     (SP)+,R2
+        MOV     (SP)+,R1
+        MOV     (SP)+,R0         ;RESTORE REGISTERS
+        CLR     PFLAG            ;CLEAR PWR FLAG
+        RTI                      ;RETURN FROM INTERRUPT
+PWRDWN: MOV    R0,-(SP)          ;POWER D
+        MOV    R1,-(SP)          ;      O
+        MOV    R2,-(SP)          ;      W
+        MOV    R3,-(SP)          ;      N
+        MOV    R4,-(SP)
+        MOV    R5,-(SP)          ;SAVE REGISTERS
+        MOV    PRS,-(SP)         ;SAVE PRINTER STATUS
+        MOV    KBS,-(SP)         ;SAVE KEYBOARD STATUS
+        MOV    SP,PWRSAV         ;SAVE THE STK
+        INC    PFLAG             ;SET FLAG FOR PWR UP NEXT TIME
+        HALT                     ;WAIT FOR THE POWER TO RETUN
+PFLAG:  .WORD  0
+PWRSAV: .WORD  0
+        .END
+

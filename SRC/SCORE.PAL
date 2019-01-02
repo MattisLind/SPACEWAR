@@ -1,0 +1,71 @@
+;************************************************************ 
+;
+;               SUBROUTINE SCORE 
+;
+;               VERSION         2B 
+;
+;               BILL SEILER
+;               SEPT 6,1974
+;       DISPLAYS GAMES WON ON PLAYING SCREEN 
+        R0=%0
+        R1=%1
+        R2=%2
+        R3=%3
+        R4=%4
+        R5=%5
+        R6=%6
+        R7=%7
+        SP=R6
+        PC=R7
+        REPEAT=200
+        .TITLE  SCORE
+        .GLOBL  SCORE,CHAR,GAME1,GAME2,RKT1,RKT2
+        .GLOBL  XDISP1,XDISP2,YDISP1,YDISP2,XSIZE1,XSIZE2
+        .GLOBL  YSIZE1,YSIZE2,$ICO,HIT1,HIT2,SPCRST
+        .CSECT
+SCORE:  TST     HIT1            ;DID RKT1 BLOW UP? 
+        BGT     SC01            ;NO-CHK RKT2
+        INC     GAME2           ;YES-GIVE ONE GAME TO RKT2
+SC01:   TST     HIT2            ;DID RKT2 BLOW UP 
+        BGT     SC02            ;NO-GO SHOW SCORE
+        INC     GAME1           ;YES-GIVE ONE GAME TO RKT1
+SC02:   MOV     #SCB1,-(SP)     ;PUSH FIELD START 
+        MOV     #7,-(SP)        ;PUSH LENGHT
+        MOV     GAME1,-(SP)     ;PUSH VALUE
+        JSR     PC,$ICO         ;CONVERT TO ASCII 
+        MOV     #SCB2,-(SP)     ;START 
+        MOV     #7,-(SP)        ;LENGTH 
+        MOV     GAME2,-(SP)     ;VALUE 
+        JSR     PC,$ICO         ;CONVERT TO ASCII 
+        MOV     #REPEAT,-(SP)   ;SET REPEAT CTR 
+        MOV     #16384.,YDISP1  ;SET Y POSITION OF RKT1 
+        MOV     #-22528.,XDISP1 ;SET X POSITION OF RKTI 
+        MOV     #2048.,XSIZE1   ;POINT RKT1 TOWARD 
+        CLR     YSIZE1          ;ITS SCORE 
+        MOV     #-16384.,YDISP2 ;SET Y POSITION OF RKT2 
+        MOV     #-22528.,XDISP2 ;SET X POSITION OF RKT2 
+        MOV     #2048.,XSIZE2   ;POINT RKT2 TOWARD 
+        CLR     YSIZE2          ; ITS SCORE 
+SC03:   JSR     PC,RKT1         ;DRAW RKT1  
+        MOV     #SCBN1,R0       ;POINT TO CHARS COUNT 
+        MOV     #7,@R0          ;SET # OF CHARS
+        CLR     R4              ;X OF FIRST CHARR 
+        MOV     #1024.,R5       ;Y OF FIRST CHAR 
+        JSR     PC,CHAR         ;DISPLAY GAME1 
+        JSR     PC,RKT2         ;DRAW RKT2 
+        MOV     #SCBN2,R0       ;POINT TO CHARS COUNT 
+        MOV     #7,@R0          ;SET # OF CHARS 
+        CLR     R4              ;X OF FIRST CHAR
+        MOV     #-1024.,R5      ;Y OF FIRST CHAR 
+        JSR     PC,CHAR         ;DISPLAY GAME2 
+        DEC     (SP)            ;IS CTR ZERO YET?
+        BGT     SC03            ;NO-REPEAT AGAIN
+        TST     (SP)+           ;YES-CLEAR STK
+        JMP     SPCRST          ;GO START AGAIN 
+SCBN1:  .WORD   0 
+SCB1:   .WORD   0
+        .=.+10.
+SCBN2:  .WORD   0 
+SCB2:   .WORD   0 
+        .=.+10. 
+        .END

@@ -1,0 +1,106 @@
+;*****************************************************
+;
+; 
+;               CHARACTER DISPLAY
+;               VERSION         3C
+;
+;       NOV 15,1974
+;       R0=PTR TO BUFFER OF CHARS-FIRST WORD #OF BYTES
+;       R1=BIT TEST ROTATING MASK
+;       R2=CHARACTER INCERMENT-DETERMINES CHARACTER SIZE 
+;       R3=POINTER AT CHAR DOT DATA  
+;       R4=X POSITION OF FIRST CHAR 
+;       R5=Y POSITION OF FTRST CHAR
+;
+;  
+        R0=%0
+        R1=%1  
+        R2=%2 
+        R3=%3 
+        R4=%4 
+        R5=%5 
+        R6=%6 
+        R7=%7 
+        PC=R7 
+        SP=R6 
+        CTLP=20 
+        SPACE=40  
+        CR=15 
+        LF=12  
+        DUM=0 
+        .TITLE  CHAR
+        .GLOBL  CHAR,DAC0,DAC1,DAC2,CHRTAB
+        .CSECT
+CHAR:   MOV     (R0)+,-(SP)     ;GET CHAR COUNT 
+        MOV     INC,R2          ;SET CHARACTER SIZE  
+        MOV     #-2048.,@#DAC2  ;TURN DOT OF JUST IN CASE 
+CH05:   DEC     (SP)            ;IS THERE MORE CHARS? 
+        BGE     CH1             ;YES—GO DRAW THEM  
+        TST     (SP)+           ;NO—POP OLD CTR 
+        RTS     PC              ;ALL DONE!!!!!!!!!!!!!!!!!!!!!!!
+CH1:    MOVB    (R0)+,R3        ;GET CHAR 
+        MOV     R0,-(SP)        ;SAVE PTR  
+        CMPB    #CR,R3          ;IS IT A CARRIAGE RETURN? 
+        BEQ     CHCR            ;YES—GO CR 
+        CMPB    #LF,R3          ;NO-IS IT A LINE FEED?
+        BEQ     CHLF            ;YES-GO LF
+        CMPB    #SPACE,R3       ;NO-IS THIS A SPACE?
+        BEQ     CHSPC           ;YES-GO SPACE
+        BGT     CH15            ;NO-IF LESS THAN SPACE BAD CHAR
+        CMPB    #137,R3         ;IS IT GREAYER THAN 137? 
+        BGE     CH2             ;NO-GOOD CHAR!
+CH15:   MOV     #CHRTAB,R3      ;YES-BAD CHAR 
+        BR      CH23 
+CH2:    SUB     #37,R3          ;ZERO FOR FIRST CHAR IN TABLE 
+        MOV     R3,R1           ;SAVE VALE TEMP
+        ASL     R3              ;R3=R3*2 
+        ADD     R1,R3           ;R3=R3*3 
+        ASL     R3              ;R3=R3*6 (FOR 3 WORDS) 
+	ADD     #CHRTAB,R3      ;R3 PTS AT FIRST CHAR DATA BYTE
+
+CH23:   MOV     #200,R1         ;SET TEST BIT
+
+        MOV     R5,-(SP)        ;SAVE INITIAL Y POSITION 
+        MOV     R4,CH24+2       ;SAVE INITIAL X 
+
+        MOV     R3,CH25+2       ;SAYE INITIAL CHAR PTR 
+        COM     @#DAC2          ;TURN DOT ON INTO CHAR
+ 
+        BR      CH26            ;SKIP 
+CH24:   MOV     #DUM,R4         ;RESET PTR
+ 
+CH25:   MOV     #DUM,R3         ;RESET X
+
+CH26:   MOV     #6,R0           ;SET BYTE CTR
+
+CH3:    BITB    R1,(R3)+        ;IS THE BIT ON? 
+        BEQ     CH4             ;NO-DONT MOVE IN DACS 
+        MOV     R4,@#DAC0       ;MOVE X
+
+        MOV     R5,@#DAC1       ;MOVE Y
+
+CH4:    ADD     R2,R4           ;INCREMENT X  
+        DEC     R0              ;DONE ALL THE BYTES? 
+        BGT     CH3             ;NO-SO FINISH 
+        SUB     R2,R5           ;DECREMENT Y 
+        CLC
+        RORB    R1              ;MOVE TEST BIT DOWN ONE 
+        BNE     CH24            ;IF NOT ZERO DRAW NEXT ROW 
+        ADD     R2, R4          ;ZERO-SETUP FOR NEXT CHAR 
+        MOV    (SP)+,R5         ;REPLACE INITIAL Y  
+        COM    @#DAC2           ;TURN DOT OFF OUT OF CHAR 
+
+CH5:    MOV    (SP)+,R0         ;REPLACE PTR 
+        BR     CH05             ;GO TO IT AGAIN
+CHCR:   MOV    #-2048.,R4       ;RESET X TO FAR LEFT
+ 
+        BR     CH5              ;NEXT
+CHLF:   SUB    INC8,R5          ;MOVE DOWN ONE ROW 
+
+        BR     CH5              ;NEXT 
+CHSPC:  ADD    INC6,R4          ;MOVE RIGHT ONE CHAR SPACE
+        BR     CH5              ;GO ON
+INC:    .WORD  40               ;INC BETWEEN DOTS IN CHARS
+INC6:   .WORD  300              ;INC6=6*INC
+INC8:   .WORD  400              ;INC8=8*INC
+        .END 

@@ -1,0 +1,84 @@
+                ;******************************************************
+                ;
+                ;               SUBROUTINE RKT2
+                ;               VERSION         1C
+                ;               BILL SEILER
+                ;               AUG. 24,1974
+                ;       DRAWS ROCKET # TWO
+                ;       USES ALL REGISTERS AND THE STK
+         000000         R0=%0
+         000001         R1=%1
+         000002         R2=%2
+         000003         R3=%3
+         000004         R4=%4
+         000005         R5=%5
+         000006         R6=%6
+         000007         R7=%7
+         000006         SP=R6
+         000007         PC=R7
+                        .TITLE  RKT2
+                        .GLOBL  SLINE,RKT2,XDISP2,YDISP2,XSIZE2,YSIZE2
+         000000         .CSECT
+  000000 016702'RKT2:   MOV     XDISP2,R2       ;R2=XD2
+         000000
+  000004 016703'        MOV     YDISP2,R3       ;R3=YD2
+         000000
+  000010 016700'        MOV     XSIZE2,R0       ;R0=XS2
+         000000
+  000014 016701'        MOV     YSIZE2,R1       ;R1=YS2
+         000000
+  000020 010204         MOV     R2,R4           ;R4=XD2
+  000022 010305         MOV     R3,R5           ;R5=YD2
+                ;*********POINT A********
+  000024 060004         ADD     R0,R4           ;R4=XD2+XS2
+  000026 060105         ADD     R1,R5           ;R5=YD2+YS2
+                ;*********POINT B********
+  000030 160002         SUB     R0,R2           ;R2=XD2+XS2
+  000032 160103         SUB     R1,R3           ;R3=YD2-YS2
+  000034 006200         ASR     R0              ;R0=XS2/2
+  000036 006201         ASR     R1              ;R1=YS2/2
+                ;*********POINT E********
+  000040 010546         MOV     R5,-(SP)        ;YD2+YS2
+  000042 010446         MOV     R4,-(SP)        ;XD2+XS2
+                ;*********POINT D********
+  000044 010346         MOV     R3,-(SP)        ;YD2-YS2
+  000046 060016         ADD     R0,(SP)         ;YS2+XS/2-YS2
+  000050 010246         MOV     R2,-(SP)        ;XD2-XS2
+  000052 160116         SUB     R1,(SP)         ;XD2-YS/2-XS2
+                ;*********POINT C********
+  000054 010346         MOV     R3,-(SP)        ;YD2-YS2
+  000056 060116         ADD     R1,(SP)         ;YD2-YS2/2
+  000060 010246         MOV     R2,-(SP)        ;XD2-XS2
+  000062 060016         ADD     R0,(SP)         ;XD2-XS2/2
+                ;*********POINT F*******
+  000064 010346         MOV     R3,-(SP)        ;YD2-YS2
+  000066 160016         SUB     R0,(SP)         ;YD2-XS2/2-YS2
+  000070 010246         MOV     R2,-(SP)        ;XD2-XS2
+
+                        PAGE    001
+
+  000072 060116         ADD     R1,(SP)         ;XD2+YS/2-XS2
+                ;*********DRAW LINES*********
+  000074 004767'        JSR     PC,SLINE        ;DRAW LINE # 1
+         000000
+  000100 012604         MOV     (SP)+,R4
+  000102 012605         MOV     (SP)+,R5        ;GET POINT F
+  000104 004767'        JSR     PC,SLINE        ;DRAW LINE # 2
+         000000
+  000110 012604         MOV     (SP)+,R4
+  000112 012605         MOV     (SP)+,R5        ;GET POINT C
+  000114 004767'        JSR     PC,SLINE        ;DRAW LINE # 3
+         000000
+  000120 012604         MOV     (SP)+,R4
+  000122 012605         MOV     (SP)+,R5        ;GET POINT D
+  000124 004767'        JSR     PC,SLINE        ;DRAW LINE # 4
+         000000
+  000130 012604         MOV     (SP)+,R4
+  000132 012605         MOV     (SP)+,R5        ;GET POINT E
+  000134 004767'        JSR     PC,SLINE        ;DRAW LINE # 5
+         000000
+  000140 000207         RTS     PC              ;ALL DONE!!!!!!!!!!!!!!!!!!!
+         000001         .END
+
+                        PAGE    002
+

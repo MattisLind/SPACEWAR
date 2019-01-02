@@ -1,0 +1,205 @@
+;***********************************************************
+;
+;       SUBROUTINE PARM
+;
+;       VERSION         3A
+;       BILL SEILER
+;       SEPT 6,1974
+;
+;       ADJUSTS THE PARAMETERS OF SPCWAR
+;       R2=PTR AT RESET DATA
+;
+        R0=%0
+        R1=%1
+        R2=%2
+        R3=%3
+        R4=%4
+        R5=%5
+        R6=%6
+        R7=%7
+        SP=R6
+        PC=R7
+        KSLOT=0
+        TSLOT=1
+        RSLOT=3
+        PSLOT=4
+        RESET=2
+        RESTRT=3
+        INIT=1
+        WAITR=4
+        READ=11
+        WRITE=12
+        EOF=20000
+        CR=15
+        LF=12
+        .TITLE  PARM
+        .GLOBL  PARM,$ICI,SPCWAR,AMMO,WIN,TSPEED
+        .GLOBL  GRVFLG,ORBIT,CENTER,PTREP,RES01
+        .CSECT
+PARM:   IOT
+        0
+        .BYTE   RESET,0         ;INITIALIZATION
+        IOT
+        SPCWAR
+        .BYTE   RESTRT,0        ;CTRL P WILL ERSTART AT SPCWAR
+        MOV     #3,ANSWER+4     ;SET BUF COUNT ON ANSWER
+        IOT
+        QUES1                   ;TYPE TITLE
+        .BYTE   WRITE,TSLOT     ;AND ASK IF CHANGE TO SPCWAR
+        IOT
+        ANSWER
+        .BYTE   READ,KSLOT      ;READ REPLY
+PARM01: IOT
+        PARM01
+        .BYTE   WAITR,KSLOT     ;WAIT FOR REPLY
+        CMPB    #'Y,ANSWER+6    ;IS ANSWER YES?
+        BEQ     PARM12          ;YES-THEN GO MAKE CHANGES
+        RTS     PC              ;NO-GO START SPCWAR
+PARM12: CLR     GRVFLG          ;SET FOR NO GRAVITY
+        CLR     PTREP           ;SET FOR NO REAPPEAR TORPS
+        IOT                     ;IS THERE TO BE GRAVITY
+        QUES5
+        .BYTE   WRITE,TSLOT
+        IOT                     ;GET THE ANSWER
+        ANSWER
+        .BYTE   READ,KSLOT
+PARM14: IOT                     ;WAIT FOR THE ASNWER
+        PARM14
+        .BYTE   WAITR,KSLOT 
+        MOV     #CENTER,R0      ;GET RKT CENTER POSITION
+        MOV     R0,R1           ;GET -CENTER
+        NEG     R1
+        MOV     #ORBIT,R3       ;GET RKT ORBIT VELOCITY
+        MOV     R3,R4           ;GET -ORBIT
+        NEG     R4
+        MOV     #RES01,R2       ;SET UP RESET DATA PTR
+        CMPB    #'Y,ANSWER+6    ;WAS ANSWER YES?
+        BNE     PARM16          ;NO-THEN SKIP
+        MOV     #1,GRVFLG       ;YES-SET FLAG FOR GRAVITY
+        MOV     R0,(R2)+        ;SET ESET DATA FROM GRAV START
+        CLR     (R2)+
+        MOV     R1,(R2)+
+        CLR     (R2)+
+        CLR     (R2)+
+        MOV     R3,(R2)+
+        CLR     (R2)+
+        MOV     R4,(R2)
+        BR      PARM17          ;SKIP TO NEXT QUESTION
+PARM16: MOV     R0,(R2)+        ;SET UP RESET DATA FOR NOGRAV
+        MOV     R0,(R2)+
+        MOV     R1,(R2)+
+        MOV     R1,(R2)+
+        CLR     (R2)+
+        CLR     (R2)+
+        CLR     (R2)+
+        CLR     (R2)
+PARM17: IOT                     ;ARE THE TORPS TO REAPPEAR?
+        QUES6
+        .BYTE   WRITE,TSLOT
+        IOT                     ;GET THE ANSWER
+        ANSWER
+        .BYTE   READ,KSLOT
+PARM18: IOT                     ;WAIT FOR THE ANSWER
+        PARM18
+        .BYTE   WAITR,KSLOT
+        CMPB    #'Y,ANSWER+6    ;WAS THE ASNWER YES?
+        BNE     PARM02          ;NO-SO SKIP
+        MOV     #1,PTREP        ;YES-SET REAPPEARING TORP FLAG
+PARM02: IOT                     ;YES-THEN ASK # OF TORPEDOES
+        QUES2
+        .BYTE   WRITE,TSLOT 
+        MOV     #10.,ANSWER+4   ;SET INITIAL BYTE COUNT
+        IOT
+        ANSWER
+        .BYTE   READ,KSLOT      ;GET ANSWER
+PARM03: IOT
+        PARM03
+        .BYTE   WAITR,KSLOT     ;WAIT FOR THE ANSWER
+        MOV     #ANSWER+6,-(SP) ;PUSH FIELD START
+        MOV     ANSWER+4,-(SP)  ;PUSH FILED LENGTH + CR&LF
+        SUB     #2,(SP)         ;GET REAL LENGTH ON STK
+        JSR     PC,$ICI         ;CONVERT TO INTEGER
+        BCC     PARM35          ;SKIP IF GOOD VALUE
+        TST     (SP)+           ;POP BAD VALUE OFF STK
+        BR      PARM02          ;ASK AGAIN
+PARM35: MOV     (SP)+,AMMO      ;SET UP AMMO
+PARM04: IOT
+        QUES3                   ;ASK FOR NUMBER OF HITS
+        .BYTE   WRITE,TSLOT
+        IOT
+        ANSWER
+        .BYTE   READ,KSLOT      ;GET ANSWER
+PARM05: IOT
+        PARM05
+        .BYTE   WAITR,KSLOT     ;WAIT FOR THE ANSWER
+        MOV     #ANSWER+6,-(SP) ;START
+        MOV     ANSWER+4,-(SP)  ;LENGTH + CR&LF
+        SUB     #2,(SP)         ;GET REAL LENGTH
+        JSR     PC,$ICI         ;CONVERT TO INTEGER
+        BCC     PARM55          ;SKIP IF GOOD VALUE
+        TST     (SP)+           ;POP BAD VALUE OFF STK
+        BR      PARM04          ;ASK AGAIN
+PARM55: MOV     (SP)+,WIN       ;SET UP WIN
+PARM06: IOT
+        QUES4
+        .BYTE   WRITE,TSLOT     ;ASK FOR TORPEDO SPEED
+        IOT
+        ANSWER
+        .BYTE   READ,KSLOT      ;GET ANSWER
+PARM07: IOT
+        PARM07
+        .BYTE   WAITR,KSLOT     ;WAIT FOR THE ANSWER
+        MOV     #ANSWER+6,-(SP) ;START FIELD
+        MOV     ANSWER+4,-(SP)  ;LANGTH + CR&LF
+        SUB     #2,(SP)         ;GET REAL LENGTH
+        JSR     PC,$ICI         ;CONVERT TO INTEGER
+        BCC     PARM75          ;SKIP IF GOOD VALUE
+        TST     (SP)+           ;POP BAD VALUE OFF STJ
+        BR      PARM06          ;ASK AGAIN
+PARM75: MOV     (SP)+,TSPEED    ;SET TORPEDO SPEED
+        RTS     PC              ;START SPCWAR!!!!!!!!!!!!!!!!!!!
+QUES1:  0
+        0
+Q1BC:   Q1END-Q1BC-2
+        .BYTE   CR,LF
+        .ASCII  /SPACE WAR/
+        .BYTE   CR,LF
+        .ASCII  /ANY CHANGES? (YES-NO)/
+        .BYTE   CR,LF
+Q1END:  .EVEN
+QUES2:  0
+        0
+Q2BC:   Q2END-Q2BC-2
+        .ASCII  /INPUT # OF TORPEDOS RKTS WILL HAVE. STD=64/
+        .BYTE   CR,LF
+Q2END:  .EVEN
+QUES3:  0
+        0
+Q3BC:   Q3END-Q3BC-2
+        .ASCII  /INPUT # OF HITS TO DESTROY A RKT  STD=32/
+        .BYTE   CR,LF
+Q3END:  .EVEN
+QUES4:  0
+        0
+Q4BC:   Q4END-Q4BC-2
+        .ASCII  /INPUT SPEED OF TORPEDOES. STD=16000/
+        .BYTE   CR,LF
+Q4END:  .EVEN
+QUES5:  0
+        0
+Q5BC:   Q5END-Q5BC-2
+        .ASCII  /WANT A SUN WITH GRAVITY? (YES-NO)/
+        .BYTE   CR,LF
+Q5END:  .EVEN
+QUES6:  0
+        0
+Q6BC:   Q6END-Q6BC-2
+        .ASCII  /WANT REAPPEARING PHOTON TORPEDSOES? (YES-NO)/
+        .BYTE   CR,LF
+Q6END:  .EVEN
+ANSWER: 12.                        ;BUFFER SIZE
+        0                          ;FORMATTED ASCII
+        0
+        .=.+12.
+        .EVEN
+        .END

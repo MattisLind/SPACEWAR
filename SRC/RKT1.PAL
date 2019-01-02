@@ -1,0 +1,67 @@
+;*********************************************************
+;
+;               SUBROUTINE     RKT1
+;
+;               VERSION        1D
+;
+;               BILL SEILER
+;               AUG 20,1974
+;       DRAWS ROCKET # 1
+;       ALL REGISTERS ARE USED
+;       USES THE STK
+        R0=%0
+        R1=%1
+        R2=%2
+        R3=%3
+        R4=%4
+        R5=%5
+        R6=%6
+        R7=%7
+        SP=R6
+        PC=R7
+        .TITLE  RKT1
+        .GLOBL  RKT1,SLINE,XDISP1,YDISP1,XSIZE1,YSIZE1
+        .CSECT
+RKT1:   MOV     XDISP1,R4               ;R4=XDISP1
+        MOV     YDISP1,R5               ;R5=YDISP1
+        MOV     XSIZE1,R2               ;R2=XSIZE1
+        MOV     YSIZE1,R3               ;R3=YSIZE
+        MOV     R2,R0                   ;
+        ASR     R0                      ;R0=XS1/2
+        MOV     R3,R1                   ;
+        ASR     R1                      ;R1=YS1/2
+        MOV     R1,-(SP)                ;YS1/2
+        SUB     R0,(SP)                 ;YS1/2-XS1/2
+        MOV     R1,-(SP)                ;YS1/2
+        ADD     R0,(SP)                 ;YS1/2+XS1/2
+        ADD     R4,R2                   ;YD1+XS1 PTA
+        ADD     R5,R3                   ;YD1+YS1 PTA
+        SUB     R0,R4                   ;XD1-XS1/2 PTB
+        SUB     R1,R5                   ;YD1-YS1/2 PTB
+        JSR     PC,SLINE                ;DRAW LINE #1
+        MOV     R2,R4                   ;X FINAL = X OF PTB
+        MOV     R3,R5                   ;Y FINAL = Y OF PTB
+        SUB     (SP),R2                 ;X OF PTC FROM PTB
+        SUB     2(SP),R3                ;Y OF PTC FROM PTB
+        SUB     2(SP),R4                ;X OF PTD FROM PTB
+        ADD     (SP),R5                 ;Y OF PTD FROM PTB
+        JSR     PC,SLINE                ;DRAW LINE #2
+        MOV     R2,R4                   ;X FINAL = X OF PTD
+        MOV     R3,R5                   ;Y FINAL = Y OF PTD
+        ADD     (SP),R4                 ;X OF PTE FROM PTD
+        ADD     2(SP),R5                ;Y OF PTE FROM PTD
+        JSR     PC,SLINE                ;DRAW LINE #3
+        MOV     R2,R4                   ;X FINAL = X OF PTE
+        MOV     R3,R5                   ;Y FINAL = Y OF PTE
+        ADD     2(SP),R4                ;X OF PTF FROM PTE
+        SUB     (SP),R5                 ;Y OF PTF FROM PTE
+        JSR     PC,SLINE                ;DRAW LINE #4
+        MOV     R2,R4                   ;X FINAL = X OF PTF
+        MOV     R3,R5                   ;Y FINAL = Y OF PTF
+        SUB     (SP),R4                 ;XD1-XS1/2
+        ADD     2(SP),R4                ;XD1+YS1/2-XS1
+        SUB     (SP)+,R5                ;YD1-YS1/2
+        SUB     (SP)+,R5                ;YD1-XS1/2-YS1
+        JSR     PC,SLINE                ;DRAW LINE #5
+        RTS     PC                      ;------ALL DONE !!!-----
+        .END  
