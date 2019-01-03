@@ -1,0 +1,9 @@
+;******************************************************
+;
+;               CONDITIONAL SWITCHES 
+;               FOR FPMP-11 PACKAGE
+;               WHEN USED WITH SPACE WAR
+;
+       CND$24=1
+       CND$25=1
+       .EOT
