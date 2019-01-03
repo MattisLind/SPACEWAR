@@ -110,7 +110,7 @@ PAL-11S  V003A
 
 ## Linking
 
-Linking involves running the LINK11-S similar to how to run the assembler. After feeding all source modules unfortunatley I get two undefined symbols.
+Linking involves running the LINK11-S which is similar to how to run the assembler. The first try to run the liker was not succesful After feeding all source modules unfortunatley I get two undefined symbols.
 ```
 sim> c
 
@@ -122,5 +122,209 @@ $ICO
 * 
 ```
 
-These two subroutines are from the FPMP-11 package but unfortunatley right now I don't know how to get them into the linked program. Just giving the FPMP-11 package object file as input to the linker does not seem to solev the problem.
+These two subroutines are from the FPMP-11 package. Just adding one of the two pre made FPMP-11 object files does not resolve the two undefined symbols.
 [FPMP-11 documentation.](http://bitsavers.informatik.uni-stuttgart.de/www.computer.museum.uq.edu.au/pdf/DEC-11-NFPMA-C-D%20FPMP-11%20User's%20Manual.pdf)
+
+Reading the manual a bit more revealed that the reason is that the two premade object files just contain a subset of the FPMP-11 package, not the $ICI and $ICO modules! To get those into the build one has to add a special file with defines for two variables used by the conditional build of the FPMP-11 packaged. By feeding this file
+```
+;******************************************************
+;
+;               CONDITIONAL SWITCHES 
+;               FOR FPMP-11 PACKAGE
+;               WHEN USED WITH SPACE WAR
+;
+       CND$24=1
+       CND$25=1
+       .EOT
+```
+before the six FPMP-11 source files I had a tailor made object paper tape with just the $ICI and $ICO symbols defined! 
+ 
+This new object tape was then fed first into the linker, followed by all the 19 object paper tapes of SPACE WAR ending with the module POINT which has to be the last module. And indeed the link completeted without any unresolved symbols this time.
+This was the resulting MODULE MAP from LINK11-S:
+```
+* U
+
+* E
+
+LOAD MAP
+
+TRANSFER ADDRESS: 000001
+LOW LIMIT: 025562
+HIGH LIMIT: 037460
+**********
+MODULE  FPMP11
+SECTION ENTRY   ADDRESS SIZE
+<. ABS.>        000000  000000
+<      >        025562  000640
+        $ERR    026364
+        $ERRA   026374
+        $ERVEC  026414
+        $ICI    025570
+        $ICO    026074
+        $OCI    025562
+        $OCO    026066
+        $POLSH  026360
+        $V20A   026360
+**********
+MODULE  CHAR  
+SECTION ENTRY   ADDRESS SIZE
+<      >        026422  000246
+        CHAR    026422
+**********
+MODULE  CHRTAB
+SECTION ENTRY   ADDRESS SIZE
+<      >        026670  000606
+        CHRTAB  026670
+**********
+MODULE  COMPAR
+SECTION ENTRY   ADDRESS SIZE
+<      >        027476  000444
+        COMPAR  027476
+**********
+MODULE  EXPLOD
+SECTION ENTRY   ADDRESS SIZE
+<      >        030142  000330
+        EXPLOD  030142
+        EXPREP  030260
+        EXPX    030266
+        EXPY    030270
+**********
+MODULE  GRAVTY
+SECTION ENTRY   ADDRESS SIZE
+<      >        030472  000450
+        GRAVTY  030472
+**********
+MODULE  MULPLY
+SECTION ENTRY   ADDRESS SIZE
+<      >        031142  000304
+        MULPLY  031142
+**********
+MODULE  PARM  
+SECTION ENTRY   ADDRESS SIZE
+<      >        031446  001214
+        PARM    031446
+**********
+MODULE  PWRUP 
+SECTION ENTRY   ADDRESS SIZE
+<      >        032662  000106
+**********
+MODULE  RESET 
+SECTION ENTRY   ADDRESS SIZE
+<      >        032770  000206
+        CENTER  040000
+        ORBIT   000400
+        RESET   032770
+        RES01   033156
+**********
+MODULE  RKT1  
+SECTION ENTRY   ADDRESS SIZE
+<      >        033176  000160
+        RKT1    033176
+**********
+MODULE  RKT2  
+SECTION ENTRY   ADDRESS SIZE
+<      >        033356  000142
+        RKT2    033356
+**********
+MODULE  SCORE 
+SECTION ENTRY   ADDRESS SIZE
+<      >        033520  000266
+        SCORE   033520
+**********
+MODULE  SINCOS
+SECTION ENTRY   ADDRESS SIZE
+<      >        034006  000462
+        SINCOS  034006
+**********
+MODULE  SLINE 
+SECTION ENTRY   ADDRESS SIZE
+<      >        034470  000114
+        SLINE   034470
+**********
+MODULE  SPCWAR
+SECTION ENTRY   ADDRESS SIZE
+<      >        034604  000232
+        ADBR    176772
+        ADCS    176770
+        AMMO    035022
+        ANGH1   034760
+        ANGH2   035006
+        ANGL1   034756
+        ANGL2   035004
+        ANGMID  000702
+        DAC0    176750
+        DAC1    176752
+        DAC2    176754
+        FIRE    001440
+        FLAG1   034736
+        FLAG2   034764
+        GAME1   035026
+        GAME2   035030
+        GRVFLG  035032
+        HIT1    035010
+        HIT2    035012
+        MASK    002100
+        PTREP   035034
+        RKTSIZ  007000
+        SHOTS1  035014
+        SHOTS2  035016
+        SPCRST  034624
+        SPCWAR  034604
+        SUNSZ   004000
+        TSPEED  035024
+        WIN     035020
+        XDISP1  034754
+        XDISP2  035002
+        XSIZE1  034746
+        XSIZE2  034774
+        XVELH1  034752
+        XVELH2  035000
+        XVELL1  034750
+        XVELL2  034776
+        YDISP1  034744
+        YDISP2  034772
+        YSIZE1  034734
+        YSIZE2  034762
+        YVELH1  034742
+        YVELH2  034770
+        YVELL1  034740
+        YVELL2  034766
+**********
+MODULE  SUN   
+SECTION ENTRY   ADDRESS SIZE
+<      >        035036  000304
+        SUN     035036
+**********
+MODULE  UPDAT1
+SECTION ENTRY   ADDRESS SIZE
+<      >        035342  000356
+        UPDAT1  035342
+**********
+MODULE  UPDAT2
+SECTION ENTRY   ADDRESS SIZE
+<      >        035720  000356
+        UPDAT2  035720
+**********
+MODULE  POINT 
+SECTION ENTRY   ADDRESS SIZE
+<      >        036276  001162
+        POINT   036276
+        PTNUM   036456
+
+PASS 2
+
+* 
+```
+And it also resulted a 7323 byte file in Absolute Binary format!
+
+## Running SPACE WAR
+
+The SPACE WAR program make use of the IOX-11 package for teletype IO, which means that this has to be loaded before the SPACE WAR program. Since the IOX package make use of the IOT instruction for all operations there is no linking needed. But the address of the IOX package has to not collide with the SPACE WAR program itself address space wise. So what is the address of the IOX-11 package? 
+
+```
+sim> go 034604
+
+SPACE WAR
+ANY CHANGES? (YES-NO)
+```
+
