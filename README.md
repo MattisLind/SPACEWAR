@@ -341,4 +341,84 @@ INPUT SPEED OF TORPEDOES. STD=16000
 HALT instruction, PC: 000042 (BIC R4,SP)
 sim>
 ```
+So why is it halting? There is a Non existing memory (NXM) handler installed by the IOX-11 package.
+```
+sim> e 0-200
+0:	000000
+2:	000000
+4:	015604
+6:	000340
+10:	000000
+12:	000000
+14:	000000
+16:	000000
+20:	015256
+22:	000340
+24:	032662
+26:	000340
+30:	000000
+32:	000000
+34:	000000
+36:	000000
+40:	000000
+42:	040406
+44:	000000
+46:	000000
+50:	000000
+52:	000000
+54:	000000
+56:	000000
+60:	016040
+62:	000200
+64:	016672
+66:	000200
+70:	016132
+72:	000200
+74:	017056
+76:	000200
+```
+Location 4 is the NXM trap handler and the handler is located at address 15604. Then there are handlers for the paper taper reader, the tty keybaord and printer etc. 
 
+A breakpoint in SimH at that address show that the SP is pointing to 
+```
+sim> break 15604
+sim> go 034604
+
+SPACE WAR
+ANY CHANGES? (YES-NO)
+Y
+.
+.
+.
+Breakpoint, PC: 015604 (JSR R0,15220)
+sim> e sp
+SP:	034564
+```
+Now checking the stack at this SP value:
+```
+sim> e 34600
+34600:	034632
+```
+So the Stack contain the PC of the next instruction after the one causing the NXM trap. 
+```
+e -m 34624-34700
+34624:	MOV #401,176770
+34632:	MOV 35020,35010
+34640:	MOV 35020,35012
+34646:	MOV 35022,35014
+34654:	MOV 35022,35016
+34662:	CLR 36456
+34666:	JSR PC,32770
+34672:	MOV #34734,R2
+34676:	JSR PC,35342
+```
+So the offending instruction is the one at 34624 which is trying to reference the ADCS register at address 176770. And since this device is not implemented in SimH this address will not respond and thus the NXM trap!
+
+The code at 15604 will subsequently make a JMP to address 40 where the HALT instruction is executed. Thus stopping the processor.
+```
+15600:	JMP 40
+15604:	JSR R0,15220
+15610:	CLR R0
+15612:	MOV 14(SP),R1
+15616:	BR 15600
+```
