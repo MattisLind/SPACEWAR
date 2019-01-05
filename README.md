@@ -1,6 +1,6 @@
 # SPACEWAR
 
-The original Spacewar! game was written for the PDP-1 minicomputer and there were several ports to other architectures.
+The original [Spacewar!](https://en.wikipedia.org/wiki/Spacewar!) game was written for the PDP-1 minicomputer and there were several ports to other architectures.
 
 This port to the PDP-11 architecture were done by Bill Seiler & Larry Bryant in 1974. It was then submitted to DECUS as 11-192
 
