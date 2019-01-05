@@ -35,6 +35,7 @@ ATTACH PTR DEC-11-L2PC-PO.ptap
 ECHO ... Execute Bootstrap Loader (to load Absolute Loader from paper tape)
 GO 037744
 ATTACH PTR dec-uplsa-a-pl.bin
+D SP 037500
 GO 037500
 
 PAL-11S  V003A
