@@ -392,7 +392,7 @@ Y
 .
 Breakpoint, PC: 015604 (JSR R0,15220)
 sim> e sp
-SP:	034564
+SP:	034600
 ```
 Now checking the stack at this SP value:
 ```
