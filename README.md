@@ -542,7 +542,7 @@ The code at 15604 will subsequently make a JMP to address 40 where the HALT inst
 
 ## Adaptations to the AR11
 
-Since I don't have any [AD01](ftp://ftp.mrynet.com/os/DEC/vt100.net/mirror/hcps/AD01_manual.pdf) neither any [AA11](ftp://ftp.mrynet.com/os/DEC/vt100.net/mirror/hcps/AA11-D_manual.pdf) subsystem for my PDP-11 and the objective is to have the program running on as like hardware as possible I have to modify it to the hardware I do have, which is the AR11. One obvious benefit of the AR11 is that it is asingle HEX module compared with the AD01 and AA11 which are bulky rack-mount system units as big as the computer it self (PDP-11/10).
+Since I don't have any [AD01](http://manx-docs.org/collections/hcps/AD01_manual.pdf) neither any [AA11](http://manx-docs.org/collections/hcps/AA11-D_manual.pdf) subsystem for my PDP-11 and the objective is to have the program running on as like hardware as possible I have to modify it to the hardware I do have, which is the AR11. One obvious benefit of the AR11 is that it is asingle HEX module compared with the AD01 and AA11 which are bulky rack-mount system units as big as the computer it self (PDP-11/10).
 
 One disadvantage is that the [AR11](http://bitsavers.trailing-edge.com/pdf/dec/unibus/AR11_UsersMan.pdf) is 10 bit only, meaning that som small changes has to be done to handle 12 vs 10 bits.
 
