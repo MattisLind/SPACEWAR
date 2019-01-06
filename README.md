@@ -542,9 +542,9 @@ The code at 15604 will subsequently make a JMP to address 40 where the HALT inst
 
 ## Adaptations to the AR11
 
-Since I don't have any AD01 neither any AA11 subsystem for my PDP-11 and the objective is to have the program running on as like hardware as possible I have to modify it to the hardware I do have, which is the AR11. One obvious benefit of the AR11 is that it is asingle HEX module compared with the AD01 and AA11 which are bulky rack-mount system units as big as the computer it self (PDP-11/10).
+Since I don't have any [AD01](ftp://ftp.mrynet.com/os/DEC/vt100.net/mirror/hcps/AD01_manual.pdf) neither any [AA11](ftp://ftp.mrynet.com/os/DEC/vt100.net/mirror/hcps/AA11-D_manual.pdf) subsystem for my PDP-11 and the objective is to have the program running on as like hardware as possible I have to modify it to the hardware I do have, which is the AR11. One obvious benefit of the AR11 is that it is asingle HEX module compared with the AD01 and AA11 which are bulky rack-mount system units as big as the computer it self (PDP-11/10).
 
-One disadvantage is that the AR11 is 10 bit only, meaning that som small changes has to be done to handle 12 vs 10 bits.
+One disadvantage is that the [AR11](http://bitsavers.trailing-edge.com/pdf/dec/unibus/AR11_UsersMan.pdf) is 10 bit only, meaning that som small changes has to be done to handle 12 vs 10 bits.
 
 One obvious difference is that the AR11 make use of completely different IO address. The definitions of the DAC0, DAC1, DAC2, ADCS and ADBR has to change. The use of DAC2 is a little bit peculiar. The DAC2 is used for the Z-axis of the X-Y-scope. and the only bit that is used is the MSB which is chnaged from off to on and the off to signify a dot. The AR11 doesn't have a third DAC at all. Instead it have one single bit called Intensify in the control status register. It makes sense to use this bit instead.
 
