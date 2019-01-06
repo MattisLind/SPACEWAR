@@ -15,28 +15,47 @@ It is possible to assemble the files located in the SRC folder using PAL11-S ass
 
 First toggle in the bootstrap loader
 ```
-DEPOSIT 037744 016701
-DEPOSIT 037746 000026
-DEPOSIT 037750 012702
-DEPOSIT 037752 000352
-DEPOSIT 037754 005211
-DEPOSIT 037756 105711
-DEPOSIT 037760 100376
-DEPOSIT 037762 116162
-DEPOSIT 037764 000002
-DEPOSIT 037766 037400
-DEPOSIT 037770 005267
-DEPOSIT 037772 177756
-DEPOSIT 037774 000765
-DEPOSIT 037776 177550
-;  Attach the Absolute Loader paper tape
-ATTACH PTR DEC-11-L2PC-PO.ptap
+sim> SET CPU 11/05
+Disabling XQ
+sim> SET CPU 16K
+sim> 
+sim> 
+sim> ; Disable devices that we don't need
+sim> SET HK DISABLE
+sim> SET DZ DISABLE
+sim> SET RL DISABLE
+sim> SET RX DISABLE
+sim> SET RP DISABLE
+sim> SET RQ DISABLE
+sim> SET TM DISABLE
+sim> SET TQ DISABLE
+sim> SET RK DISABLE
+sim> 
+sim> ; Enable the high-speed paper tape reader/punch
+sim> SET PTR ENABLE
+sim> SET PTP ENABLE
+sim> DEPOSIT 037744 016701
+sim> DEPOSIT 037746 000026
+sim> DEPOSIT 037750 012702
+sim> DEPOSIT 037752 000352
+sim> DEPOSIT 037754 005211
+sim> DEPOSIT 037756 105711
+sim> DEPOSIT 037760 100376
+sim> DEPOSIT 037762 116162
+sim> DEPOSIT 037764 000002
+sim> DEPOSIT 037766 037400
+sim> DEPOSIT 037770 005267
+sim> DEPOSIT 037772 177756
+sim> DEPOSIT 037774 000765
+sim> DEPOSIT 037776 177550
+sim> ATTACH PTR TOOLS/DEC-11-L2PC-PO.ptap 
+sim> GO 037744
 
-ECHO ... Execute Bootstrap Loader (to load Absolute Loader from paper tape)
-GO 037744
-ATTACH PTR dec-uplsa-a-pl.bin
-D SP 037500
-GO 037500
+HALT instruction, PC: 037500 (MOV PC,SP)
+sim> D SR 37500 
+sim> ATTACH PTR TOOLS/dec-uplsa-a-pl.bin 
+PTR: unit is read only
+sim> GO 037500
 
 PAL-11S  V003A
 
@@ -111,7 +130,57 @@ PAL-11S  V003A
 
 ## Linking
 
-Linking involves running the LINK11-S which is similar to how to run the assembler. The first try to run the liker was not succesful After feeding all source modules unfortunatley I get two undefined symbols.
+Linking involves running the LINK11-S which is similar to how to run the assembler.
+```
+sim> SET CPU 11/05
+Disabling XQ
+sim> SET CPU 16K
+sim>  
+sim> ; Disable devices that we don't need
+sim> SET HK DISABLE
+sim> SET DZ DISABLE
+sim> SET RL DISABLE
+sim> SET RX DISABLE
+sim> SET RP DISABLE
+sim> SET RQ DISABLE
+sim> SET TM DISABLE
+sim> SET TQ DISABLE
+sim> SET RK DISABLE
+sim> 
+sim> ; Enable the high-speed paper tape reader/punch
+sim> SET PTR ENABLE
+sim> SET PTP ENABLE
+sim> DEPOSIT 037744 016701
+sim> DEPOSIT 037746 000026
+sim> DEPOSIT 037750 012702
+sim> DEPOSIT 037752 000352
+sim> DEPOSIT 037754 005211
+sim> DEPOSIT 037756 105711
+sim> DEPOSIT 037760 100376
+sim> DEPOSIT 037762 116162
+sim> DEPOSIT 037764 000002
+sim> DEPOSIT 037766 037400
+sim> DEPOSIT 037770 005267
+sim> DEPOSIT 037772 177756
+sim> DEPOSIT 037774 000765
+sim> DEPOSIT 037776 177550
+sim> ATTACH PTR TOOLS/DEC-11-L2PC-PO.ptap 
+sim> GO 037744
+
+HALT instruction, PC: 037500 (MOV PC,SP)
+sim> ATTACH PTR TOOLS/dec-11-ulksa-a-pl.bin 
+PTR: unit is read only
+sim> D SR 0
+sim> GO 037500
+
+LINK-11S V002A
+*I 
+```
+To the linker you specify the I(input) and O(utput) deivce. H(igh-speed) reader or L(ow-speed). (load) M(ap) is either not generated at all if pressing RETURN or by pressing H(igh speed punch) or T(teletype), or L(ine Printer). The there are two questions how the relocation should be done. Press RETURN for top of memory. 
+
+After this each file is fed into the linker by attaching it to the reader and pressing RETURN at the * prompt. When all object files has been presented to the first pass of the linker you can press U a the * prompt to show the remaining undefined symbols. When all is done press E and the linker will print the load map and then start the seconds pass, requesting the same object files in the same order.
+
+The first try to run the liker was not succesful After feeding all source modules unfortunatley I got two undefined symbols.
 ```
 sim> c
 
@@ -316,7 +385,7 @@ PASS 2
 
 * 
 ```
-And it also resulted a 7323 byte file in Absolute Binary format!
+And it also resulted a 7323 byte file in Absolute Binary format! From the load map one can deduce the starting address of the binary. 034604 in this case.
 
 ## Running SPACE WAR
 
