@@ -540,7 +540,7 @@ The code at 15604 will subsequently make a JMP to address 40 where the HALT inst
 15616:	BR 15600
 ```
 
-## Adaptatins to the AR11
+## Adaptations to the AR11
 
 Since I don't have any AD01 neither any AA11 subsystem for my PDP-11 and the objective is to have the program running on as like hardware as possible I have to modify it to the hardware I do have, which is the AR11. One obvious benefit of the AR11 is that it is asingle HEX module compared with the AD01 and AA11 which are bulky rack-mount system units as big as the computer it self (PDP-11/10).
 
