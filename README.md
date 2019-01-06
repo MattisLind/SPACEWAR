@@ -6,8 +6,8 @@ This port to the PDP-11 architecture were done by Bill Seiler & Larry Bryant in 
 
 ![DECUS entry](https://i.imgur.com/rjaWX4X.png)
 
-The sources were provided to me as scanned documents. With some help the original PDFs were tidied up to help the OCR process. Then I partly OCRed and manually transcribed all files into text files.
-The files were then fed into the PAL11-S assembler running on SimH and all errors found were corrected.
+Ufortunatley DECUS throwed away all the sources many years ago. By luck I got in contact with Bill Seiler and he sent me the source files. The sources were provided to me as scanned documents. With some help the original PDFs were tidied up to help the OCR process. Then I partly OCRed and manually transcribed all files into text files.
+The files were then then fed into the PAL11-S assembler and numerous errors were detected already when trying to get the files passed the syntax check. Then the output listing files was compared side by side with the original scanned files. Byte for byte were checked and yet more problems were found. Finally during linking a number of issues with global symbols were found. In the end the program assembled and linked correctly.
 
 ## Assembling
 
@@ -539,3 +539,12 @@ The code at 15604 will subsequently make a JMP to address 40 where the HALT inst
 15612:	MOV 14(SP),R1
 15616:	BR 15600
 ```
+
+## Adaptatins to the AR11
+
+Since I don't have any AD01 neither any AA11 subsystem for my PDP-11 and the objective is to have the program running on as like hardware as possible I have to modify it to the hardware I do have, which is the AR11. One obvious benefit of the AR11 is that it is asingle HEX module compared with the AD01 and AA11 which are bulky rack-mount system units as big as the computer it self (PDP-11/10).
+
+One disadvantage is that the AR11 is 10 bit only, meaning that som small changes has to be done to handle 12 vs 10 bits.
+
+One obvious difference is that the AR11 make use of completely different IO address. The definitions of the DAC0, DAC1, DAC2, ADCS and ADBR has to change. The use of DAC2 is a little bit peculiar. The DAC2 is used for the Z-axis of the X-Y-scope. and the only bit that is used is the MSB which is chnaged from off to on and the off to signify a dot. The AR11 doesn't have a third DAC at all. Instead it have one single bit called Intensify in the control status register. It makes sense to use this bit instead.
+
