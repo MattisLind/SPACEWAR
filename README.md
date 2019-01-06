@@ -389,10 +389,57 @@ And it also resulted a 7323 byte file in Absolute Binary format! From the load m
 
 ## Running SPACE WAR
 
-The SPACE WAR program make use of the IOX-11 package for teletype IO, which means that this has to be loaded before the SPACE WAR program. Since the IOX package make use of the IOT instruction for all operations there is no linking needed. But the address of the IOX package has to not collide with the SPACE WAR program itself address space wise. So what is the address of the IOX-11 package? 
+The SPACE WAR program make use of the IOX-11 package for teletype IO, which means that this has to be loaded before the SPACE WAR program. Since the IOX package make use of the IOT instruction for all operations there is no linking needed. But the address of the IOX package has to not collide with the SPACE WAR program itself address space wise. It appears that the IOX-11 pacakge is fixed at 015100. There are no instruction on how to assemble the package and a try in PAL-11S results in 245 errors. The IOX-11 package is an absolute binary and is loaded by the abolute loader as mots other programs.
+
+
 
 ```
-sim> go 034604
+sim> SET CPU 11/05
+Disabling XQ
+sim> SET CPU 16K
+sim> 
+sim> ; Disable devices that we don't need
+sim> SET HK DISABLE
+sim> SET DZ DISABLE
+sim> SET RL DISABLE
+sim> SET RX DISABLE
+sim> SET RP DISABLE
+sim> SET RQ DISABLE
+sim> SET TM DISABLE
+sim> SET TQ DISABLE
+sim> SET RK DISABLE
+sim> 
+sim> ; Enable the high-speed paper tape reader/punch
+sim> SET PTR ENABLE
+sim> SET PTP ENABLE
+sim> DEPOSIT 037744 016701
+sim> DEPOSIT 037746 000026
+sim> DEPOSIT 037750 012702
+sim> DEPOSIT 037752 000352
+sim> DEPOSIT 037754 005211
+sim> DEPOSIT 037756 105711
+sim> DEPOSIT 037760 100376
+sim> DEPOSIT 037762 116162
+sim> DEPOSIT 037764 000002
+sim> DEPOSIT 037766 037400
+sim> DEPOSIT 037770 005267
+sim> DEPOSIT 037772 177756
+sim> DEPOSIT 037774 000765
+sim> DEPOSIT 037776 177550
+sim> ATTACH PTR TOOLS/DEC-11-L2PC-PO.ptap 
+sim> GO 037744
+
+HALT instruction, PC: 037500 (MOV PC,SP)
+sim> d sr 0
+sim> ATTACH PTR IOX-11/dec-11-xioxa-a-pb.bin 
+sim> GO 037500
+
+HALT instruction, PC: 037712 (BR 37514)
+sim> ATTACH PTR SPACEWAR.ABS 
+sim> GO 037500
+
+HALT instruction, PC: 037712 (BR 37514)
+sim> GO 034604
 
 SPACE WAR
 ANY CHANGES? (YES-NO)
