@@ -6,8 +6,8 @@ This port to the PDP-11 architecture were done by Bill Seiler & Larry Bryant in 
 
 ![DECUS entry](https://i.imgur.com/rjaWX4X.png)
 
-Ufortunatley DECUS thred away all the sources many years ago. By luck I got in contact with Bill Seiler and he sent me the source files. The sources were provided to me as scanned documents. With some help the original PDFs were tidied up to help the OCR process. Then I partly OCRed and manually transcribed all files into text files.
-The files were then then fed into the PAL11-S assembler and numerous errors were detected already when trying to get the files passed the syntax check. Then the output listing files was compared side by side with the original scanned files. Byte for byte were checked and yet more problems were found. Finally during linking a number of issues with global symbols were found. In the end the program assembled and linked correctly.
+Ufortunatley DECUS threw away all the sources many years ago. By luck I got in contact with Bill Seiler and he sent me the source files. The sources were provided to me as scanned documents. With some help the original PDFs were tidied up to help the OCR process. Then I partly OCRed and manually transcribed all files into text files.
+The files were then then fed into the PAL11-S assembler and numerous errors were detected already when trying to get the files pass the syntax check. Then the output listing files was compared side by side with the original scanned files. Byte for byte were checked and yet more problems were found. Finally during linking a number of issues with global symbols were found. In the end the program assembled and linked correctly.
 
 ## Assembling
 
@@ -180,7 +180,7 @@ To the linker you specify the I(input) and O(utput) deivce. H(igh-speed) reader 
 
 After this each file is fed into the linker by attaching it to the reader and pressing RETURN at the * prompt. When all object files has been presented to the first pass of the linker you can press U a the * prompt to show the remaining undefined symbols. When all is done press E and the linker will print the load map and then start the seconds pass, requesting the same object files in the same order.
 
-The first try to run the liker was not succesful After feeding all source modules unfortunatley I got two undefined symbols.
+The first try to run the linker was not succesful. After feeding all source modules unfortunatley I got two undefined symbols.
 ```
 sim> c
 
@@ -192,7 +192,7 @@ $ICO
 * 
 ```
 
-These two subroutines are from the FPMP-11 package. Just adding one of the two pre made FPMP-11 object files does not resolve the two undefined symbols.
+These two subroutines are from the FPMP-11 package. Just adding one of the two pre-made FPMP-11 object files does not resolve the two undefined symbols.
 [FPMP-11 documentation.](http://bitsavers.informatik.uni-stuttgart.de/www.computer.museum.uq.edu.au/pdf/DEC-11-NFPMA-C-D%20FPMP-11%20User's%20Manual.pdf)
 
 Reading the manual a bit more revealed that the reason is that the two premade object files just contain a subset of the FPMP-11 package, not the $ICI and $ICO modules! To get those into the build one has to add a special file with defines for two variables used by the conditional build of the FPMP-11 packaged. By feeding this file
@@ -546,7 +546,7 @@ Since I don't have any [AD01](http://manx-docs.org/collections/hcps/AD01_manual.
 
 One disadvantage is that the [AR11](http://bitsavers.trailing-edge.com/pdf/dec/unibus/AR11_UsersMan.pdf) is 10 bit only, meaning that som small changes has to be done to handle 12 vs 10 bits.
 
-One obvious difference is that the AR11 make use of completely different IO address. The definitions of the DAC0, DAC1, DAC2, ADCS and ADBR has to change. The use of DAC2 is a little bit peculiar. The DAC2 is used for the Z-axis of the X-Y-scope and the only bit that is used is the MSB which is chnaged from off to on and the off to signify a dot. The AR11 doesn't have a third DAC at all. Instead it have one single bit called Intensify in the control status register. It makes sense to use this bit instead. But at least the character drawing routine in CHAR.PAL will turn on Z-axis and then change the X and Y coordinates when drawing a character. When done with each character it will switch off the Z-axis. This means that the intensify pulse cannot be used. Instead one of the logical signals will be used to control the Z-axis. 
+One obvious difference is that the AR11 make use of completely different IO address. The definitions of the DAC0, DAC1, DAC2, ADCS and ADBR has to change. The use of DAC2 is a little bit peculiar. The DAC2 is used for the Z-axis of the X-Y-scope and the only bit that is used is the MSB which is changed from off to on and the off to signify a dot. The AR11 doesn't have a third DAC at all. Instead it have one single bit called Intensify in the control status register. It makes sense to use this bit instead. But at least the character drawing routine in CHAR.PAL will turn on Z-axis and then change the X and Y coordinates when drawing a character. When done with each character it will switch off the Z-axis. This means that the intensify pulse cannot be used. Instead one of the logical signals will be used to control the Z-axis. 
 
 Another issue is that the oscilloscope screens requires certain time to deflect the beam. The AR11 include a functionality that when setting the intensify bit it will delay the acutual intensify operation 20 us and then issue a 2 us pulse. The AR11 will then signal back a DONE flag to indicate that next dot can be painted on screen. The SPACEWAR code does not wait for any DONE flag but draws as fast as the CPU can. This may be ok for a PDP-11/10 but might be to fast for a 11/45? And it may be too fast for certain oscilloscope hardware but OK for others.
 
