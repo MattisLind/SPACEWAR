@@ -38,6 +38,8 @@ UPDAT2: MOV     ANGH2,R0        ;GET ANG2
         MOV     R5,R4           ;PUT SINE IN FOR MULPLY
         JSR     PC,MULPLY       ;RKTSIZE*SIN(ANGH2)
         MOV     R4,(R2)+        ;YSIZE2=RKTSIZE*SIN(ANGH2)
+UPD20:  TSTB    ADCS            ;CHECK IF A TO D IS READY
+        BPL     UPD20           ;MAYBE WAIT SOME MORE?
         MOV     ADBR,R0         ;GET ACC2 FROM ATOD
         MOV     #1001,ADCS      ;START ATOD FOR ANGL2
         TST     (R2)+           ;DID RKT2 FIRE LAST LOOP?
@@ -103,7 +105,9 @@ UPD23:  JSR     PC,MULPLY       ;ACC2*YSIZE2(IN R4)
         ADC     R4              ;ADD CARRY
         ADD     R4,(R2)         ;XVELH2=XVELH2+ACCH2
         ADD     (R2)+,(R2)+     ;XDISP2=XDISP2+XVELH2
-UPD24:  MOV     ADBR,R0         ;GET ATOD ANGL2
+UPD24:  TSTB    ADCS            ;CHECK IF A TO D IS READY
+        BPL     UPD24           ;WAIT SOME MORE?
+        MOV     ADBR,R0         ;GET ATOD ANGL2
         MOV     #401,ADCS       ;START ATOD FOR ACC2
         CLR     R1              ;CLEAR FOR FAKE SIGN EXTEND
         SUB     #ANGMID,R0      ;CENTER CONTROL # FOR ANGLE
