@@ -1,6 +1,6 @@
 ;*********************************************************  
 ;*                                                       *
-;*                       SPACE WAR                       *         
+;*                       SPACE WAR                       *
 ;*                       VERSION 5B                      *
 ;*                       BY                              *
 ;*               LARRY BRYANT AND BILL SEILER            * 
@@ -21,28 +21,28 @@
 ; 
 ;*******DATA AND ADDRESS CONSTANTS FOR SPCWAR 
         ADCS=170400             ;ADDRESS FOR ANALOG TO DIGITAL
-                                ;CONVERTER STATUS REGISTER 
-        ADBR=170402             ;ADDRESS FOR A To D CONVERTER 
-                                ;BUFFER REGISTER 
-                                ;THIS IS A 10 BIT SINGLE  
-                                ;POLARITY A TO D 
-        DAC0=170412             ;ADDRESS FOR X-AXIS DIGITAL 
-                                ;TO ANALOG CONVERTER 
+                                ;CONVERTER STATUS REGISTER
+        ADBR=170402             ;ADDRESS FOR A To D CONVERTER
+                                ;BUFFER REGISTER
+                                ;THIS IS A 10 BIT SINGLE
+                                ;POLARITY A TO D
+        DAC0=170412             ;ADDRESS FOR X-AXIS DIGITAL
+                                ;TO ANALOG CONVERTER
         DAC1=170414             ;ADDRESS FOR Y-AXIS D TO A CONV.
-        DPCS=170410             ;ADDRESS FOR Z-BLANKING 
+        DPCS=170410             ;ADDRESS FOR Z-BLANKING
                                 ;USE ERASE BIT TO CONTROL Z
         ERASE=010000            ;ERASE IS BIT 12
-        SUNSZ=2048.             ;COLLISION RADIUS FOR SUN 
+        SUNSZ=2048.             ;COLLISION RADIUS FOR SUN
         MASK=2100               ;COLLISION RADIUS FOR TORPEDOES
                                 ; AND ROCKETS
         RKTSIZ=7000             ;SIZE OF ROCKETS
         FIRE=800.                ;NUMBER REQUIRED FROM ACCEL
                                 ; A TO D TO FIRE A TORPEDO
-                                ;NUMERS FROM 8 TO 800. ARE  
-                                ; ACCEL. 8OO. TO 1024. FIRE A  
-                                ; TORPEDO. 
+                                ;NUMERS FROM 8 TO 800. ARE
+                                ; ACCEL. 8OO. TO 1024. FIRE A
+                                ; TORPEDO.
         ANGMID=450.             ;NUMBER REQUIRED TO CENTER THE
-                                ; ANGLE ROTATION CONTROLER  
+                                ; ANGLE ROTATION CONTROLER
         .TITLE SPCWAR
         .GLOBL  UPDAT1,UPDAT2,RKT1,RKT2,POINT,COMPAR,AMMO
         .GLOBL  WIN,HIT1,HIT2,SPCWAR,RESET,GAME1,GAME2
@@ -53,7 +53,7 @@
         .GLOBL  ANGH1,ANGH2,XSIZE1,XSIZE2,SPCRST
         .GLOBL  YSIZE1,YSIZE2,PTNUM,SHOTS1,SHOTS2
         .GLOBL  MASK,RKTSIZ,TSPEED,FIRE,ANGMID,SPCWAR
-        .GLOBL  DAC0,DAC1,DPCS,ADCS,ADBR,SUNSZ
+        .GLOBL  DAC0,DAC1,DPCS,ADCS,ADBR,SUNSZ,ERASE
         .CSECT 
 SPCWAR: MOV     #SPCWAR,SP      ;SET UP THE STK 
         CLR     GAME1           ;NEW SET OF GAMES
