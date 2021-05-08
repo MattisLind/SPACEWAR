@@ -126,7 +126,7 @@ PAL-11S  V003A
 
 *S 
 ```
-
+Do this for each and every file to produce object files.
 
 ## Linking
 
@@ -174,13 +174,53 @@ sim> D SR 0
 sim> GO 037500
 
 LINK-11S V002A
-*I 
+*I H
+
+*O H
+
+*M P
+
+*T 
+
+*B 
+
+PASS 1
+
+* 
+Simulation stopped, PC: 035140 (MOV R5,14(SP))
+sim> ATTACH PTP SPACEWAR.ABS
+sim> ATTACH LPT SPACEWAR.MAP
+sim> ATTACH PTR OBJ/CHAR.OBJ 
 ```
-To the linker you specify the I(input) and O(utput) deivce. H(igh-speed) reader or L(ow-speed). (load) M(ap) is either not generated at all if pressing RETURN or by pressing H(igh speed punch) or T(teletype), or L(ine Printer). The there are two questions how the relocation should be done. Press RETURN for top of memory. 
+To the linker you specify the I(input) and O(utput) deivce. H(igh-speed) reader or L(ow-speed). (load) M(ap) is either not generated at all if pressing RETURN or by pressing H(igh speed punch) or T(teletype), or L(ine Printer). The there are two questions (T and B) how the relocation should be done. Press RETURN for top of memory. 
+
+In this case I have chosen to have the resulting binary to be generated on the paper tape punch and the module map on the line printer.
 
 After this each file is fed into the linker by attaching it to the reader and pressing RETURN at the * prompt. When all object files has been presented to the first pass of the linker you can press U a the * prompt to show the remaining undefined symbols. When all is done press E and the linker will print the load map and then start the seconds pass, requesting the same object files in the same order.
 
-The first try to run the linker was not succesful. After feeding all source modules unfortunatley I got two undefined symbols.
+
+```
+* U
+
+* E
+
+PASS 2
+
+* 
+Simulation stopped, PC: 035122 (ADD #34662,R2)
+sim> ATTACH PTR FPMP-11/FPMP-11-SPACEWAR.OBJ
+sim> c
+```
+
+When you supplied the last file you should be greated with another linker startup message.
+
+```
+LINK-11S V002A
+*I 
+```
+Then you know that all is good and there should be a binary file and map file generated.
+
+The first time I tried to run the linker was not succesful. After feeding all source modules unfortunatley I got two undefined symbols.
 ```
 sim> c
 
