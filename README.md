@@ -254,8 +254,10 @@ Reading the manual a bit more revealed that the reason is that the two premade o
        .EOT
 ```
 before the six FPMP-11 source files I had a tailor made object paper tape with just the $ICI and $ICO symbols defined! 
+
+Please note that the SPCWAR symbol has to be the first module and the POINT module the last module. See comments further below.
  
-This new object tape was then fed first into the linker, followed by all the 19 object paper tapes of SPACE WAR ending with the module POINT which has to be the last module. And indeed the link completeted without any unresolved symbols this time.
+~~This new object tape was then fed first into the linker, followed by all the 19 object paper tapes of SPACE WAR ending with the module POINT which has to be the last module.~~ And indeed the link completeted without any unresolved symbols this time.
 This was the resulting MODULE MAP from LINK11-S:
 ```
 * U
@@ -585,6 +587,9 @@ The code at 15604 will subsequently make a JMP to address 40 where the HALT inst
 15612:	MOV 14(SP),R1
 15616:	BR 15600
 ```
+
+Then when I had installed the correct hardware and patched the source to use AR11 it still failed. Then I discovered that the stackpointer is initialized with the SPCWAR symbol. Meaning that it grows downwards from that point. Not having the SPCWAR module as the first module when then be a problem since the stack will overwrite the code. I.e. The SPCWAR module has to be the first module and the POINT module has to be that last module. Otherwise the order is of no importance.
+
 
 ## Adaptations to the AR11
 
