@@ -30,11 +30,11 @@
         LF=12  
         DUM=0 
         .TITLE  CHAR
-        .GLOBL  CHAR,DAC0,DAC1,DAC2,CHRTAB
+        .GLOBL  CHAR,DAC0,DAC1,DPCS,CHRTAB,ERASE
         .CSECT
 CHAR:   MOV     (R0)+,-(SP)     ;GET CHAR COUNT 
         MOV     INC,R2          ;SET CHARACTER SIZE  
-        MOV     #-2048.,@#DAC2  ;TURN DOT OF JUST IN CASE 
+        BIS     #ERASE,DPCS     ;TURN DOT OFF JUST IN CASE 
 CH05:   DEC     (SP)            ;IS THERE MORE CHARS? 
         BGE     CH1             ;YES—GO DRAW THEM  
         TST     (SP)+           ;NO—POP OLD CTR 
@@ -65,7 +65,7 @@ CH23:   MOV     #200,R1         ;SET TEST BIT
         MOV     R4,CH24+2       ;SAVE INITIAL X 
 
         MOV     R3,CH25+2       ;SAYE INITIAL CHAR PTR 
-        COM     @#DAC2          ;TURN DOT ON INTO CHAR
+        BIC     #ERASE,DPCS     ;TURN DOT ON INTO CHAR
  
         BR      CH26            ;SKIP 
 CH24:   MOV     #DUM,R4         ;RESET PTR
@@ -75,10 +75,18 @@ CH25:   MOV     #DUM,R3         ;RESET X
 CH26:   MOV     #6,R0           ;SET BYTE CTR
 
 CH3:    BITB    R1,(R3)+        ;IS THE BIT ON? 
-        BEQ     CH4             ;NO-DONT MOVE IN DACS 
+        BEQ     CH4             ;NO-DONT MOVE IN DACS
+        MOV     R4,-(SP)        ;SAVE R4
+        MOV     R5,-(SP)        ;SAVE R5
+        ASR     R4
+        ASR     R4
+        ASR     R5
+        ASR     R5              ;10 BIT DAC
         MOV     R4,@#DAC0       ;MOVE X
 
         MOV     R5,@#DAC1       ;MOVE Y
+        MOV     (SP)+,R5        ;RESTORE R5
+        MOV     (SP)+,R4        ;RESTORE R4
 
 CH4:    ADD     R2,R4           ;INCREMENT X  
         DEC     R0              ;DONE ALL THE BYTES? 
@@ -89,7 +97,7 @@ CH4:    ADD     R2,R4           ;INCREMENT X
         BNE     CH24            ;IF NOT ZERO DRAW NEXT ROW 
         ADD     R2, R4          ;ZERO-SETUP FOR NEXT CHAR 
         MOV    (SP)+,R5         ;REPLACE INITIAL Y  
-        COM    @#DAC2           ;TURN DOT OFF OUT OF CHAR 
+        BIS     #ERASE,DPCS     ;TURN DOT OFF OUT OF CHAR 
 
 CH5:    MOV    (SP)+,R0         ;REPLACE PTR 
         BR     CH05             ;GO TO IT AGAIN

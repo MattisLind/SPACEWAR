@@ -29,11 +29,11 @@
         SP=R6
         PC=R7
         .TITLE  POINT
-        .GLOBL  POINT,PTNUM,PTREP,DAC0,DAC1,DAC2
+        .GLOBL  POINT,PTNUM,PTREP,DAC0,DAC1,DPCS,ERASE
         .CSECT
 POINT:  MOV     #PTNUM,R2       ;SET UP TORP PTR
         MOV     (R2)+,R0        ;SET UP TORP CTR
-        MOV     #2047.,DAC2     ;TURN THE DOT ON
+        BIC     #ERASE,DPCS     ;TURN THE DOT ON
 PT01:   DEC     R0              ;ARE THERE ANY MORE TORPS?
         BMI     PT06            ;NO-SO GET OUT
         ADD     (R2)+,(R2)      ;YES-UPDATE Y OF TORP
@@ -56,7 +56,9 @@ PT04:   MOV     (R2)+,R1        ;PUT Y IN WORK REGISTER
         ASR     R1
         ASR     R1
         ASR     R1              ;DISPOSE OF 4 BITS
-        INC     DAC2            ;TURN THE DOT OFF
+        ASR     R1
+        ASR     R1
+        BIS     #ERASE,DPCS     ;TURN THE DOT OFF
         MOV     R1,DAC1         ;PUT Y IN DAC1
         ADD     (R2)+,(R2)      ;UPDATE X OF TORP
         BVC     PT05            ;IF NO OVERFLOW THEN SKIP
@@ -67,10 +69,12 @@ PT05:   MOV     (R2)+,R1        ;PUT X IN WORK REGISTER
         ASR     R1
         ASR     R1
         ASR     R1              ;DITCH 4 BITS
+        ASR     R1
+        ASR     R1              ;DITCH TWO MORE BITS
         MOV     R1,DAC0         ;PUT X IN DAC0
-        DEC     DAC2            ;TURN THE DOT ON
+        BIC     #ERASE,DPCS     ;TURN THE DOT ON
         BR      PT01            ;GO CHK FOR MORE TORPS
-PT06:   INC     DAC2            ;TURN DOT OFF FOR FINISH
+PT06:   BIS     #ERASE,DPCS     ;TURN DOT OFF FOR FINISH
         RTS     PC              ;ALL DONE!!!!!!!!!!!!!!!!!!!!!!!
 PTNUM:  .WORD   0
         .=.+512.

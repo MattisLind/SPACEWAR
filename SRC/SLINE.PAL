@@ -25,7 +25,7 @@
         SP=R6
         PC=R7
         .TITLE  SLINE
-        .GLOBL  SLINE,DAC0,DAC1,DAC2
+        .GLOBL  SLINE,DAC0,DAC1,DPCS,ERASE
         .CSECT
 SLINE:  SUB     R2,R4           ;GET DELTA X
         SUB     R3,R5           ;GET DELTA Y
@@ -37,24 +37,28 @@ SLINE:  SUB     R2,R4           ;GET DELTA X
         ASR     R5
         ASR     R5
         ASR     R5              ;YDELTA/16
-        MOV     #2048.,DAC2     ;TURN DOT OFF
+        BIS     #ERASE,DPCS     ;TURN DOT OFF
         MOV     #16.,R0         ;CTR = 16
 SL01:   MOV     R2,R1           ;R1=XINITIAL
         ASR     R1
         ASR     R1
         ASR     R1
         ASR     R1              ;THROW OUT 4 BITS
+        ASR     R1
+        ASR     R1              ;THROW TWO MORE BITS
         MOV     R1,DAC0         ;PUT XINITIAL IN DAC0
         MOV     R3,R1           ;R1=YINITIAL
         ASR     R1
         ASR     R1
         ASR     R1
         ASR     R1              ;DUMP 4 BITS
+        ASR     R1
+        ASR     R1              ;AND YET TWO BITS
         MOV     R1,DAC1         ;PUT YINITIAL IN DAC1
-        DEC     DAC2            ;TURN DOT ON;
+        BIC     #ERASE,DPCS     ;TURN DOT ON;
         ADD     R4,R2           ;INCREMENT XINITIAL
         ADD     R5,R3           ;INCREMENT YINITIAL
-        INC     DAC2            ;TURN DOT OFF
+        BIS     #ERASE,DPCS     ;TURN DOT OFF
         DEC     R0              ;IS CTR ZERO YET?
         BGE     SL01            ;NO-THEN DO AGAIN
         RTS     PC              ;YES-ALL DONE!
