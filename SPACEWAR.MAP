@@ -2,165 +2,165 @@
 LOAD MAP
 
 TRANSFER ADDRESS: 000001
-LOW LIMIT: 025504
+LOW LIMIT: 025424
 HIGH LIMIT: 037460
 **********
 MODULE  SPCWAR
 SECTION ENTRY   ADDRESS SIZE
 <. ABS.>        000000  000000
-<      >        025504  000232
+<      >        025424  000232
         ADBR    170402
         ADCS    170400
-        AMMO    025722
-        ANGH1   025660
-        ANGH2   025706
-        ANGL1   025656
-        ANGL2   025704
+        AMMO    025642
+        ANGH1   025600
+        ANGH2   025626
+        ANGL1   025576
+        ANGL2   025624
         ANGMID  000702
         DAC0    170412
         DAC1    170414
         DPCS    170410
         ERASE   010000
         FIRE    001440
-        FLAG1   025636
-        FLAG2   025664
-        GAME1   025726
-        GAME2   025730
-        GRVFLG  025732
-        HIT1    025710
-        HIT2    025712
+        FLAG1   025556
+        FLAG2   025604
+        GAME1   025646
+        GAME2   025650
+        GRVFLG  025652
+        HIT1    025630
+        HIT2    025632
         MASK    002100
-        PTREP   025734
+        PTREP   025654
         RKTSIZ  007000
-        SHOTS1  025714
-        SHOTS2  025716
-        SPCRST  025524
-        SPCWAR  025504
+        SHOTS1  025634
+        SHOTS2  025636
+        SPCRST  025444
+        SPCWAR  025424
         SUNSZ   004000
-        TSPEED  025724
-        WIN     025720
-        XDISP1  025654
-        XDISP2  025702
-        XSIZE1  025646
-        XSIZE2  025674
-        XVELH1  025652
-        XVELH2  025700
-        XVELL1  025650
-        XVELL2  025676
-        YDISP1  025644
-        YDISP2  025672
-        YSIZE1  025634
-        YSIZE2  025662
-        YVELH1  025642
-        YVELH2  025670
-        YVELL1  025640
-        YVELL2  025666
-**********
-MODULE  FPMP11
-SECTION ENTRY   ADDRESS SIZE
-<      >        025736  000640
-        $ERR    026540
-        $ERRA   026550
-        $ERVEC  026570
-        $ICI    025744
-        $ICO    026250
-        $OCI    025736
-        $OCO    026242
-        $POLSH  026534
-        $V20A   026534
+        TSPEED  025644
+        WIN     025640
+        XDISP1  025574
+        XDISP2  025622
+        XSIZE1  025566
+        XSIZE2  025614
+        XVELH1  025572
+        XVELH2  025620
+        XVELL1  025570
+        XVELL2  025616
+        YDISP1  025564
+        YDISP2  025612
+        YSIZE1  025554
+        YSIZE2  025602
+        YVELH1  025562
+        YVELH2  025610
+        YVELL1  025560
+        YVELL2  025606
 **********
 MODULE  CHAR  
 SECTION ENTRY   ADDRESS SIZE
-<      >        026576  000272
-        CHAR    026576
+<      >        025656  000302
+        CHAR    025656
 **********
 MODULE  CHRTAB
 SECTION ENTRY   ADDRESS SIZE
-<      >        027070  000606
-        CHRTAB  027070
+<      >        026160  000606
+        CHRTAB  026160
 **********
 MODULE  COMPAR
 SECTION ENTRY   ADDRESS SIZE
-<      >        027676  000444
-        COMPAR  027676
+<      >        026766  000444
+        COMPAR  026766
 **********
 MODULE  EXPLOD
 SECTION ENTRY   ADDRESS SIZE
-<      >        030342  000330
-        EXPLOD  030342
-        EXPREP  030460
-        EXPX    030466
-        EXPY    030470
+<      >        027432  000330
+        EXPLOD  027432
+        EXPREP  027550
+        EXPX    027556
+        EXPY    027560
 **********
 MODULE  GRAVTY
 SECTION ENTRY   ADDRESS SIZE
-<      >        030672  000450
-        GRAVTY  030672
+<      >        027762  000450
+        GRAVTY  027762
 **********
 MODULE  MULPLY
 SECTION ENTRY   ADDRESS SIZE
-<      >        031342  000304
-        MULPLY  031342
+<      >        030432  000304
+        MULPLY  030432
 **********
 MODULE  PARM  
 SECTION ENTRY   ADDRESS SIZE
-<      >        031646  001214
-        PARM    031646
+<      >        030736  001214
+        PARM    030736
 **********
 MODULE  PWRUP 
 SECTION ENTRY   ADDRESS SIZE
-<      >        033062  000106
+<      >        032152  000106
 **********
 MODULE  RESET 
 SECTION ENTRY   ADDRESS SIZE
-<      >        033170  000206
+<      >        032260  000206
         CENTER  040000
         ORBIT   000400
-        RESET   033170
-        RES01   033356
+        RESET   032260
+        RES01   032446
 **********
 MODULE  RKT1  
 SECTION ENTRY   ADDRESS SIZE
-<      >        033376  000160
-        RKT1    033376
+<      >        032466  000160
+        RKT1    032466
 **********
 MODULE  RKT2  
 SECTION ENTRY   ADDRESS SIZE
-<      >        033556  000142
-        RKT2    033556
+<      >        032646  000142
+        RKT2    032646
 **********
 MODULE  SCORE 
 SECTION ENTRY   ADDRESS SIZE
-<      >        033720  000266
-        SCORE   033720
+<      >        033010  000266
+        SCORE   033010
 **********
 MODULE  SINCOS
 SECTION ENTRY   ADDRESS SIZE
-<      >        034206  000462
-        SINCOS  034206
+<      >        033276  000462
+        SINCOS  033276
 **********
 MODULE  SLINE 
 SECTION ENTRY   ADDRESS SIZE
-<      >        034670  000130
-        SLINE   034670
+<      >        033760  000140
+        SLINE   033760
 **********
 MODULE  SUN   
 SECTION ENTRY   ADDRESS SIZE
-<      >        035020  000304
-        SUN     035020
+<      >        034120  000304
+        SUN     034120
 **********
 MODULE  UPDAT1
 SECTION ENTRY   ADDRESS SIZE
-<      >        035324  000356
-        UPDAT1  035324
+<      >        034424  000372
+        UPDAT1  034424
 **********
 MODULE  UPDAT2
 SECTION ENTRY   ADDRESS SIZE
-<      >        035702  000356
-        UPDAT2  035702
+<      >        035016  000372
+        UPDAT2  035016
+**********
+MODULE  FPMP11
+SECTION ENTRY   ADDRESS SIZE
+<      >        035410  000640
+        $ERR    036212
+        $ERRA   036222
+        $ERVEC  036242
+        $ICI    035416
+        $ICO    035722
+        $OCI    035410
+        $OCO    035714
+        $POLSH  036206
+        $V20A   036206
 **********
 MODULE  POINT 
 SECTION ENTRY   ADDRESS SIZE
-<      >        036260  001200
-        POINT   036260
+<      >        036250  001210
+        POINT   036250
         PTNUM   036456
