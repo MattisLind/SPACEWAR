@@ -49,31 +49,35 @@
   000046 006201         ASR     R1              ;THROW OUT 4 BITS
   000050 006201         ASR     R1
   000052 006201         ASR     R1              ;THROW TWO MORE BITS
-  000054 010167'        MOV     R1,DAC0         ;PUT XINITIAL IN DAC0
+  000054 062701         ADD     #0400,R1        ;AR11 IS NOT 2'S COMP.
+         000400
+  000060 010167'        MOV     R1,DAC0         ;PUT XINITIAL IN DAC0
          000000
-  000060 010301         MOV     R3,R1           ;R1=YINITIAL
-  000062 006201         ASR     R1
-  000064 006201         ASR     R1
+  000064 010301         MOV     R3,R1           ;R1=YINITIAL
 
                         PAGE    001
 
   000066 006201         ASR     R1
-  000070 006201         ASR     R1              ;DUMP 4 BITS
+  000070 006201         ASR     R1
   000072 006201         ASR     R1
-  000074 006201         ASR     R1              ;AND YET TWO BITS
-  000076 010167'        MOV     R1,DAC1         ;PUT YINITIAL IN DAC1
+  000074 006201         ASR     R1              ;DUMP 4 BITS
+  000076 006201         ASR     R1
+  000100 006201         ASR     R1              ;AND YET TWO BITS
+  000102 062701         ADD     #0400,R1        ;AR11 IS NOT 2'S COMP.
+         000400
+  000106 010167'        MOV     R1,DAC1         ;PUT YINITIAL IN DAC1
          000000
-  000102 042767'        BIC     #ERASE,DPCS     ;TURN DOT ON;
+  000112 042767'        BIC     #ERASE,DPCS     ;TURN DOT ON;
          000000
          000000
-  000110 060402         ADD     R4,R2           ;INCREMENT XINITIAL
-  000112 060503         ADD     R5,R3           ;INCREMENT YINITIAL
-  000114 052767'        BIS     #ERASE,DPCS     ;TURN DOT OFF
+  000120 060402         ADD     R4,R2           ;INCREMENT XINITIAL
+  000122 060503         ADD     R5,R3           ;INCREMENT YINITIAL
+  000124 052767'        BIS     #ERASE,DPCS     ;TURN DOT OFF
          000000
          000000
-  000122 005300         DEC     R0              ;IS CTR ZERO YET?
-  000124 002344         BGE     SL01            ;NO-THEN DO AGAIN
-  000126 000207         RTS     PC              ;YES-ALL DONE!
+  000132 005300         DEC     R0              ;IS CTR ZERO YET?
+  000134 002340         BGE     SL01            ;NO-THEN DO AGAIN
+  000136 000207         RTS     PC              ;YES-ALL DONE!
          000001         .END
 
                         PAGE    002

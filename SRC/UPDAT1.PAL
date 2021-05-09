@@ -38,6 +38,8 @@ UPDAT1: MOV     ANGH1,R0        ;GET ANG1
         MOV     R5,R4           ;PUT SINE IN FOR MULPLY
         JSR     PC,MULPLY       ;RKTSIZE*SIN(ANGH1)
         MOV     R4,(R2)+        ;YSIZE1?RKTSIZE*SIN(ANGH1)
+UPD101: TSTB    ADCS	        ;CHECK IF A TO D IS READY
+        BPL     UPD101          ;WAIT SOME MORE
         MOV     ADBR,R0         ;GET ACC1 FROM ATOD
         MOV     #1,ADCS         ;START ATOD FOR ANGL1
         TST     (R2)+           ;DID RKT1 FIRE LAST LOOP?

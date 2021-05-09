@@ -59,7 +59,7 @@ PT04:   MOV     (R2)+,R1        ;PUT Y IN WORK REGISTER
         ASR     R1
         ASR     R1
         BIS     #ERASE,DPCS     ;TURN THE DOT OFF
-        EOR     #01000,R1       ;AR11 IS NOT 2'S COMP.
+        ADD     #0400,R1        ;AR11 IS NOT 2'S COMP.
         MOV     R1,DAC1         ;PUT Y IN DAC1
         ADD     (R2)+,(R2)      ;UPDATE X OF TORP
         BVC     PT05            ;IF NO OVERFLOW THEN SKIP
@@ -72,7 +72,7 @@ PT05:   MOV     (R2)+,R1        ;PUT X IN WORK REGISTER
         ASR     R1              ;DITCH 4 BITS
         ASR     R1
         ASR     R1              ;DITCH TWO MORE BITS
-        EOR     #01000,R1       ;AR11 IS NOT 2'S COMP.
+        ADD     #0400,R1        ;AR11 IS NOT 2'S COMP.
         MOV     R1,DAC0         ;PUT X IN DAC0
         BIC     #ERASE,DPCS     ;TURN THE DOT ON
         BR      PT01            ;GO CHK FOR MORE TORPS

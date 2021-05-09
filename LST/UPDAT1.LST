@@ -45,115 +45,121 @@
   000032 004767'        JSR     PC,MULPLY       ;RKTSIZE*SIN(ANGH1)
          000000
   000036 010422         MOV     R4,(R2)+        ;YSIZE1?RKTSIZE*SIN(ANGH1)
-  000040 016700'        MOV     ADBR,R0         ;GET ACC1 FROM ATOD
+  000040 105767'UPD101: TSTB    ADCS            ;CHECK IF A TO D IS READY
          000000
-  000044 012767'        MOV     #1,ADCS         ;START ATOD FOR ANGL1
+  000044 100375         BPL     UPD101          ;WAIT SOME MORE
+  000046 016700'        MOV     ADBR,R0         ;GET ACC1 FROM ATOD
+         000000
+  000052 012767'        MOV     #1,ADCS         ;START ATOD FOR ANGL1
          000001
          000000
-  000052 005722         TST     (R2)+           ;DID RKT1 FIRE LAST LOOP?
-  000054 003050         BGT     UPD11           ;YES-DONT FIRE THIS TIME
-  000056 022700'        CMP     #FIRE,R0        ;NO-IS RKT1 FIRING NOW?
-         000000
+  000060 005722         TST     (R2)+           ;DID RKT1 FIRE LAST LOOP?
 
                         PAGE    001
 
-  000062 003063         BGT     UPD13           ;NO-UPDATE RKT1 VEL
-  000064 005367'        DEC     SHOTS1          ;YES-ANY TORPS LEFT?
+  000062 003050         BGT     UPD11           ;YES-DONT FIRE THIS TIME
+  000064 022700'        CMP     #FIRE,R0        ;NO-IS RKT1 FIRING NOW?
          000000
-  000070 003445         BLE     UPD115          ;NO-THEN OUT OF AMMO!
-  000072 005267'        INC     FLAG1           ;YES-SET THE FLAG AND DHOOW
+  000070 003063         BGT     UPD13           ;NO-UPDATE RKT1 VEL
+  000072 005367'        DEC     SHOTS1          ;YES-ANY TORPS LEFT?
          000000
-  000076 012705'        MOV     #PTNUM,R5       ;SET UP PTR AT PTS
+  000076 003445         BLE     UPD115          ;NO-THEN OUT OF AMMO!
+  000100 005267'        INC     FLAG1           ;YES-SET THE FLAG AND DHOOW
          000000
-  000102 011500         MOV     (R5),R0         ;GET # TORPS
-  000104 005225         INC     (R5)+           ;ADD ONE MORE TO TORP CTR
-  000106 006300         ASL     R0   
-  000110 006300         ASL     R0   
-  000112 006300         ASL     R0              ;MULT BY 8 TO SKIP PRESENT PTS
-  000114 060005         ADD     R0,R5           ;MOVE PTR OVER PRESENT PTS
-  000116 016700'        MOV     TSPEED,R0       ;SET FOR MULPLY
+  000104 012705'        MOV     #PTNUM,R5       ;SET UP PTR AT PTS
          000000
-  000122 004767'        JSR     PC,MULPLY       ;TSPEED*YSIZE1
+  000110 011500         MOV     (R5),R0         ;GET # TORPS
+  000112 005225         INC     (R5)+           ;ADD ONE MORE TO TORP CTR
+  000114 006300         ASL     R0   
+  000116 006300         ASL     R0   
+  000120 006300         ASL     R0              ;MULT BY 8 TO SKIP PRESENT PTS
+  000122 060005         ADD     R0,R5           ;MOVE PTR OVER PRESENT PTS
+  000124 016700'        MOV     TSPEED,R0       ;SET FOR MULPLY
          000000
-  000126 062203         ADD     (R2)+,R3        ;ADD YVELL1 TO TSPEED*YSIZE1
-  000130 005504         ADC     R4              ;ADD CARRY
-  000132 062204         ADD     (R2)+,R4        ;ADD HIH ORDER WORDS
-  000134 010425         MOV     R4,(R5)+        ;PUT TORP Y VEL IN ARRAY
-  000136 012215         MOV     (R2)+,(R5)      ;PUT YDISP1 IN ARRAY
-  000140 066715'        ADD     YSIZE1,(R5)     ;CALC YNOSE1 IN ARRAY
+  000130 004767'        JSR     PC,MULPLY       ;TSPEED*YSIZE1
          000000
-  000144 060425         ADD     R4,(R5)+        ;UPDATE TORP OUT OF RKT1
-  000146 012204         MOV     (R2)+,R4        ;SET XSIZE1 FOR MULPLY
-  000150 004767'        JSR     PC,MULPLY       ;TSPEED*XSIZE1
+  000134 062203         ADD     (R2)+,R3        ;ADD YVELL1 TO TSPEED*YSIZE1
+  000136 005504         ADC     R4              ;ADD CARRY
+  000140 062204         ADD     (R2)+,R4        ;ADD HIH ORDER WORDS
+  000142 010425         MOV     R4,(R5)+        ;PUT TORP Y VEL IN ARRAY
+  000144 012215         MOV     (R2)+,(R5)      ;PUT YDISP1 IN ARRAY
+  000146 066715'        ADD     YSIZE1,(R5)     ;CALC YNOSE1 IN ARRAY
          000000
-  000154 062203         ADD     (R2)+,R3        ;ADD LOW ORDER WORDS
-  000156 005504         ADC     R4              ;ADD CARRY TO HIGH WORD
-  000160 062204         ADD     (R2)+,R4        ;ADD HIGH ORDER WORDS
-  000162 010425         MOV     R4,(R5)+        ;PUT TORP XVEL IN ARRAY
-  000164 012215         MOV     (R2)+,(R5)      ;PUT XDISP1 IN ARRAY
-  000166 066715'        ADD     XSIZE1,(R5)     ;CALC XNOSE1 IN ARRAY
+  000152 060425         ADD     R4,(R5)+        ;UPDATE TORP OUT OF RKT1
+  000154 012204         MOV     (R2)+,R4        ;SET XSIZE1 FOR MULPLY
+  000156 004767'        JSR     PC,MULPLY       ;TSPEED*XSIZE1
          000000
-  000172 060425         ADD     R4,(R5)+        ;UPDATE TORP OUT OF RKT1
-  000174 000405         BR      UPD117          ;GO UPDAT RKT1 POSITION
-  000176 022700'UPD11:  CMP     #FIRE,R0        ;RKT1 STILL FIRING?
+  000162 062203         ADD     (R2)+,R3        ;ADD LOW ORDER WORDS
+  000164 005504         ADC     R4              ;ADD CARRY TO HIGH WORD
+  000166 062204         ADD     (R2)+,R4        ;ADD HIGH ORDER WORDS
+  000170 010425         MOV     R4,(R5)+        ;PUT TORP XVEL IN ARRAY
+  000172 012215         MOV     (R2)+,(R5)      ;PUT XDISP1 IN ARRAY
+  000174 066715'        ADD     XSIZE1,(R5)     ;CALC XNOSE1 IN ARRAY
          000000
-  000202 003011         BGT     UPD12           ;NO-GO UPDATE VEL OF RKT1
-  000204 062702 UPD115: ADD     #14.,R2         ;YES-MOV PTR TO ANGLES
+  000200 060425         ADD     R4,(R5)+        ;UPDATE TORP OUT OF RKT1
+  000202 000405         BR      UPD117          ;GO UPDAT RKT1 POSITION
+  000204 022700'UPD11:  CMP     #FIRE,R0        ;RKT1 STILL FIRING?
+         000000
+  000210 003011         BGT     UPD12           ;NO-GO UPDATE VEL OF RKT1
+  000212 062702 UPD115: ADD     #14.,R2         ;YES-MOV PTR TO ANGLES
          000016
-  000210 066767'UPD117: ADD     YVELH1,YDISP1   ;THEN UPDATE DISP ONLY
+  000216 066767'UPD117: ADD     YVELH1,YDISP1   ;THEN UPDATE DISP ONLY
          000000
          000000
-  000216 066767'        ADD     XVELH1,XDISP1   ;   NOT VEL.
+  000224 066767'        ADD     XVELH1,XDISP1   ;   NOT VEL.
          000000
          000000
-  000224 000433         BR      UPD14           ;GO UPDATE ANGLES
-  000226 005067'UPD12:  CLR     FLAG1           ;NOT FIRING SO CLEAR FLAG1
+  000232 000433         BR      UPD14           ;GO UPDATE ANGLES
+  000234 005067'UPD12:  CLR     FLAG1           ;NOT FIRING SO CLEAR FLAG1
          000000
-  000232 004767'UPD13:  JSR     PC,MULPLY       ;ACC1*YSIZE1(IN R4)
+  000240 004767'UPD13:  JSR     PC,MULPLY       ;ACC1*YSIZE1(IN R4)
          000000
-  000236 006204         ASR     R4
-  000240 006003         ROR     R3
 
                         PAGE    002
 
-  000242 006204         ASR     R4
-  000244 006003         ROR     R3
-  000246 006204         ASR     R4
-  000250 006003         ROR     R3              ;SCALE YACC1 
-  000252 060322         ADD     R3,(R2)+        ;YVELL1=YVELL1+ACC1*YSIZE1
-  000254 005504         ADC     R4              ;ADD CARRY
-  000256 060412         ADD     R4,(R2)         ;YVELH1=YVELH1+ACCH1
-  000260 062222         ADD     (R2)+,(R2)+     ;YDISP1=YDISP1+YVELH1
-  000262 012204         MOV     (R2)+,R4        ;MOV XSIZE1 IN FOR MULPLY
-  000264 004767'        JSR     PC,MULPLY       ;ACC1*XSIZE1
+  000244 006204         ASR     R4
+  000246 006003         ROR     R3
+  000250 006204         ASR     R4
+  000252 006003         ROR     R3
+  000254 006204         ASR     R4
+  000256 006003         ROR     R3              ;SCALE YACC1 
+  000260 060322         ADD     R3,(R2)+        ;YVELL1=YVELL1+ACC1*YSIZE1
+  000262 005504         ADC     R4              ;ADD CARRY
+  000264 060412         ADD     R4,(R2)         ;YVELH1=YVELH1+ACCH1
+  000266 062222         ADD     (R2)+,(R2)+     ;YDISP1=YDISP1+YVELH1
+  000270 012204         MOV     (R2)+,R4        ;MOV XSIZE1 IN FOR MULPLY
+  000272 004767'        JSR     PC,MULPLY       ;ACC1*XSIZE1
          000000
-  000270 006204         ASR     R4
-  000272 006003         ROR     R3
-  000274 006204         ASR     R4
-  000276 006003         ROR     R3
-  000300 006204         ASR     R4
-  000302 006003         ROR     R3              ;SCALE XACC1
-  000304 060322         ADD     R3,(R2)+        ;XVELL1=XVELL1+ACC1*XSIZE1
-  000306 005504         ADC     R4              ;ADD CARRY
-  000310 060412         ADD     R4,(R2)         ;XVELH1=XVELH1+ACCH1
-  000312 062222         ADD     (R2)+,(R2)+     ;XDISP1=XDISP1+XVELH1
-  000314 016700'UPD14:  MOV     ADBR,R0         ;GET ATOD ANGL1
+  000276 006204         ASR     R4
+  000300 006003         ROR     R3
+  000302 006204         ASR     R4
+  000304 006003         ROR     R3
+  000306 006204         ASR     R4
+  000310 006003         ROR     R3              ;SCALE XACC1
+  000312 060322         ADD     R3,(R2)+        ;XVELL1=XVELL1+ACC1*XSIZE1
+  000314 005504         ADC     R4              ;ADD CARRY
+  000316 060412         ADD     R4,(R2)         ;XVELH1=XVELH1+ACCH1
+  000320 062222         ADD     (R2)+,(R2)+     ;XDISP1=XDISP1+XVELH1
+  000322 105767'UPD14:  TSTB    ADCS            ;TEST IF A TO D IS READY
          000000
-  000320 012767'        MOV     #1401,ADCS      ;START ATOD FOR ACC2
+  000326 100375         BPL     UPD14           ;WAIT SOME MORE?
+  000330 016700'        MOV     ADBR,R0         ;GET ATOD ANGL1
+         000000
+  000334 012767'        MOV     #1401,ADCS      ;START ATOD FOR ACC2
          001401
          000000
-  000326 005001         CLR     R1              ;CLEAR FOR FAKE SIGN EXTEND
-  000330 162700'        SUB     #ANGMID,R0      ;CENTER CONTROL # FOR ANGLE
+  000342 005001         CLR     R1              ;CLEAR FOR FAKE SIGN EXTEND
+  000344 162700'        SUB     #ANGMID,R0      ;CENTER CONTROL # FOR ANGLE
          000000
-  000334 100001         BPL     UPD15           ;IF POSITIVE SKIP R1=0
-  000336 005301         DEC     R1              ;MAKE R1=-1 (177777)
-  000340 000300 UPD15:  SWAB    R0              ;GET HIGH BYTE IN LOW R1
-  000342 110001         MOVB    R0,R1           ;PUT IN LOW OF R1
-  000344 105000         CLRB    R0              ;CLEAR LOW BYTE OF R0
-  000346 060022         ADD     R0,(R2)+        ;ADD LOW WORDS
-  000350 005501         ADC     R1              ;ADD CARRY TO HIGH WORD
-  000352 060122         ADD     R1,(R2)+        ;ADD HIGH WORDS
-  000354 000207         RTS     PC              ;ALL DONE!!!!!!!!!!!!!!!!!!!!!
+  000350 100001         BPL     UPD15           ;IF POSITIVE SKIP R1=0
+  000352 005301         DEC     R1              ;MAKE R1=-1 (177777)
+  000354 000300 UPD15:  SWAB    R0              ;GET HIGH BYTE IN LOW R1
+  000356 110001         MOVB    R0,R1           ;PUT IN LOW OF R1
+  000360 105000         CLRB    R0              ;CLEAR LOW BYTE OF R0
+  000362 060022         ADD     R0,(R2)+        ;ADD LOW WORDS
+  000364 005501         ADC     R1              ;ADD CARRY TO HIGH WORD
+  000366 060122         ADD     R1,(R2)+        ;ADD HIGH WORDS
+  000370 000207         RTS     PC              ;ALL DONE!!!!!!!!!!!!!!!!!!!!!
          000001         .END
 
                         PAGE    003

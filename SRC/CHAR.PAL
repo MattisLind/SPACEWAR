@@ -82,8 +82,8 @@ CH3:    BITB    R1,(R3)+        ;IS THE BIT ON?
         ASR     R4
         ASR     R5
         ASR     R5              ;10 BIT DAC
-	EOR     #01000,R5       ;AR11 IS NOT 2'S COMP.
-	EOR     #01000,R4
+        ADD     #0400,R5        ;AR11 IS NOT 2'S COMP.
+        ADD     #0400,R4
         MOV     R4,@#DAC0       ;MOVE X
 
         MOV     R5,@#DAC1       ;MOVE Y
