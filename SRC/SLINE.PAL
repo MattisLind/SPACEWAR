@@ -46,6 +46,7 @@ SL01:   MOV     R2,R1           ;R1=XINITIAL
         ASR     R1              ;THROW OUT 4 BITS
         ASR     R1
         ASR     R1              ;THROW TWO MORE BITS
+        EOR     #01000,R1       ;AR11 IS NOT 2'S COMP.
         MOV     R1,DAC0         ;PUT XINITIAL IN DAC0
         MOV     R3,R1           ;R1=YINITIAL
         ASR     R1
@@ -54,6 +55,7 @@ SL01:   MOV     R2,R1           ;R1=XINITIAL
         ASR     R1              ;DUMP 4 BITS
         ASR     R1
         ASR     R1              ;AND YET TWO BITS
+        EOR     #01000,R1       ;AR11 IS NOT 2'S COMP.
         MOV     R1,DAC1         ;PUT YINITIAL IN DAC1
         BIC     #ERASE,DPCS     ;TURN DOT ON;
         ADD     R4,R2           ;INCREMENT XINITIAL
