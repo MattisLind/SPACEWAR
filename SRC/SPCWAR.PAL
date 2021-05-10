@@ -59,7 +59,7 @@ SPCWAR: MOV     #SPCWAR,SP      ;SET UP THE STK
         CLR     GAME1           ;NEW SET OF GAMES
         CLR     GAME2           ;NEW SET OF GAMES
         JSR     PC,PARM         ;CHECK FOR CHANGE IN PARAMETER
-SPCRST: MOV     #401,ADCS       ;START A TO D FOR ACC1
+SPCRST: MOV     #20401,ADCS     ;START A TO D FOR ACC1
         MOV     WIN,HIT1        ;REPLACE ALL SHIELDS 
         MOV     WIN,HIT2        ;  OF BOTH RKTS 
         MOV     AMMO,SHOTS1     ;RESET # OF SHOTS RKT1 
