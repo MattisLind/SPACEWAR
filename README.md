@@ -1,5 +1,11 @@
 # SPACEWAR
 
+[![Watch the video](https://img.youtube.com/vi/fTiHRAKjyho/default.jpg)](https://youtu.be/fTiHRAKjyho)
+
+Please note that all patches for the AR11 board is on the ar11-patches branch.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fTiHRAKjyho" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 The original [Spacewar!](https://en.wikipedia.org/wiki/Spacewar!) game was written for the PDP-1 minicomputer and there were several ports to other architectures.
 
 This port to the PDP-11 architecture were done by Bill Seiler & Larry Bryant in 1974. It was then submitted to DECUS as 11-192
@@ -589,4 +595,13 @@ One disadvantage is that the [AR11](http://bitsavers.trailing-edge.com/pdf/dec/u
 One obvious difference is that the AR11 make use of completely different IO address. The definitions of the DAC0, DAC1, DAC2, ADCS and ADBR has to change. The use of DAC2 is a little bit peculiar. The DAC2 is used for the Z-axis of the X-Y-scope and the only bit that is used is the MSB which is changed from off to on and the off to signify a dot. The AR11 doesn't have a third DAC at all. Instead it have one single bit called Intensify in the control status register. It makes sense to use this bit instead. But at least the character drawing routine in CHAR.PAL will turn on Z-axis and then change the X and Y coordinates when drawing a character. When done with each character it will switch off the Z-axis. This means that the intensify pulse cannot be used. Instead one of the logical signals will be used to control the Z-axis. 
 
 Another issue is that the oscilloscope screens requires certain time to deflect the beam. The AR11 include a functionality that when setting the intensify bit it will delay the acutual intensify operation 20 us and then issue a 2 us pulse. The AR11 will then signal back a DONE flag to indicate that next dot can be painted on screen. The SPACEWAR code does not wait for any DONE flag but draws as fast as the CPU can. This may be ok for a PDP-11/10 but might be to fast for a 11/45? And it may be too fast for certain oscilloscope hardware but OK for others.
+
+I ended up using the ERASE (12) bit in the display status register to control the Z-axis. It is a open collector signal so there need to be a pull up resistor in the end of the line at the Z-input of the scope. I also discovered that the AA11 subsystem is 2's complment while the AR11 is not. So besides shifting the output value two steps to the right to make it fit into a then bit number I also had to add 512 to the number before sending it off to the D/A converter.
+
+The AD01 is 10 bit so there were very few changes appart from changing addresses, except for one thing. The AR11 has to be but into unipolar mode since the potentiometers of the joysticks are fed from the internal 5V source of the board.
+
+All adaptations for the AR11 went into a branch called ar11-patches. Make sure to get that one.
+
+## Joysticks
+
 
