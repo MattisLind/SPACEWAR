@@ -4,9 +4,7 @@ Click to see video clip:
 
 [![Watch the video](https://img.youtube.com/vi/fTiHRAKjyho/default.jpg)](https://youtu.be/fTiHRAKjyho)
 
-Please note that all patches for the AR11 board is on the ar11-patches branch.
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/fTiHRAKjyho" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+Please note that all patches for the AR11 board is on the ar11-patch branch.
 
 The original [Spacewar!](https://en.wikipedia.org/wiki/Spacewar!) game was written for the PDP-1 minicomputer and there were several ports to other architectures.
 
@@ -602,7 +600,7 @@ I ended up using the ERASE (12) bit in the display status register to control th
 
 The AD01 is 10 bit so there were very few changes appart from changing addresses, except for one thing. The AR11 has to be but into unipolar mode since the potentiometers of the joysticks are fed from the internal 5V source of the board.
 
-All adaptations for the AR11 went into a branch called ar11-patches. Make sure to get that one.
+All adaptations for the AR11 went into a branch called ar11-patch. Make sure to get that one.
 
 ## Joysticks
 
