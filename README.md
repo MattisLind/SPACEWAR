@@ -1,5 +1,7 @@
 # SPACEWAR
 
+Click to see video clip:
+
 [![Watch the video](https://img.youtube.com/vi/fTiHRAKjyho/default.jpg)](https://youtu.be/fTiHRAKjyho)
 
 Please note that all patches for the AR11 board is on the ar11-patches branch.
