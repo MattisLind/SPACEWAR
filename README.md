@@ -639,6 +639,8 @@ The fire button is connected to short circuit the acceleration potentiometer to 
 
 ## Cable connections
 
+I used 47217-000LF/48254-000LF contact elements and 65043-015LF contact housings. The cable is a three pair shieled cable for the Joysticks and the X, Y and Z inputs. An extra cable of simpler type was used for the intensify signal in case I ever wanted to use it.
+
 |  Pin |  Signal   |  Connect to  |
 |------|-----------|--------------|
 |  A   | WRITH THRU L |  NC       |
