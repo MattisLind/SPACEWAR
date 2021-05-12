@@ -6,6 +6,12 @@ Click to see video clip:
 
 ![Score](https://i.imgur.com/jzlCG28l.jpg)
 
+![Score](https://i.imgur.com/74w9Fgel.jpg)
+
+![Score](https://i.imgur.com/aq88NXRl.jpg)
+
+
+
 Please note that all patches for the AR11 board is on the ar11-patch branch.
 
 The original [Spacewar!](https://en.wikipedia.org/wiki/Spacewar!) game was written for the PDP-1 minicomputer and there were several ports to other architectures.
@@ -260,7 +266,7 @@ Reading the manual a bit more revealed that the reason is that the two premade o
 ```
 before the six FPMP-11 source files I had a tailor made object paper tape with just the $ICI and $ICO symbols defined! 
 
-Please note that the SPCWAR symbol has to be the first module and the POINT module the last module. See comments further below.
+Please note that the SPCWAR module has to be the first module and the POINT module the last module. See comments further below. All the other modules comes inbetween including the FPMP-11 library built previously.
  
 ~~This new object tape was then fed first into the linker, followed by all the 19 object paper tapes of SPACE WAR ending with the module POINT which has to be the last module.~~ And indeed the link completeted without any unresolved symbols this time.
 This was the resulting MODULE MAP from LINK11-S:
@@ -269,171 +275,172 @@ This was the resulting MODULE MAP from LINK11-S:
 
 * E
 
+
 LOAD MAP
 
 TRANSFER ADDRESS: 000001
-LOW LIMIT: 025562
+LOW LIMIT: 025424
 HIGH LIMIT: 037460
-**********
-MODULE  FPMP11
-SECTION ENTRY   ADDRESS SIZE
-<. ABS.>        000000  000000
-<      >        025562  000640
-        $ERR    026364
-        $ERRA   026374
-        $ERVEC  026414
-        $ICI    025570
-        $ICO    026074
-        $OCI    025562
-        $OCO    026066
-        $POLSH  026360
-        $V20A   026360
-**********
-MODULE  CHAR  
-SECTION ENTRY   ADDRESS SIZE
-<      >        026422  000246
-        CHAR    026422
-**********
-MODULE  CHRTAB
-SECTION ENTRY   ADDRESS SIZE
-<      >        026670  000606
-        CHRTAB  026670
-**********
-MODULE  COMPAR
-SECTION ENTRY   ADDRESS SIZE
-<      >        027476  000444
-        COMPAR  027476
-**********
-MODULE  EXPLOD
-SECTION ENTRY   ADDRESS SIZE
-<      >        030142  000330
-        EXPLOD  030142
-        EXPREP  030260
-        EXPX    030266
-        EXPY    030270
-**********
-MODULE  GRAVTY
-SECTION ENTRY   ADDRESS SIZE
-<      >        030472  000450
-        GRAVTY  030472
-**********
-MODULE  MULPLY
-SECTION ENTRY   ADDRESS SIZE
-<      >        031142  000304
-        MULPLY  031142
-**********
-MODULE  PARM  
-SECTION ENTRY   ADDRESS SIZE
-<      >        031446  001214
-        PARM    031446
-**********
-MODULE  PWRUP 
-SECTION ENTRY   ADDRESS SIZE
-<      >        032662  000106
-**********
-MODULE  RESET 
-SECTION ENTRY   ADDRESS SIZE
-<      >        032770  000206
-        CENTER  040000
-        ORBIT   000400
-        RESET   032770
-        RES01   033156
-**********
-MODULE  RKT1  
-SECTION ENTRY   ADDRESS SIZE
-<      >        033176  000160
-        RKT1    033176
-**********
-MODULE  RKT2  
-SECTION ENTRY   ADDRESS SIZE
-<      >        033356  000142
-        RKT2    033356
-**********
-MODULE  SCORE 
-SECTION ENTRY   ADDRESS SIZE
-<      >        033520  000266
-        SCORE   033520
-**********
-MODULE  SINCOS
-SECTION ENTRY   ADDRESS SIZE
-<      >        034006  000462
-        SINCOS  034006
-**********
-MODULE  SLINE 
-SECTION ENTRY   ADDRESS SIZE
-<      >        034470  000114
-        SLINE   034470
 **********
 MODULE  SPCWAR
 SECTION ENTRY   ADDRESS SIZE
-<      >        034604  000232
-        ADBR    176772
-        ADCS    176770
-        AMMO    035022
-        ANGH1   034760
-        ANGH2   035006
-        ANGL1   034756
-        ANGL2   035004
+<. ABS.>        000000  000000
+<      >        025424  000232
+        ADBR    170402
+        ADCS    170400
+        AMMO    025642
+        ANGH1   025600
+        ANGH2   025626
+        ANGL1   025576
+        ANGL2   025624
         ANGMID  000702
-        DAC0    176750
-        DAC1    176752
-        DAC2    176754
+        DAC0    170412
+        DAC1    170414
+        DPCS    170410
+        ERASE   010000
         FIRE    001440
-        FLAG1   034736
-        FLAG2   034764
-        GAME1   035026
-        GAME2   035030
-        GRVFLG  035032
-        HIT1    035010
-        HIT2    035012
+        FLAG1   025556
+        FLAG2   025604
+        GAME1   025646
+        GAME2   025650
+        GRVFLG  025652
+        HIT1    025630
+        HIT2    025632
         MASK    002100
-        PTREP   035034
+        PTREP   025654
         RKTSIZ  007000
-        SHOTS1  035014
-        SHOTS2  035016
-        SPCRST  034624
-        SPCWAR  034604
+        SHOTS1  025634
+        SHOTS2  025636
+        SPCRST  025444
+        SPCWAR  025424
         SUNSZ   004000
-        TSPEED  035024
-        WIN     035020
-        XDISP1  034754
-        XDISP2  035002
-        XSIZE1  034746
-        XSIZE2  034774
-        XVELH1  034752
-        XVELH2  035000
-        XVELL1  034750
-        XVELL2  034776
-        YDISP1  034744
-        YDISP2  034772
-        YSIZE1  034734
-        YSIZE2  034762
-        YVELH1  034742
-        YVELH2  034770
-        YVELL1  034740
-        YVELL2  034766
+        TSPEED  025644
+        WIN     025640
+        XDISP1  025574
+        XDISP2  025622
+        XSIZE1  025566
+        XSIZE2  025614
+        XVELH1  025572
+        XVELH2  025620
+        XVELL1  025570
+        XVELL2  025616
+        YDISP1  025564
+        YDISP2  025612
+        YSIZE1  025554
+        YSIZE2  025602
+        YVELH1  025562
+        YVELH2  025610
+        YVELL1  025560
+        YVELL2  025606
+**********
+MODULE  CHAR  
+SECTION ENTRY   ADDRESS SIZE
+<      >        025656  000302
+        CHAR    025656
+**********
+MODULE  CHRTAB
+SECTION ENTRY   ADDRESS SIZE
+<      >        026160  000606
+        CHRTAB  026160
+**********
+MODULE  COMPAR
+SECTION ENTRY   ADDRESS SIZE
+<      >        026766  000444
+        COMPAR  026766
+**********
+MODULE  EXPLOD
+SECTION ENTRY   ADDRESS SIZE
+<      >        027432  000330
+        EXPLOD  027432
+        EXPREP  027550
+        EXPX    027556
+        EXPY    027560
+**********
+MODULE  GRAVTY
+SECTION ENTRY   ADDRESS SIZE
+<      >        027762  000450
+        GRAVTY  027762
+**********
+MODULE  MULPLY
+SECTION ENTRY   ADDRESS SIZE
+<      >        030432  000304
+        MULPLY  030432
+**********
+MODULE  PARM  
+SECTION ENTRY   ADDRESS SIZE
+<      >        030736  001214
+        PARM    030736
+**********
+MODULE  PWRUP 
+SECTION ENTRY   ADDRESS SIZE
+<      >        032152  000106
+**********
+MODULE  RESET 
+SECTION ENTRY   ADDRESS SIZE
+<      >        032260  000206
+        CENTER  040000
+        ORBIT   000400
+        RESET   032260
+        RES01   032446
+**********
+MODULE  RKT1  
+SECTION ENTRY   ADDRESS SIZE
+<      >        032466  000160
+        RKT1    032466
+**********
+MODULE  RKT2  
+SECTION ENTRY   ADDRESS SIZE
+<      >        032646  000142
+        RKT2    032646
+**********
+MODULE  SCORE 
+SECTION ENTRY   ADDRESS SIZE
+<      >        033010  000266
+        SCORE   033010
+**********
+MODULE  SINCOS
+SECTION ENTRY   ADDRESS SIZE
+<      >        033276  000462
+        SINCOS  033276
+**********
+MODULE  SLINE 
+SECTION ENTRY   ADDRESS SIZE
+<      >        033760  000140
+        SLINE   033760
 **********
 MODULE  SUN   
 SECTION ENTRY   ADDRESS SIZE
-<      >        035036  000304
-        SUN     035036
+<      >        034120  000304
+        SUN     034120
 **********
 MODULE  UPDAT1
 SECTION ENTRY   ADDRESS SIZE
-<      >        035342  000356
-        UPDAT1  035342
+<      >        034424  000372
+        UPDAT1  034424
 **********
 MODULE  UPDAT2
 SECTION ENTRY   ADDRESS SIZE
-<      >        035720  000356
-        UPDAT2  035720
+<      >        035016  000372
+        UPDAT2  035016
+**********
+MODULE  FPMP11
+SECTION ENTRY   ADDRESS SIZE
+<      >        035410  000640
+        $ERR    036212
+        $ERRA   036222
+        $ERVEC  036242
+        $ICI    035416
+        $ICO    035722
+        $OCI    035410
+        $OCO    035714
+        $POLSH  036206
+        $V20A   036206
 **********
 MODULE  POINT 
 SECTION ENTRY   ADDRESS SIZE
-<      >        036276  001162
-        POINT   036276
+<      >        036250  001210
+        POINT   036250
         PTNUM   036456
-
 PASS 2
 
 * 
