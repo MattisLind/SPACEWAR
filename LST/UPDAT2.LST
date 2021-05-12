@@ -50,8 +50,8 @@
   000044 100375         BPL     UPD20           ;MAYBE WAIT SOME MORE?
   000046 016700'        MOV     ADBR,R0         ;GET ACC2 FROM ATOD
          000000
-  000052 012767'        MOV     #1001,ADCS      ;START ATOD FOR ANGL2
-         001001
+  000052 012767'        MOV     #21001,ADCS     ;START ATOD FOR ANGL2
+         021001
          000000
   000060 005722         TST     (R2)+           ;DID RKT2 FIRE LAST LOOP?
 
@@ -145,8 +145,8 @@
   000326 100375         BPL     UPD24           ;WAIT SOME MORE?
   000330 016700'        MOV     ADBR,R0         ;GET ATOD ANGL2
          000000
-  000334 012767'        MOV     #401,ADCS       ;START ATOD FOR ACC2
-         000401
+  000334 012767'        MOV     #20401,ADCS     ;START ATOD FOR ACC2
+         020401
          000000
   000342 005001         CLR     R1              ;CLEAR FOR FAKE SIGN EXTEND
   000344 162700'        SUB     #ANGMID,R0      ;CENTER CONTROL # FOR ANGLE

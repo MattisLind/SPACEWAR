@@ -49,8 +49,8 @@
   000046 006201         ASR     R1              ;THROW OUT 4 BITS
   000050 006201         ASR     R1
   000052 006201         ASR     R1              ;THROW TWO MORE BITS
-  000054 062701         ADD     #0400,R1        ;AR11 IS NOT 2'S COMP.
-         000400
+  000054 062701         ADD     #1000,R1        ;AR11 IS NOT 2'S COMP.
+         001000
   000060 010167'        MOV     R1,DAC0         ;PUT XINITIAL IN DAC0
          000000
   000064 010301         MOV     R3,R1           ;R1=YINITIAL
@@ -63,8 +63,8 @@
   000074 006201         ASR     R1              ;DUMP 4 BITS
   000076 006201         ASR     R1
   000100 006201         ASR     R1              ;AND YET TWO BITS
-  000102 062701         ADD     #0400,R1        ;AR11 IS NOT 2'S COMP.
-         000400
+  000102 062701         ADD     #1000,R1        ;AR11 IS NOT 2'S COMP.
+         001000
   000106 010167'        MOV     R1,DAC1         ;PUT YINITIAL IN DAC1
          000000
   000112 042767'        BIC     #ERASE,DPCS     ;TURN DOT ON;
