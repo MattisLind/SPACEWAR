@@ -5,8 +5,8 @@ The original [Spacewar!](https://en.wikipedia.org/wiki/Spacewar!) game was writt
 This port to the PDP-11 architecture were done by Bill Seiler & Larry Bryant in 1974. It was then submitted to DECUS as 11-192
 
 ![DECUS entry](https://i.imgur.com/rjaWX4X.png)
-Click to see video clip:
 
+Click to see video clip:
 [![Watch the video](https://i.imgur.com/zEJahsal.jpg)](https://youtu.be/fTiHRAKjyho)
 
 ![Score](https://i.imgur.com/jzlCG28l.jpg)
