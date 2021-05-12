@@ -19,7 +19,7 @@ Click to see video clip:
 Ufortunatley DECUS threw away all the sources many years ago. By luck I got in contact with Bill Seiler and he sent me the source files. The sources were provided to me as scanned documents. With some help the original PDFs were tidied up to help the OCR process. Then I partly OCRed and manually transcribed all files into text files.
 The files were then then fed into the PAL11-S assembler and numerous errors were detected already when trying to get the files pass the syntax check. Then the output listing files was compared side by side with the original scanned files. Byte for byte were checked and yet more problems were found. Finally during linking a number of issues with global symbols were found. In the end the program assembled and linked correctly.
 
-As a side note there exists at least two more ports of the SPACEWAR game to the PDP-11 architecture, but both of those rely on the VT11 vector drawing option which is for example pressing in the GT40 system. I don't have a VT11 neither a GT40 so this is my best optoin to get SPACEWAR on a PDP-11.
+As a side note there exists at least two more ports of the SPACEWAR game to the PDP-11 architecture ([for example this one](https://saildart.org/SW.P11%5B11,BO%5D)), but both of those rely on the VT11 vector drawing option which is for example pressing in the GT40 system. I don't have a VT11 neither a GT40 so this is my best optoin to get SPACEWAR on a PDP-11.
 
 ## Assembling
 
