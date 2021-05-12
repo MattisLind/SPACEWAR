@@ -637,8 +637,50 @@ Each cable going from the connector has +5V, GND and Angle and Acceleration. I u
 
 The fire button is connected to short circuit the acceleration potentiometer to the 5V supply. 
 
+## Cable connections
 
-
+|  Pin |  Signal   |  Connect to  |
+|------|-----------|--------------|
+|  A   | WRITH THRU L |  NC       |
+|  B   | DISP CH02 L  |  NC       |
+|  C   | ERASE L      |  Pull up to 5V in the scope end + Z input of scope |
+|  D   | INTESIFY     |  Optional Z input if the standard point plotting mechanism of the AR11 is to be used for other purposes. |
+|  E   | NON-STORE L  |  NC     |
+|  F   | X OUT        |  Scope X input |
+|  H   | ERASE RET L  |  NC |
+|  J   | Y OUT        |  Scope Y input |
+|  K   | Analog ground | ground for X and Y twisted pair. Including shield |
+|  L   |  A/D CH 17 input | NC |
+|  M   | Analog ground | NC |
+|  N   |  A/D CH 16 input | NC |
+|  P   | Logic ground  |  Z - axis pair ground and sheild |
+|  R   |  A/D CH 15 input | NC |
+|  S   | Logic ground  |  Intensify Z- axis pair return and shield (optional) |
+|  T   | A/D CH 14 input | NC |
+|  U   | EXT AD ST L |   NC |
+|  V   | A/D CH 13 input | NC |
+|  W  | Analog ground | NC |
+|  X   | A/D CH 12 input | NC |
+|  Y  | Analog ground | NC |
+|  Z   | A/D CH 11 input | NC |
+|  AA  | Analog ground | NC |
+|  BB   | A/D CH 10 input | NC |
+|  CC  | Analog ground | NC |
+|  DD   | A/D CH 7 input | NC |
+|  EE  | Analog ground | Joystick 2 Acceleration pot ground and shield |
+|  FF   | A/D CH 6 input | NC |
+|  HH  | Analog ground | Joystick 2 Angle pot ground and shield |
+|  JJ   | A/D CH 5 input | NC |
+|  KK  | Analog ground | Joystick 1 Acceleration pot ground and shield |
+|  LL   | A/D CH 4 input | NC |
+|  MM  | Analog ground | Joystick 1 Angle pot ground and shield |
+|  NN   | A/D CH 3 input | Joystick 2 Acceleration pot viper |
+|  PP  | -14V HQ | NC |
+|  RR   | A/D CH 2 input | Joystick 2 Angle pot viper |
+|  SS  | +14V HQ| NC |
+|  TT   | A/D CH 1 input | Joystick 1 Acceleration pot viper |
+|  UU  | +5V output | Power to feed joysticks and pull-up resistor for Z-axis |
+|  VV   | A/D CH 0 input | Joystick 1 Angle pot viper |
 
 
 
