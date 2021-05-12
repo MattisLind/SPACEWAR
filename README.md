@@ -7,6 +7,7 @@ This port to the PDP-11 architecture were done by Bill Seiler & Larry Bryant in 
 ![DECUS entry](https://i.imgur.com/rjaWX4X.png)
 
 Click to see video clip:
+
 [![Watch the video](https://i.imgur.com/zEJahsal.jpg)](https://youtu.be/fTiHRAKjyho)
 
 ![Score](https://i.imgur.com/jzlCG28l.jpg)
