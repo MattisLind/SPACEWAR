@@ -1,5 +1,10 @@
 # SPACEWAR
 
+The original [Spacewar!](https://en.wikipedia.org/wiki/Spacewar!) game was written for the PDP-1 minicomputer and there were several ports to other architectures.
+
+This port to the PDP-11 architecture were done by Bill Seiler & Larry Bryant in 1974. It was then submitted to DECUS as 11-192
+
+![DECUS entry](https://i.imgur.com/rjaWX4X.png)
 Click to see video clip:
 
 [![Watch the video](https://i.imgur.com/zEJahsal.jpg)](https://youtu.be/fTiHRAKjyho)
@@ -9,16 +14,6 @@ Click to see video clip:
 ![Score](https://i.imgur.com/74w9Fgel.jpg)
 
 ![Score](https://i.imgur.com/aq88NXRl.jpg)
-
-
-
-Please note that all patches for the AR11 board is on the ar11-patch branch.
-
-The original [Spacewar!](https://en.wikipedia.org/wiki/Spacewar!) game was written for the PDP-1 minicomputer and there were several ports to other architectures.
-
-This port to the PDP-11 architecture were done by Bill Seiler & Larry Bryant in 1974. It was then submitted to DECUS as 11-192
-
-![DECUS entry](https://i.imgur.com/rjaWX4X.png)
 
 Ufortunatley DECUS threw away all the sources many years ago. By luck I got in contact with Bill Seiler and he sent me the source files. The sources were provided to me as scanned documents. With some help the original PDFs were tidied up to help the OCR process. Then I partly OCRed and manually transcribed all files into text files.
 The files were then then fed into the PAL11-S assembler and numerous errors were detected already when trying to get the files pass the syntax check. Then the output listing files was compared side by side with the original scanned files. Byte for byte were checked and yet more problems were found. Finally during linking a number of issues with global symbols were found. In the end the program assembled and linked correctly.
@@ -605,6 +600,8 @@ Then when I had installed the correct hardware and patched the source to use AR1
 
 ## Adaptations to the AR11
 
+![AR11](https://i.imgur.com/b4smUdXl.jpg?1)
+
 Since I don't have any [AD01](http://manx-docs.org/collections/hcps/AD01_manual.pdf) neither any [AA11](http://manx-docs.org/collections/hcps/AA11-D_manual.pdf) subsystem for my PDP-11 and the objective is to have the program running on as like hardware as possible I have to modify it to the hardware I do have, which is the AR11. One obvious benefit of the AR11 is that it is a single HEX module compared with the AD01 and AA11 which are bulky rack-mount system units as big as the computer it self (PDP-11/10).
 
 One disadvantage is that the [AR11](http://bitsavers.trailing-edge.com/pdf/dec/unibus/AR11_UsersMan.pdf) is 10 bit only, meaning that som small changes has to be done to handle 12 vs 10 bits.
@@ -622,7 +619,7 @@ All adaptations for the AR11 went into a branch called ar11-patch. Make sure to 
 ## Joysticks
 
 
-![Joysticks](https://i.imgur.com/8dp26sCl.jpg)
+![Joysticks](https://i.imgur.com/BDVSNOll.jpg)
 
 This is basically almost only parts ordered from Aliexpress.
  * [2-axis potentiometer Joystick switch 201 Series. Model M1 with B cap.](https://www.aliexpress.com/item/1785099158.html?spm=a2g0s.9042311.0.0.27424c4dmlXlFu)
@@ -637,7 +634,10 @@ Each cable going from the connector has +5V, GND and Angle and Acceleration. I u
 
 The fire button is connected to short circuit the acceleration potentiometer to the 5V supply. 
 
-## Cable connections
+## Cable harness
+
+![Cable harness](https://i.imgur.com/TeLN2Msl.jpg)
+
 
 I used 47217-000LF/48254-000LF contact elements and 65043-015LF contact housings. The cable is a three pair shieled cable for the Joysticks and the X, Y and Z inputs. An extra cable of simpler type was used for the intensify signal in case I ever wanted to use it.
 
