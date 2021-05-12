@@ -25,7 +25,7 @@ The files were then then fed into the PAL11-S assembler and numerous errors were
 
 ## Assembling
 
-In case you just want to run the binary and not want the fun of building it from scratch, just grab the SPACEWAR.ABS file in the ar11-patch branch (if you have a AR11 board in you machine) and run in from 025424. Make sure that the switch register is set to all zeroes. I have seen that otherwise it gets stuck in the IOX library. Probably a non-zero SR indicate some optons to the IOX library, but I haven't investigated that further.
+In case you just want to run the binary and not want the fun of building it from scratch, just grab the SPACEWAR.ABS file in the ar11-patch branch (if you have a AR11 board in you machine) and run in from 025424. Make sure that the switch register is set to all zeroes. I have seen that otherwise it gets stuck in the IOX library. Probably a non-zero SR indicate some optons to the IOX library, but I haven't investigated that further. Also make sure to also load the IOX binary in the IOX-11 subfolder into memory before starting the SPACEWAR. 
 
 It is possible to assemble the files located in the SRC folder using PAL11-S assembler under SimH. PAL11-S is part of the [PDP-11 Paper Tape Software](http://bitsavers.informatik.uni-stuttgart.de/www.computer.museum.uq.edu.au/pdf/DEC-11-XPTSA-B-D%20PDP-11%20Paper%20Tape%20Software%20Handbook.pdf). 
 
