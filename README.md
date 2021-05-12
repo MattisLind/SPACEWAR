@@ -23,10 +23,10 @@ The files were then then fed into the PAL11-S assembler and numerous errors were
 
 In case you just want to run the binary and not want the fun of building it from scratch, just grab the SPACEWAR.ABS file in the ar11-patch branch (if you have a AR11 board in you machine) and run in from 025424. Make sure that the switch register is set to all zeroes. I have seen that otherwise it gets stuck in the IOX library. Probably a non-zero SR indicate some optons to the IOX library, but I haven't investigated that further. Also make sure to also load the IOX binary in the IOX-11 subfolder into memory before starting the SPACEWAR. 
 
-It is possible to assemble the files located in the SRC folder using PAL11-S assembler under SimH. PAL11-S is part of the [PDP-11 Paper Tape Software](http://bitsavers.informatik.uni-stuttgart.de/www.computer.museum.uq.edu.au/pdf/DEC-11-XPTSA-B-D%20PDP-11%20Paper%20Tape%20Software%20Handbook.pdf). 
+It is possible to assemble the files located in the SRC folder using PAL11-S assembler under SimH PDP-11 simulator. PAL11-S is part of the [PDP-11 Paper Tape Software](http://bitsavers.informatik.uni-stuttgart.de/www.computer.museum.uq.edu.au/pdf/DEC-11-XPTSA-B-D%20PDP-11%20Paper%20Tape%20Software%20Handbook.pdf). 
 
 
-First toggle in the bootstrap loader
+First toggle in the bootstrap loader (or use the file TOOLS/simh.ini)
 ```
 sim> SET CPU 11/05
 Disabling XQ
@@ -77,10 +77,10 @@ PAL-11S  V003A
 Now pressing Ctrl-E allows for attaching the correct input and output virtual paper tapes.
 ```
 Simulation stopped, PC: 035110 (CMPB R1,#14)
-sim> attach ptr SPCWAR.PAL
-sim> attach ptp SPCWAR.OBJ
+sim> attach ptr SRC/SPCWAR.PAL
+sim> attach ptp OBJ/SPCWAR.OBJ
 PTP: creating new file
-sim> attach lpt SPCWAR.LST
+sim> attach lpt LST/SPCWAR.LST
 LPT: creating new file
 sim> c
 ```
@@ -124,7 +124,7 @@ H
 So now the assembler want to run the second pass which means that we have to load our virtual source tape again. Press Ctrl-E now to get into SimH.
 ```
 Simulation stopped, PC: 035464 (BR 35334)
-sim> attach ptr SPCWAR.PAL
+sim> attach ptr SRC/SPCWAR.PAL
 sim> c
 ```
 And then press return when back into the PAL11-S environment.
@@ -203,7 +203,7 @@ PASS 1
 Simulation stopped, PC: 035140 (MOV R5,14(SP))
 sim> ATTACH PTP SPACEWAR.ABS
 sim> ATTACH LPT SPACEWAR.MAP
-sim> ATTACH PTR OBJ/CHAR.OBJ 
+sim> ATTACH PTR OBJ/SPCWAR.OBJ 
 ```
 To the linker you specify the I(input) and O(utput) deivce. H(igh-speed) reader or L(ow-speed). (load) M(ap) is either not generated at all if pressing RETURN or by pressing H(igh speed punch) or T(teletype), or L(ine Printer). The there are two questions (T and B) how the relocation should be done. Press RETURN for top of memory. 
 
@@ -596,7 +596,7 @@ The code at 15604 will subsequently make a JMP to address 40 where the HALT inst
 15616:	BR 15600
 ```
 
-Then when I had installed the correct hardware and patched the source to use AR11 it still failed. Then I discovered that the stackpointer is initialized with the SPCWAR symbol. Meaning that it grows downwards from that point. Not having the SPCWAR module as the first module when then be a problem since the stack will overwrite the code. I.e. The SPCWAR module has to be the first module and the POINT module has to be that last module. Otherwise the order is of no importance.
+Then when I had installed the correct hardware and patched the source to use AR11 it still failed. Then I discovered that the stackpointer is initialized with the SPCWAR symbol. Meaning that it grows downwards from that point. Not having the SPCWAR module as the first module will then be a problem since the stack will overwrite the code. I.e. The SPCWAR module has to be the first module and the POINT module has to be that last module. Otherwise the order is of no importance.
 
 
 ## Adaptations to the AR11
