@@ -2,7 +2,9 @@
 
 Click to see video clip:
 
-[![Watch the video](https://img.youtube.com/vi/fTiHRAKjyho/default.jpg)](https://youtu.be/fTiHRAKjyho)
+[![Watch the video](https://i.imgur.com/zEJahsal.jpg)](https://youtu.be/fTiHRAKjyho)
+
+![Score](https://i.imgur.com/jzlCG28l.jpg)
 
 Please note that all patches for the AR11 board is on the ar11-patch branch.
 
@@ -17,7 +19,10 @@ The files were then then fed into the PAL11-S assembler and numerous errors were
 
 ## Assembling
 
+In case you just want to run the binary and not want the fun of building it from scratch, just grab the SPACEWAR.ABS file in the ar11-patch branch (if you have a AR11 board in you machine) and run in from 025424. Make sure that the switch register is set to all zeroes. I have seen that otherwise it gets stuck in the IOX library. Probably a non-zero SR indicate some optons to the IOX library, but I haven't investigated that further.
+
 It is possible to assemble the files located in the SRC folder using PAL11-S assembler under SimH. PAL11-S is part of the [PDP-11 Paper Tape Software](http://bitsavers.informatik.uni-stuttgart.de/www.computer.museum.uq.edu.au/pdf/DEC-11-XPTSA-B-D%20PDP-11%20Paper%20Tape%20Software%20Handbook.pdf). 
+
 
 First toggle in the bootstrap loader
 ```
@@ -608,5 +613,25 @@ The AD01 is 10 bit so there were very few changes appart from changing addresses
 All adaptations for the AR11 went into a branch called ar11-patch. Make sure to get that one.
 
 ## Joysticks
+
+
+![Joysticks](https://i.imgur.com/8dp26sCl.jpg)
+
+This is basically almost only parts ordered from Aliexpress.
+ * [2-axis potentiometer Joystick switch 201 Series. Model M1 with B cap.](https://www.aliexpress.com/item/1785099158.html?spm=a2g0s.9042311.0.0.27424c4dmlXlFu)
+ * [New Arcade Push Button Durable Multicade MAME Jamma Game Long Switch - Red](https://www.aliexpress.com/item/32716886319.html?spm=a2g0s.9042311.0.0.27424c4dmlXlFu)
+ * [Waterproof Plastic Enclosure Box Electronic Project Instrument Case Electrical Project Box Outdoor Junction Box Housing. Product properties: 115 x 90 x 55mm + White](https://www.aliexpress.com/item/32922219606.html?spm=a2g0s.9042311.0.0.27424c4dmlXlFu) 
+ * Cable bending protection.
+
+Each cable going from the connector has +5V, GND and Angle and Acceleration. I used a cable with three pairs and individual sheilding for each pair. The pairs are:
+* +5V and GND
+* Accleration and GND
+* Angle and GND.
+
+The fire button is connected to short circuit the acceleration potentiometer to the 5V supply. 
+
+
+
+
 
 
