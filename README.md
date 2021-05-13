@@ -443,7 +443,7 @@ PASS 2
 
 * 
 ```
-And it also resulted a 7323 byte file in Absolute Binary format! From the load map one can deduce the starting address of the binary. 034604 in this case.
+And it also resulted a 7323 byte file in Absolute Binary format! From the load map one can deduce the starting address of the binary. 025424 in this case.
 
 ## Running SPACE WAR
 
@@ -613,9 +613,9 @@ One obvious difference is that the AR11 make use of completely different IO addr
 
 Another issue is that the oscilloscope screens requires certain time to deflect the beam. The AR11 include a functionality that when setting the intensify bit it will delay the acutual intensify operation 20 us and then issue a 2 us pulse. The AR11 will then signal back a DONE flag to indicate that next dot can be painted on screen. The SPACEWAR code does not wait for any DONE flag but draws as fast as the CPU can. This may be ok for a PDP-11/10 but might be to fast for a 11/45? And it may be too fast for certain oscilloscope hardware but OK for others.
 
-I ended up using the ERASE (12) bit in the display status register to control the Z-axis. It is a open collector signal so there need to be a pull up resistor in the end of the line at the Z-input of the scope. I also discovered that the AA11 subsystem is 2's complment while the AR11 is not. So besides shifting the output value two steps to the right to make it fit into a then bit number I also had to add 512 to the number before sending it off to the D/A converter.
+I ended up using the ERASE (12) bit in the display status register to control the Z-axis. It is a open collector signal so there need to be a pull up resistor in the end of the line at the Z-input of the scope. I also discovered that the AA11 subsystem is 2's complment while the AR11 is not. So besides shifting the output value two steps to the right to make it fit into a ten bit number I also had to add 512 to the number before sending it off to the D/A converter.
 
-The AD01 is 10 bit so there were very few changes appart from changing addresses, except for one thing. The AR11 has to be but into unipolar mode since the potentiometers of the joysticks are fed from the internal 5V source of the board.
+The AD01 is 10 bit so there were very few changes appart from changing addresses, except for one thing. The AR11 has to be put into unipolar mode since the potentiometers of the joysticks are fed from the internal 5V source of the board.
 
 All adaptations for the AR11 went into a branch called ar11-patch. Make sure to get that one.
 
