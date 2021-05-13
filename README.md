@@ -19,11 +19,11 @@ Click to see video clip:
 Ufortunatley DECUS threw away all the sources many years ago. By luck I got in contact with Bill Seiler and he sent me the source files. The sources were provided to me as scanned documents. With some help the original PDFs were tidied up to help the OCR process. Then I partly OCRed and manually transcribed all files into text files.
 The files were then then fed into the PAL11-S assembler and numerous errors were detected already when trying to get the files pass the syntax check. Then the output listing files was compared side by side with the original scanned files. Byte for byte were checked and yet more problems were found. Finally during linking a number of issues with global symbols were found. In the end the program assembled and linked correctly.
 
-As a side note there exists at least two more ports of the SPACEWAR game to the PDP-11 architecture ([for example this one](https://saildart.org/SW.P11%5B11,BO%5D)), but both of those rely on the VT11 vector drawing option which is for example pressing in the GT40 system. I don't have a VT11 neither a GT40 so this is my best optoin to get SPACEWAR on a PDP-11.
+As a side note there exists at least two more ports of the SPACEWAR game to the PDP-11 architecture ([for example this one](https://saildart.org/SW.P11%5B11,BO%5D)), but both of those rely on the VT11 vector drawing option which is for example present in the GT40 system. I don't have a VT11 neither a GT40 so this is my best option to get SPACEWAR on a PDP-11.
 
 ## Assembling
 
-In case you just want to run the binary and not want the fun of building it from scratch, just grab the SPACEWAR.ABS file in the ar11-patch branch (if you have a AR11 board in your machine) and run in from 025424. Make sure to also load the IOX binary in the IOX-11 subfolder into memory before starting the SPACEWAR and set the switch regsiter to all zeroes. I have seen that otherwise it gets stuck in the IOX library. Probably a non-zero SR indicate some options to the IOX library, but I haven't investigated that further. Also 
+In case you just want to run the binary and not want the fun of building it from scratch, just grab the SPACEWAR.ABS file in the ar11-patch branch (if you have a AR11 board in your machine) and run in from 025424. Make sure to also load the IOX binary in the IOX-11 subfolder into memory before starting the SPACEWAR and set the switch regsiter to all zeroes. I have seen that otherwise it gets stuck in the IOX library. Probably a non-zero SR indicate some options to the IOX library, but I haven't investigated that further.
 
 It is possible to assemble the files located in the SRC folder using PAL11-S assembler under SimH PDP-11 simulator. PAL11-S is part of the [PDP-11 Paper Tape Software](http://bitsavers.informatik.uni-stuttgart.de/www.computer.museum.uq.edu.au/pdf/DEC-11-XPTSA-B-D%20PDP-11%20Paper%20Tape%20Software%20Handbook.pdf). 
 
@@ -207,7 +207,7 @@ sim> ATTACH PTP SPACEWAR.ABS
 sim> ATTACH LPT SPACEWAR.MAP
 sim> ATTACH PTR OBJ/SPCWAR.OBJ 
 ```
-To the linker you specify the I(input) and O(utput) deivce. H(igh-speed) reader or L(ow-speed). (load) M(ap) is either not generated at all if pressing RETURN or by pressing H(igh speed punch) or T(teletype), or L(ine Printer). The there are two questions (T and B) how the relocation should be done. Press RETURN for top of memory. 
+To the linker you specify the I(input) and O(utput) deivce. H (High-speed) reader or L (Low-speed). Load map (M) is either not generated at all if pressing RETURN or by pressing H (High speed punch) or T(teletype), or P(Line Printer). The there are two questions (T and B) how the relocation should be done. Press RETURN for top of memory to both of those.
 
 In this case I have chosen to have the resulting binary to be generated on the paper tape punch and the module map on the line printer.
 
