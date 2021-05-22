@@ -635,7 +635,7 @@ Each cable going from the connector has +5V, GND and Angle and Acceleration. I u
 * Accleration and GND
 * Angle and GND.
 
-The fire button is connected to short circuit the acceleration potentiometer to the 5V supply. 
+The fire button is connected to short circuit the acceleration potentiometer to the 5V supply. It is importtant to use a joystick typ that is not full range. The M1 model goes from 1.8k to 3.6k. Thus short-circuiting the viper to 5V when at the lowest position of the viper in the joystick is not a problem. The Model M1 linked to above is this non-full range type. However if you choose model M2 you get into trouble. So be careful when selecting the joystick.
 
 ## Cable harness
 
