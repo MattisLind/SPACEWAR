@@ -6,9 +6,16 @@ This port to the PDP-11 architecture was done by Bill Seiler & Larry Bryant in 1
 
 ![DECUS entry](https://i.imgur.com/rjaWX4X.png)
 
+SPACEWAR on the HP 1332A vector screen.
+
 Click to see video clip:
 
 [![Watch the video](https://i.imgur.com/zEJahsal.jpg)](https://youtu.be/fTiHRAKjyho)
+
+SPACEWAR on a VR12 vector screen. Has a very nice P7 phosphor that has fantastic after-glow. Actually this type of phosphor was used in the PDP-1 screen which the original SPACEWAR was run on.
+
+[![Watch the video](https://i.imgur.com/hPpn2VI.jpg)](https://youtu.be/MMxfWvPEM6A)
+
 
 ![Score](https://i.imgur.com/jzlCG28l.jpg)
 
