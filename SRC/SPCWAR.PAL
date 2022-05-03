@@ -36,7 +36,7 @@
         MASK=2100               ;COLLISION RADIUS FOR TORPEDOES
                                 ; AND ROCKETS
         RKTSIZ=7000             ;SIZE OF ROCKETS
-        FIRE=800.                ;NUMBER REQUIRED FROM ACCEL
+        FIRE=800.               ;NUMBER REQUIRED FROM ACCEL
                                 ; A TO D TO FIRE A TORPEDO
                                 ;NUMERS FROM 8 TO 800. ARE
                                 ; ACCEL. 8OO. TO 1024. FIRE A

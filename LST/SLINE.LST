@@ -25,7 +25,7 @@
          000006         SP=R6
          000007         PC=R7
                         .TITLE  SLINE
-                        .GLOBL  SLINE,DAC0,DAC1,DPCS,ERASE
+                        .GLOBL  SLINE,DAC0,DAC1,DPCS,ZAXIS
          000000         .CSECT
   000000 160204 SLINE:  SUB     R2,R4           ;GET DELTA X
   000002 160305         SUB     R3,R5           ;GET DELTA Y
@@ -37,7 +37,7 @@
   000016 006205         ASR     R5
   000020 006205         ASR     R5
   000022 006205         ASR     R5              ;YDELTA/16
-  000024 052767'        BIS     #ERASE,DPCS     ;TURN DOT OFF
+  000024 052767'        BIS     #ZAXIS,DPCS     ;TURN DOT OFF
          000000
          000000
   000032 012700         MOV     #16.,R0         ;CTR = 16
@@ -67,12 +67,12 @@
          001000
   000106 010167'        MOV     R1,DAC1         ;PUT YINITIAL IN DAC1
          000000
-  000112 042767'        BIC     #ERASE,DPCS     ;TURN DOT ON;
+  000112 042767'        BIC     #ZAXIS,DPCS     ;TURN DOT ON;
          000000
          000000
   000120 060402         ADD     R4,R2           ;INCREMENT XINITIAL
   000122 060503         ADD     R5,R3           ;INCREMENT YINITIAL
-  000124 052767'        BIS     #ERASE,DPCS     ;TURN DOT OFF
+  000124 052767'        BIS     #ZAXIS,DPCS     ;TURN DOT OFF
          000000
          000000
   000132 005300         DEC     R0              ;IS CTR ZERO YET?
