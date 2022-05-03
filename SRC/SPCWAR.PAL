@@ -30,8 +30,8 @@
                                 ;TO ANALOG CONVERTER
         DAC1=170414             ;ADDRESS FOR Y-AXIS D TO A CONV.
         DPCS=170410             ;ADDRESS FOR Z-BLANKING
-                                ;USE ERASE BIT TO CONTROL Z
-        ERASE=010000            ;ERASE IS BIT 12
+                                ;USE CH02 BIT TO CONTROL Z
+        ZAXIS=01000             ;CH02 IS BIT 9
         SUNSZ=2048.             ;COLLISION RADIUS FOR SUN
         MASK=2100               ;COLLISION RADIUS FOR TORPEDOES
                                 ; AND ROCKETS
@@ -53,7 +53,7 @@
         .GLOBL  ANGH1,ANGH2,XSIZE1,XSIZE2,SPCRST
         .GLOBL  YSIZE1,YSIZE2,PTNUM,SHOTS1,SHOTS2
         .GLOBL  MASK,RKTSIZ,TSPEED,FIRE,ANGMID,SPCWAR
-        .GLOBL  DAC0,DAC1,DPCS,ADCS,ADBR,SUNSZ,ERASE
+        .GLOBL  DAC0,DAC1,DPCS,ADCS,ADBR,SUNSZ,ZAXIS
         .CSECT 
 SPCWAR: MOV     #SPCWAR,SP      ;SET UP THE STK 
         CLR     GAME1           ;NEW SET OF GAMES
