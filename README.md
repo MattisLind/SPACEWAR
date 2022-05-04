@@ -694,5 +694,9 @@ I used 47217-000LF/48254-000LF contact elements and 65043-015LF contact housings
 |  UU  | +5V output | Power to feed joysticks and pull-up resistor for Z-axis |
 |  VV   | A/D CH 0 input | Joystick 1 Angle pot viper |
 
+## Breakout board
 
+Over time the 40 pin connector with crimped contact elemnts started to become a problem. It was bulky and thick and hard to get in and out the machine. I designed a breakout board that attached via a 40 pin flat cable instead. This breakout board has three connectors. One for each joustick and one for the screen.
+
+![Breakout board](https://i.imgur.com/Rt9StaU.jpg)
 
