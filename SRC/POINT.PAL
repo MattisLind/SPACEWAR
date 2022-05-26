@@ -80,4 +80,4 @@ PT06:   BIS     #ZAXIS,DPCS     ;TURN DOT OFF FOR FINISH
         RTS     PC              ;ALL DONE!!!!!!!!!!!!!!!!!!!!!!!
 PTNUM:  .WORD   0
         .=.+512.
-        .END
+        .END    SPCWAR
