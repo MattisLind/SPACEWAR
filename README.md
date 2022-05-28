@@ -452,9 +452,23 @@ PASS 2
 ```
 And it also resulted a 7323 byte file in Absolute Binary format! From the load map one can deduce the starting address of the binary. 025424 in this case.
 
+## Automatic start
+
+The Abolute loader format can specify the starting address so that when the loader loads the tape (or file) into memory it will automatically jump to the starting address. This is done by specifying the starting address on the .END directive. I modified the SPCWAR.PAL file to include the starting symbol SPCWAR.
+
+# IOX library 
+
+The SPACE WAR program make use of the IOX-11 package for teletype IO, which means that this has to be loaded before the SPACE WAR program. Since the IOX package make use of the IOT instruction for all operations there is no linking needed. But the address of the IOX package has to not collide with the SPACE WAR program itself address space wise. It appears that the IOX-11 pacakge is fixed at 015100. ~~There are no instruction on how to assemble the package and a try in PAL-11S results in 245 errors. The IOX-11 package is an absolute binary and is loaded by the abolute loader as most other programs.~~
+
+Later on I learnt that IOX-11 is supposed to be built with PAL-11A instead of PAL-11S. PAL-11A reads the two files directly after each other. There are a number of .EOT directives that will give a EOF? prompt in the assembler. Just pressing CR will feed to the next section. The idea behind this is that if one want to modify the start address of join other source files this can be done at these points. However I wanted to make a single SPACEWAR binary with IOX builtin that is loaded into the machine. Thus I needed to use PAL-11S which is used for the rest of SPACEWAR. There are some things that differ since PAL-11S is a relocating assembler and PAL-11A is a absolute assembler. I had to add .CSECT and .ASECT directives to the source. I also combined the module into one source file.
+
+With this in place it was possible to re-link the entire package.
+
+
 ## Running SPACE WAR
 
-The SPACE WAR program make use of the IOX-11 package for teletype IO, which means that this has to be loaded before the SPACE WAR program. Since the IOX package make use of the IOT instruction for all operations there is no linking needed. But the address of the IOX package has to not collide with the SPACE WAR program itself address space wise. It appears that the IOX-11 pacakge is fixed at 015100. There are no instruction on how to assemble the package and a try in PAL-11S results in 245 errors. The IOX-11 package is an absolute binary and is loaded by the abolute loader as most other programs.
+All this made it possible to build a new SPACEWAR binary with the IOX library built in and also have the autostart feature. The new binary is called SPACEWARWIOX.LDA.
+The extension .LDA is to signify that it should be possible to use this from any PDP-11 oprating system that is able to load abolute binary files. For example XXDP is able to handle .LDA files and I think RT-11, CAPS-11 and DOS-11 too.
 
 
 
