@@ -785,7 +785,7 @@ With this in place it was possible to re-link the entire package.
 
 I thought it would be good to have a disk image with the SPACEWAR binary loaded. Using the xxdpdir utilities bye Dan North I added the binary to the image. The image with the SPACEWAR binary is provided as a TU58 disk image, dddp.dsk. The image has a XXDP+ system on it.
 
-The intention is that it should be possible to simply do a RUN SPCWAR.LDA from the XXDP+ prompt but it does not appear to work. It gets stuck inside the IOX-library waiting for something, at least when testing this in SIMH. But if I halt the SIMH simulator and do a RESET command followed by GO 1000, it is actually runs. So somehow the RESET command in SimH circumvents the problem. I have not figured out how to solve this. I was thing a RESET instructon could do the same thing. But haven't tried it yes.
+The intention is that it should be possible to simply do a RUN SPCWAR.LDA from the XXDP+ prompt but it does not appear to work. It gets stuck inside the IOX-library waiting for something, at least when testing this in SIMH. But if I halt the SIMH simulator and do a RESET command followed by GO 1000, it is actually runs. So somehow the RESET command in SimH circumvents the problem. I have not figured out how to solve this. I was thinking that a RESET instructon could do the same thing. But haven't tried it yes.
 
 
 ## Running SPACE WAR
