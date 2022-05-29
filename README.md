@@ -791,7 +791,7 @@ The intention is that it should be possible to simply do a RUN SPCWAR.LDA from t
 ## Running SPACE WAR
 
 All this made it possible to build a new SPACEWAR binary with the IOX library built in and also have the autostart feature. The new binary is called SPACEWARWIOX.LDA.
-The extension .LDA is to signify that it should be possible to use this from any PDP-11 oprating system that is able to load abolute binary files. For example XXDP is able to handle .LDA files and I think RT-11, CAPS-11 and DOS-11 too.
+The extension .LDA is to signify that it should be possible to use this from any PDP-11 oprating system that is able to load abolute binary files. For example XXDP is able to handle .LDA files and I think CAPS-11 and DOS-11 too.
 
 
 
