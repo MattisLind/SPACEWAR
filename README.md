@@ -993,8 +993,8 @@ I used 47217-000LF/48254-000LF contact elements and 65043-015LF contact housings
 |  Pin |  Signal   |  Connect to  |
 |------|-----------|--------------|
 |  A   | WRITH THRU L |  NC       |
-|  B   | DISP CH02 L  |  NC       |
-|  C   | ERASE L      |  Pull up to 5V in the scope end + Z input of scope |
+|  B   | DISP CH02 L  |  Pull up to 5V in the scope end + Z input of scope        |
+|  C   | ERASE L      |  NC  |
 |  D   | INTESIFY     |  Optional Z input if the standard point plotting mechanism of the AR11 is to be used for other purposes. |
 |  E   | NON-STORE L  |  NC     |
 |  F   | X OUT        |  Scope X input |
