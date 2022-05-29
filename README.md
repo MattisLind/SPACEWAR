@@ -453,7 +453,7 @@ PASS 2
 ```
 And it also resulted a 7323 byte file in Absolute Binary format! From the load map one can deduce the starting address of the binary. 025424 in this case.
 
-### Full lining transcript
+### Full linking transcript
 
 This the full transcript on how to link the SPACEWARWIOX.LDA binary. At the B prompt give 1000 to indicate that the starting address should be 1000 octal.
 
