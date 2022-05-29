@@ -453,11 +453,327 @@ PASS 2
 ```
 And it also resulted a 7323 byte file in Absolute Binary format! From the load map one can deduce the starting address of the binary. 025424 in this case.
 
-## Automatic start
+### Full lining transcript
+
+This the full transcript on how to link the SPACEWARWIOX.LDA binary. At the B prompt give 1000 to indicate that the starting address should be 1000 octal.
+
+```
+$ ~/simh/BIN/pdp11 
+
+PDP-11 simulator V4.0-0 Beta        git commit id: f1a6d538
+sim> do TOOLS/simh.ini
+Disabling XQ
+
+HALT instruction, PC: 037500 (MOV PC,SP)
+sim> ATTACH PTR TOOLS/dec-11-ulksa-a-pl.bin 
+sim> D SR 0
+sim> GO 037500
+
+LINK-11S V002A
+*I H
+
+*O H
+
+*M P
+
+*T 
+
+*B 1000
+
+PASS 1
+
+* 
+Simulation stopped, PC: 035122 (ADD #34662,R2)
+sim> attach ptp SPACEWARWIOX.LDA
+PTP: creating new file
+sim> attach LPT SPACEWARWIOX.MAP
+LPT: creating new file
+sim> ATTACH PTR OBJ/SPCWAR.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035042 (MOV (SP)+,R5)
+sim> ATTACH PTR FPMP-11/FPMP-11-SPACEWAR.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035036 (CLR R4)
+sim> ATTACH PTR OBJ/CHAR.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035104 (CMPB R1,#14)
+sim> ATTACH PTR OBJ/CHRTAB.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035110 (BHI 35354)
+sim> ATTACH PTR OBJ/COMPAR.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035450 (JSR R4,35462)
+sim> ATTACH PTR OBJ/EXPLOD.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035054 (MOV (SP)+,R0)
+sim> ATTACH PTR OBJ/GRAVTY.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035122 (ADD #34662,R2)
+sim> ATTACH PTR OBJ/MULPLY.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035140 (MOV R5,14(SP))
+sim> ATTACH PTR OBJ/PARM.OBJ
+sim> c
+
+
+* ATTACH PTR OBJ/PWRUP.OBJ\\\\\\\\\\\\\\\\\\\\\\\\
+Simulation stopped, PC: 035342 (ADD (SP)+,PC)
+sim> ATTACH PTR OBJ/PWRUP.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035026 (MOV R3,-(SP))
+sim> ATTACH PTR OBJ/RESET.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035342 (ADD (SP)+,PC)
+sim> ATTACH PTR OBJ/RKT1.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035056 (RTI)
+sim> ATTACH PTR OBJ/RKT2.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035460 (BR 35330)
+sim> ATTACH PTR OBJ/SCORE.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 032100 (BIT (R0)+,@4(SP))
+sim> ATTACH PTR OBJ/SINCOS.OBJ
+sim> c
+
+
+* 
+Simulation stopped, PC: 035110 (BHI 35354)
+sim> ATTACH PTR OBJ/SLINE.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035336 (MOVB 34641(R1),(SP))
+sim> ATTACH PTR OBJ/SUN.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035332 (ASL R1)
+sim> ATTACH PTR OBJ/UPDAT1.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035336 (MOVB 34641(R1),(SP))
+sim> ATTACH PTR OBJ/UPDAT2.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035100 (MOVB (R5)+,R1)
+sim> ATTACH PTR IOX-11/dec-11-xioxa-a.obj
+sim> C
+
+
+* U
+POINT 
+PTNUM 
+
+* 
+Simulation stopped, PC: 035162 (BLE 35332)
+sim> ATTACH PTR OBJ/POINT.OBJ
+sim> C
+
+
+* U
+
+* E
+
+PASS 2
+
+* 
+Simulation stopped, PC: 035046 (MOV (SP)+,R3)
+sim> ATTACH PTR OBJ/SPCWAR.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035460 (BR 35330)
+sim> ATTACH PTR FPMP-11/FPMP-11-SPACEWAR.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035150 (BLE 35332)
+sim> ATTACH PTR OBJ/CHAR.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035150 (BLE 35332)
+sim> ATTACH PTR OBJ/CHRTAB.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035120 (BNE 35352)
+sim> ATTACH PTR OBJ/COMPAR.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035120 (BNE 35352)
+sim> ATTACH PTR OBJ/EXPLOD.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035034 (CLR R3)
+sim> ATTACH PTR OBJ/GRAVTY.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035112 (MOVB (R5)+,R2)
+sim> ATTACH PTR OBJ/MULPLY.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035100 (MOVB (R5)+,R1)
+sim> ATTACH PTR OBJ/PARM.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035114 (BIT #177770,R2)
+sim> ATTACH PTR OBJ/PWRUP.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035154 (BLE 35346)
+sim> ATTACH PTR OBJ/RESET.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035154 (BLE 35346)
+sim> ATTACH PTR OBJ/RKT1.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035154 (BLE 35346)
+sim> ATTACH PTR OBJ/RKT2.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035040 (MOV R0,PC)
+sim> ATTACH PTR OBJ/SCORE.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035154 (BLE 35346)
+sim> ATTACH PTR OBJ/SINCOS.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035162 (BLE 35332)
+sim> ATTACH PTR OBJ/SLINE.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035066 (JSR R0,35022)
+sim> ATTACH PTR OBJ/SUN.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035022 (MOV R1,-(SP))
+sim> ATTACH PTR OBJ/UPDAT1.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035032 (MOV R5,-(SP))
+sim> ATTACH PTR OBJ/UPDAT2.OBJ
+sim> C
+
+
+* 
+Simulation stopped, PC: 035126 (MOVB (R2),R3)
+sim> ATTACH PTR IOX-11/dec-11-xioxa-a.obj
+sim> C
+
+
+* ATTACH PTR OBJ/POINT.OBJ\\\\\\\\\\\\\\\\\\\\\\\\
+Simulation stopped, PC: 035150 (BLE 35332)
+sim> ATTACH PTR OBJ/POINT.OBJ
+sim> C
+
+
+LINK-11S V002A
+*I 
+Simulation stopped, PC: 035112 (MOVB (R5)+,R2)
+sim> DETACH PTP
+sim> DETACH PTR
+sim> DETACH LPT
+sim> 
+
+```
+
+If you feed the wrong module in the second pass this message will be shown. Just feed the correct module and try again.
+
+```
+Simulation stopped, PC: 035046 (MOV (SP)+,R3)
+sim> ATTACH PTR OBJ/SLINE.OBJ
+sim> C
+
+
+?LOAD SINCOS NEXT!
+```
+
+### Automatic start
 
 The Abolute loader format can specify the starting address so that when the loader loads the tape (or file) into memory it will automatically jump to the starting address. This is done by specifying the starting address on the .END directive. I modified the SPCWAR.PAL file to include the starting symbol SPCWAR.
 
-# IOX library 
+### IOX library 
 
 The SPACE WAR program make use of the IOX-11 package for teletype IO, which means that this has to be loaded before the SPACE WAR program. Since the IOX package make use of the IOT instruction for all operations there is no linking needed. But the address of the IOX package has to not collide with the SPACE WAR program itself address space wise. It appears that the IOX-11 pacakge is fixed at 015100. ~~There are no instruction on how to assemble the package and a try in PAL-11S results in 245 errors. The IOX-11 package is an absolute binary and is loaded by the abolute loader as most other programs.~~
 
