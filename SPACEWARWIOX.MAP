@@ -1,172 +1,172 @@
 
 LOAD MAP
 
-TRANSFER ADDRESS: 000200
-LOW LIMIT: 000200
-HIGH LIMIT: 014600
+TRANSFER ADDRESS: 001000
+LOW LIMIT: 001000
+HIGH LIMIT: 015400
 **********
 MODULE  SPCWAR
 SECTION ENTRY   ADDRESS SIZE
 <. ABS.>        000000  000000
-<      >        000200  000232
+<      >        001000  000232
         ADBR    170402
         ADCS    170400
-        AMMO    000416
-        ANGH1   000354
-        ANGH2   000402
-        ANGL1   000352
-        ANGL2   000400
+        AMMO    001216
+        ANGH1   001154
+        ANGH2   001202
+        ANGL1   001152
+        ANGL2   001200
         ANGMID  000702
         DAC0    170412
         DAC1    170414
         DPCS    170410
         FIRE    001440
-        FLAG1   000332
-        FLAG2   000360
-        GAME1   000422
-        GAME2   000424
-        GRVFLG  000426
-        HIT1    000404
-        HIT2    000406
+        FLAG1   001132
+        FLAG2   001160
+        GAME1   001222
+        GAME2   001224
+        GRVFLG  001226
+        HIT1    001204
+        HIT2    001206
         MASK    002100
-        PTREP   000430
+        PTREP   001230
         RKTSIZ  007000
-        SHOTS1  000410
-        SHOTS2  000412
-        SPCRST  000220
-        SPCWAR  000200
+        SHOTS1  001210
+        SHOTS2  001212
+        SPCRST  001020
+        SPCWAR  001000
         SUNSZ   004000
-        TSPEED  000420
-        WIN     000414
-        XDISP1  000350
-        XDISP2  000376
-        XSIZE1  000342
-        XSIZE2  000370
-        XVELH1  000346
-        XVELH2  000374
-        XVELL1  000344
-        XVELL2  000372
-        YDISP1  000340
-        YDISP2  000366
-        YSIZE1  000330
-        YSIZE2  000356
-        YVELH1  000336
-        YVELH2  000364
-        YVELL1  000334
-        YVELL2  000362
+        TSPEED  001220
+        WIN     001214
+        XDISP1  001150
+        XDISP2  001176
+        XSIZE1  001142
+        XSIZE2  001170
+        XVELH1  001146
+        XVELH2  001174
+        XVELL1  001144
+        XVELL2  001172
+        YDISP1  001140
+        YDISP2  001166
+        YSIZE1  001130
+        YSIZE2  001156
+        YVELH1  001136
+        YVELH2  001164
+        YVELL1  001134
+        YVELL2  001162
         ZAXIS   001000
 **********
 MODULE  FPMP11
 SECTION ENTRY   ADDRESS SIZE
-<      >        000432  000640
-        $ERR    001234
-        $ERRA   001244
-        $ERVEC  001264
-        $ICI    000440
-        $ICO    000744
-        $OCI    000432
-        $OCO    000736
-        $POLSH  001230
-        $V20A   001230
+<      >        001232  000640
+        $ERR    002034
+        $ERRA   002044
+        $ERVEC  002064
+        $ICI    001240
+        $ICO    001544
+        $OCI    001232
+        $OCO    001536
+        $POLSH  002030
+        $V20A   002030
 **********
 MODULE  CHAR  
 SECTION ENTRY   ADDRESS SIZE
-<      >        001272  000302
-        CHAR    001272
+<      >        002072  000302
+        CHAR    002072
 **********
 MODULE  CHRTAB
 SECTION ENTRY   ADDRESS SIZE
-<      >        001574  000606
-        CHRTAB  001574
+<      >        002374  000606
+        CHRTAB  002374
 **********
 MODULE  COMPAR
 SECTION ENTRY   ADDRESS SIZE
-<      >        002402  000444
-        COMPAR  002402
+<      >        003202  000444
+        COMPAR  003202
 **********
 MODULE  EXPLOD
 SECTION ENTRY   ADDRESS SIZE
-<      >        003046  000330
-        EXPLOD  003046
-        EXPREP  003164
-        EXPX    003172
-        EXPY    003174
+<      >        003646  000330
+        EXPLOD  003646
+        EXPREP  003764
+        EXPX    003772
+        EXPY    003774
 **********
 MODULE  GRAVTY
 SECTION ENTRY   ADDRESS SIZE
-<      >        003376  000450
-        GRAVTY  003376
+<      >        004176  000450
+        GRAVTY  004176
 **********
 MODULE  MULPLY
 SECTION ENTRY   ADDRESS SIZE
-<      >        004046  000304
-        MULPLY  004046
+<      >        004646  000304
+        MULPLY  004646
 **********
 MODULE  PARM  
 SECTION ENTRY   ADDRESS SIZE
-<      >        004352  001214
-        PARM    004352
+<      >        005152  001214
+        PARM    005152
 **********
 MODULE  PWRUP 
 SECTION ENTRY   ADDRESS SIZE
-<      >        005566  000106
+<      >        006366  000106
 **********
 MODULE  RESET 
 SECTION ENTRY   ADDRESS SIZE
-<      >        005674  000206
+<      >        006474  000206
         CENTER  040000
         ORBIT   000400
-        RESET   005674
-        RES01   006062
+        RESET   006474
+        RES01   006662
 **********
 MODULE  RKT1  
 SECTION ENTRY   ADDRESS SIZE
-<      >        006102  000160
-        RKT1    006102
+<      >        006702  000160
+        RKT1    006702
 **********
 MODULE  RKT2  
 SECTION ENTRY   ADDRESS SIZE
-<      >        006262  000142
-        RKT2    006262
+<      >        007062  000142
+        RKT2    007062
 **********
 MODULE  SCORE 
 SECTION ENTRY   ADDRESS SIZE
-<      >        006424  000266
-        SCORE   006424
+<      >        007224  000266
+        SCORE   007224
 **********
 MODULE  SINCOS
 SECTION ENTRY   ADDRESS SIZE
-<      >        006712  000462
-        SINCOS  006712
+<      >        007512  000462
+        SINCOS  007512
 **********
 MODULE  SLINE 
 SECTION ENTRY   ADDRESS SIZE
-<      >        007374  000140
-        SLINE   007374
+<      >        010174  000140
+        SLINE   010174
 **********
 MODULE  SUN   
 SECTION ENTRY   ADDRESS SIZE
-<      >        007534  000304
-        SUN     007534
+<      >        010334  000304
+        SUN     010334
 **********
 MODULE  UPDAT1
 SECTION ENTRY   ADDRESS SIZE
-<      >        010040  000372
-        UPDAT1  010040
+<      >        010640  000372
+        UPDAT1  010640
 **********
 MODULE  UPDAT2
 SECTION ENTRY   ADDRESS SIZE
-<      >        010432  000364
-        UPDAT2  010432
+<      >        011232  000364
+        UPDAT2  011232
 **********
 MODULE  IOX   
 SECTION ENTRY   ADDRESS SIZE
-<      >        011016  002352
-        IOX     011016
+<      >        011616  002352
+        IOX     011616
         VECTOR  000000
 **********
 MODULE  POINT 
 SECTION ENTRY   ADDRESS SIZE
-<      >        013370  001210
-        POINT   013370
-        PTNUM   013576
+<      >        014170  001210
+        POINT   014170
+        PTNUM   014376
