@@ -3,7 +3,7 @@ LOAD MAP
 
 TRANSFER ADDRESS: 001000
 LOW LIMIT: 001000
-HIGH LIMIT: 015400
+HIGH LIMIT: 015406
 **********
 MODULE  SPCWAR
 SECTION ENTRY   ADDRESS SIZE
@@ -104,69 +104,69 @@ SECTION ENTRY   ADDRESS SIZE
 **********
 MODULE  PARM  
 SECTION ENTRY   ADDRESS SIZE
-<      >        005152  001214
+<      >        005152  001222
         PARM    005152
 **********
 MODULE  PWRUP 
 SECTION ENTRY   ADDRESS SIZE
-<      >        006366  000106
+<      >        006374  000106
 **********
 MODULE  RESET 
 SECTION ENTRY   ADDRESS SIZE
-<      >        006474  000206
+<      >        006502  000206
         CENTER  040000
         ORBIT   000400
-        RESET   006474
-        RES01   006662
+        RESET   006502
+        RES01   006670
 **********
 MODULE  RKT1  
 SECTION ENTRY   ADDRESS SIZE
-<      >        006702  000160
-        RKT1    006702
+<      >        006710  000160
+        RKT1    006710
 **********
 MODULE  RKT2  
 SECTION ENTRY   ADDRESS SIZE
-<      >        007062  000142
-        RKT2    007062
+<      >        007070  000142
+        RKT2    007070
 **********
 MODULE  SCORE 
 SECTION ENTRY   ADDRESS SIZE
-<      >        007224  000266
-        SCORE   007224
+<      >        007232  000266
+        SCORE   007232
 **********
 MODULE  SINCOS
 SECTION ENTRY   ADDRESS SIZE
-<      >        007512  000462
-        SINCOS  007512
+<      >        007520  000462
+        SINCOS  007520
 **********
 MODULE  SLINE 
 SECTION ENTRY   ADDRESS SIZE
-<      >        010174  000140
-        SLINE   010174
+<      >        010202  000140
+        SLINE   010202
 **********
 MODULE  SUN   
 SECTION ENTRY   ADDRESS SIZE
-<      >        010334  000304
-        SUN     010334
+<      >        010342  000304
+        SUN     010342
 **********
 MODULE  UPDAT1
 SECTION ENTRY   ADDRESS SIZE
-<      >        010640  000372
-        UPDAT1  010640
+<      >        010646  000372
+        UPDAT1  010646
 **********
 MODULE  UPDAT2
 SECTION ENTRY   ADDRESS SIZE
-<      >        011232  000364
-        UPDAT2  011232
+<      >        011240  000364
+        UPDAT2  011240
 **********
 MODULE  IOX   
 SECTION ENTRY   ADDRESS SIZE
-<      >        011616  002352
-        IOX     011616
+<      >        011624  002352
+        IOX     011624
         VECTOR  000000
 **********
 MODULE  POINT 
 SECTION ENTRY   ADDRESS SIZE
-<      >        014170  001210
-        POINT   014170
-        PTNUM   014376
+<      >        014176  001210
+        POINT   014176
+        PTNUM   014404

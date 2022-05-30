@@ -32,6 +32,7 @@
         EOF=20000
         CR=15
         LF=12
+	PSW=177776
         .TITLE  PARM
         .GLOBL  PARM,$ICI,SPCWAR,AMMO,WIN,TSPEED
         .GLOBL  GRVFLG,ORBIT,CENTER,PTREP,RES01
@@ -39,6 +40,7 @@
 PARM:   IOT
         0
         .BYTE   RESET,0         ;INITIALIZATION
+	BICB	#340,PSW        ;SET ALL INTERRUPTS ENABLED 
         IOT
         SPCWAR
         .BYTE   RESTRT,0        ;CTRL P WILL ERSTART AT SPCWAR
