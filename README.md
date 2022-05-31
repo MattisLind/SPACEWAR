@@ -28,6 +28,10 @@ The files were then then fed into the PAL11-S assembler and numerous errors were
 
 As a side note there exists at least two more ports of the SPACEWAR game to the PDP-11 architecture ([for example this one](https://saildart.org/SW.P11%5B11,BO%5D)), but both of those rely on the VT11 vector drawing option which is for example present in the GT40 system. I don't have a VT11 neither a GT40 so this is my best option to get SPACEWAR on a PDP-11.
 
+## Give it to me!
+
+If you don't want to go down the route of assembling and linking all the source moddules there is an easy solution. Just grap the dddp.dsk image and use the TU58FS tool (or some other TU58 emulator) to serve it to your PDP-11.  It contains a bootable DDDP image with a SPACEWAR image binary image. Just type R SPACWAR.LDA and it will run provided you have the AR11 card.
+
 ## Assembling
 
 In case you just want to run the binary and not want the fun of building it from scratch, just grab the SPACEWAR.ABS file in the ar11-patch branch (if you have a AR11 board in your machine) and run in from ~~025424~~ ~~025432 (please note that this may change since a new build of the code might affect the entrypoint, check the SPACEWAR.MAP file when in doubt). Make sure to also load the IOX binary in the IOX-11 subfolder into memory before starting the SPACEWAR and set the switch regsiter to all zeroes. I have seen that otherwise it gets stuck in the IOX library. Probably a non-zero SR indicate some options to the IOX library, but I haven't investigated that further.~~
