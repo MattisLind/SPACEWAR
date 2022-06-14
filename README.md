@@ -30,7 +30,7 @@ As a side note there exists at least two more ports of the SPACEWAR game to the 
 
 ## Give it to me!
 
-If you don't want to go down the route of assembling and linking all the source moddules there is an easy solution. Just grap the dddp.dsk image and use the TU58FS tool (or some other TU58 emulator) to serve it to your PDP-11.  It contains a bootable DDDP image with a SPACEWAR image binary image. Just type R SPACWAR.LDA and it will run provided you have the AR11 card.
+If you don't want to go down the route of assembling and linking all the source moddules there is an easy solution. Just grab the dddp.dsk image and use the TU58FS tool (or some other TU58 emulator) to serve it to your PDP-11.  It contains a bootable DDDP image with a SPACEWAR image binary image. Just type R SPACWAR.LDA and it will run provided you have the AR11 card.
 
 ## Assembling
 
