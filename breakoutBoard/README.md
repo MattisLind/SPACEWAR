@@ -1,5 +1,5 @@
 # AR11 Breakout Board for SPACEWAR
-![AR11 brakout board](https://i.imgur.com/Rt9StaU.jpg)
+![AR11 brakout board](https://i.imgur.com/CwJOVLh.jpg)
 The cable that I made for the joysticks and screen got some wear and tear from being pulled out from one computer and installed in another and it was really tricky to get the cable in place when the systems was rackmounted.
 To ease installation I designed a small breakout panel that can be rackmounted in the rear of the rack. It provided a 40 pin connector for connecting to the AR11 board in the PDP-11 computer. 
 
