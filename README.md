@@ -793,6 +793,23 @@ I thought it would be good to have a disk image with the SPACEWAR binary loaded.
 
 It suddenly occured to me that the reason for not working was a simple as interrupts. The XXDP monitor runs with interrups disabled. The RESET command and the START switch on the real machine resets interrup level. By lowering the priority level of the CPU it worked just fine. The dddp.dsk is a TU58 image which is bootable. A simple RUN SPCWAR.LDA will start SPCWAR. For my own use I will make a CAPS-11 cassette and possibly also a TADP cassette with the SPCWAR.LDA binary.
 
+With the SPACEWAR binary on the dddp.dsk it is possible to boot a PDP-11 into the XXDP monitor with a second serial card using a TU58 emulator. This second serial port has to be setup with base address 176500 and vector 300. Make sure it is set to 8 bits without parity. Jörg Hoppe has designed a such an emulator which is combined with a method for downloading the bootstrap using the console emulator called [tu58fs](http://retrocmp.com/tools/tu58fs).
+
+Start an emulation process over /dev/ttyUSB0 running at 9600 bps for drive 0 in readonly mode using dddp.dsk image
+```
+tu58fs -p /dev/ttyUSB0 -b 9600 -d 0 r dddp.dsk
+```
+
+Command to download and start a boostrap process over /dev/ttyUSB1 running at 2400 bps using a m9301 board in the pdp-11.
+```
+tu58fs -p /dev/ttyUSB1 -b 2400 --boot m9301 1
+```
+When XXDP has greeted you with a startup message and you got the . prompt it is possible to simply run the binary. It takes some time to loads since it does this over a 9600 bps serial line so have a bit of patience.
+```
+.RUN SPCWAR.LDA
+```
+After a while SPACEWAR will start.
+
 ## Running SPACE WAR
 
 All this made it possible to build a new SPACEWAR binary with the IOX library built in and also have the autostart feature. The new binary is called SPACEWARWIOX.LDA.
