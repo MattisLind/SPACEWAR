@@ -30,12 +30,12 @@ As a side note there exists at least two more ports of the SPACEWAR game to the 
 
 ## Give it to me!
 
-If you don't want to go down the route of assembling and linking all the source moddules there is an easy solution. Just grab the dddp.dsk image and use the TU58FS tool (or some other TU58 emulator) to serve it to your PDP-11.  It contains a bootable DDDP image with a SPACEWAR image binary image. Just type R SPACWAR.LDA and it will run provided you have the AR11 card.
+If you don't want to go down the route of assembling and linking all the source moddules there is an easy solution. Just grab the dddp.dsk image and use the TU58FS tool (or some other TU58 emulator) to serve it to your PDP-11.  It contains a bootable DDDP image with a SPACEWAR image binary image. Just type R SPCWAR.LDA and it will run provided you have the AR11 card.
 
 ## Assembling
 
 In case you just want to run the binary and not want the fun of building it from scratch, just grab the SPACEWAR.ABS file in the ar11-patch branch (if you have a AR11 board in your machine) and run in from ~~025424~~ ~~025432 (please note that this may change since a new build of the code might affect the entrypoint, check the SPACEWAR.MAP file when in doubt). Make sure to also load the IOX binary in the IOX-11 subfolder into memory before starting the SPACEWAR and set the switch regsiter to all zeroes. I have seen that otherwise it gets stuck in the IOX library. Probably a non-zero SR indicate some options to the IOX library, but I haven't investigated that further.~~
-Update: Even easier should be to use the SPACEWARWIOX.LDA binary since it includes the IOX-11 binary and also have the proper transfer address which should make the loader start it directly. Make sure to have the SR set to 0.
+Update: Even easier should be to use the SPACEWARWIOX.LDA binary since it includes the IOX-11 binary and also have the proper transfer address which should make the loader start it directly. Make sure to have the SR set to 0. This binary starts at 1000 if it is loaded using PDP11GUI rather than read from paper tape.
 
 It is possible to assemble the files located in the SRC folder using PAL11-S assembler under SimH PDP-11 simulator. PAL11-S is part of the [PDP-11 Paper Tape Software](http://bitsavers.informatik.uni-stuttgart.de/www.computer.museum.uq.edu.au/pdf/DEC-11-XPTSA-B-D%20PDP-11%20Paper%20Tape%20Software%20Handbook.pdf). 
 
