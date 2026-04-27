@@ -990,22 +990,9 @@ All adaptations for the AR11 went into a branch called ar11-patch. Make sure to 
 
 ![Joysticks](https://i.imgur.com/BDVSNOll.jpg)
 
-This is basically almost only parts ordered from Aliexpress.
- * [2-axis potentiometer Joystick switch 201 Series. Model M1 with B cap.](https://www.aliexpress.com/item/1785099158.html?spm=a2g0s.9042311.0.0.27424c4dmlXlFu)
- * [New Arcade Push Button Durable Multicade MAME Jamma Game Long Switch - Red](https://www.aliexpress.com/item/32716886319.html?spm=a2g0s.9042311.0.0.27424c4dmlXlFu)
- * [Waterproof Plastic Enclosure Box Electronic Project Instrument Case Electrical Project Box Outdoor Junction Box Housing. Product properties: 115 x 90 x 55mm + White](https://www.aliexpress.com/item/32922219606.html?spm=a2g0s.9042311.0.0.27424c4dmlXlFu) 
- * Cable bending protection.
+Instructions for building the Joysticks can be found [here](/joystick/README.md). Or look in the "joystick" folder.
 
-Each cable going from the connector has +5V, GND and Angle and Acceleration. I used a cable with three pairs and individual sheilding for each pair. The pairs are:
-* +5V and GND
-* Accleration and GND
-* Angle and GND.
-
-The fire button is connected to short circuit the acceleration potentiometer to the 5V supply. It is importtant to use a joystick typ that is not full range. The M1 model goes from 1.8k to 3.2k. Thus short-circuiting the viper to 5V when at the lowest position of the viper in the joystick is not a problem. The Model M1 linked to above is this non-full range type. However if you choose model M2 you get into trouble. Then you could add a resistor, maybe 1k or 2k  in each end of the potentiometer to avaoid short-circuitng the 5V to ground. So be careful when selecting the joystick.
-
-The use of the model M1 is perhaps to a very good idea. The 1.8kOhm to 3.2kOhm range is very narrow which means that you are not getting the full dynamic range of the A/D converter for acceleration and turning left/right. I am now using a model M2 with 5kOhm total range and in addition to that I have 2.4kOhm resistors in each end of the potentiometer.
-
-## Cable harness
+## Cable harness (No longer recommended, See Breakout board)
 
 ![Cable harness](https://i.imgur.com/TeLN2Msl.jpg)
 
